@@ -1,0 +1,44 @@
+:root {
+    --sectionsColor: #2F3437;
+    --textColor: #ffffff;
+}
+
+$sectionsColor: var(--sectionsColor);
+$textColor: var(--textColor);
+
+.parent {
+    background-color: $sectionsColor;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 200px;
+    height: 100%;
+    .userDiv{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 20px;
+        img{
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+        }
+    }
+    .sidemenu-buttons-div{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .buttons{
+            color: $textColor;
+            font-size: large;
+            background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            width: 100%;
+            height: 40px;
+        }
+    }
+}
