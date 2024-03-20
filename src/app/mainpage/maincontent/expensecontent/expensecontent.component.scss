@@ -1,0 +1,35 @@
+$sectionsColor: var(--sectionsColor);
+$backgroundColor: var(--backgroundColor);
+$textColor: var(--textColor);
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    background-color: $sectionsColor;
+    color: $textColor;
+    width: 1250px;
+    height: 400px;
+    margin: 30px 30px 30px 30px;
+    border-radius: 20px;
+    .filters{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .filter-button{
+            background-color: $backgroundColor;
+            color: $textColor;
+            background-repeat:no-repeat;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            width: 150px;
+            height: 50px;
+            border-radius: 15px;
+        }
+    }
+    .expenses{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}

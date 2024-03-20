@@ -10,7 +10,7 @@
   $textColor: var(--textColor);
   $fontFamily: var(--fontFamily);
   
-  body {
+  html, body {
     background-color: $backgroundColor;
     color: $textColor;
     font-family: $fontFamily;
