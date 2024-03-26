@@ -1,5 +1,4 @@
-$sectionsColor: var(--sectionsColor);
-$textColor: var(--textColor);
+@import '../../../styles/variables.scss';
 
 .parent {
     background-color: $sectionsColor;

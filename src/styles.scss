@@ -1,20 +1,11 @@
-:root {
-    --backgroundColor: #42494D;
-    --sectionsColor: #2F3437;
-    --textColor: #ffffff;
-    --fontFamily: 'Roboto', sans-serif;
-  }
-  
-  $backgroundColor: var(--backgroundColor);
-  $sectionsColor: var(--sectionsColor);
-  $textColor: var(--textColor);
-  $fontFamily: var(--fontFamily);
+@import './styles/variables.scss';
   
   html, body {
     background-color: $backgroundColor;
     color: $textColor;
     font-family: $fontFamily;
     height: 100%;
+    width: 100vw;
     padding: 0;
     margin: 0;
   }

@@ -1,12 +1,17 @@
 <div class="parent">
-    <h2 style="margin-left: 20px;">Your expenses</h2>
-    <div class="filters">
-        <button class="filter-button">By month</button>
-        <button class="filter-button">By 3 month</button>
-        <button class="filter-button">By year</button>
-        <button class="filter-button">Search</button>
-    </div>
+    <p style="margin-left: 20px; font-size: large;">Today expenses</p>
     <div class="expenses">
-        
+        <ul>
+            <li *ngFor="let index of expenses.expensePrice; let i = index" class="expenseEntity">
+                <div class="expense">
+                  <span class="expenseSpan">{{ expenses.expensePrice[i] }}</span>
+                  <span class="expenseSpan">{{ expenses.expenseDate[i] }}</span>
+                  <span class="expenseSpan">{{ expenses.expenseCategory[i] }}</span>
+                </div>
+              </li>
+        </ul>
+    </div>
+    <div class="showAll">
+        Show all
     </div>
 </div>

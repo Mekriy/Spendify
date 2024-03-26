@@ -1,0 +1,13 @@
+@import '../../../../styles/variables.scss';
+
+.parent{
+    background-color: $sectionsColor;
+    color: $textColor;
+    height: 350px;
+    width: 450px;
+    padding: 20px;
+    border-radius: 15px;
+    .apx-style{
+      color:$textColor
+    }
+}
