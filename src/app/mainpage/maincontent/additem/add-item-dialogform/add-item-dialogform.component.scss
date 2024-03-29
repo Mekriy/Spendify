@@ -1,0 +1,24 @@
+.parent{
+    .buttons{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .search-span{
+        display: inline-block;
+        position: sticky;
+    }
+    .header-dialog{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .table-container{
+        width: auto;
+        height: 400px;
+        .header-table{
+            position: sticky;
+        }
+    }
+    
+}

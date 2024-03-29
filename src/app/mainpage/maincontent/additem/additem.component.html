@@ -1,5 +1,25 @@
-<div>
-    <form action="">
-        
-    </form>
+<div class="parent">
+    <div class="labels-container">
+        <p class="addexpense-name">Add Expense</p>
+        <p-button icon="pi pi-plus" label="Add items to expense"  [text]="true" [plain]="true" (click)="show()"></p-button>
+    </div>
+    <div class="additems">
+        <div class="dropdownAndInput-container">
+            <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" [showClear]="true" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+            <span class="p-float-label">
+                <p-inputNumber [(ngModel)]="totalPrice" [disabled]="false" inputId="currency-us" mode="currency" currency="USD" locale="en-US"> </p-inputNumber>
+                <label for="number-input">Price</label>
+            </span>
+        </div>
+        <div class="items">
+            <div class="item" *ngFor="let item of items">
+                <span>{{item.name}}</span>
+                <span>{{item.quantity}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <p-button icon="pi pi-check" [rounded]="true" [outlined]="true"></p-button>
+        <p-button icon="pi pi-times" [rounded]="true" [outlined]="true" severity="danger"></p-button>
+    </div>
 </div>

@@ -5,6 +5,10 @@ import { ExpensecontentComponent } from './expensecontent/expensecontent.compone
 import { OverviewComponent } from './overview/overview.component';
 import { CategoryChartComponent } from './category-chart/category-chart.component';
 import { MaincontentComponent } from './maincontent.component';
+import { SharedPrimeNgModules } from '../../../shared/modules/SharedPrimeNgModules';
+import { AddItemDialogformComponent } from './additem/add-item-dialogform/add-item-dialogform.component';
+import {FormsModule} from "@angular/forms";
+
 
 
 @NgModule({
@@ -14,16 +18,20 @@ import { MaincontentComponent } from './maincontent.component';
     ExpensecontentComponent,
     OverviewComponent,
     CategoryChartComponent,
+    AddItemDialogformComponent,
   ],
-  imports: [
-    CommonModule,
-  ],
+    imports: [
+        CommonModule,
+        SharedPrimeNgModules,
+        FormsModule
+    ],
   exports: [
     MaincontentComponent,
     AdditemComponent,
     ExpensecontentComponent,
     OverviewComponent,
-    CategoryChartComponent
+    CategoryChartComponent,
+    AddItemDialogformComponent,
   ]
 })
 export class MainContentModule { }

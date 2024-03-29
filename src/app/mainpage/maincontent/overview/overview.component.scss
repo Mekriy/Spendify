@@ -1,0 +1,34 @@
+@import '../../../../styles/variables.scss';
+
+.parent{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0px 70px 0px;
+    width: 450px;
+    height: 200px;
+    border-radius: 15px;
+    background-color: $sectionsColor;
+    columns: $textColor;
+    font-family: $fontFamily;
+    .label-container p{
+        font-size: 25px;
+        margin-top: 0px;
+        margin-left: 20px;
+    }
+    .expense{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 20px;
+        .expense-container{
+            text-align: center;
+        }
+        .expense-container span:first-child{
+            font-size: 30px;
+        }
+        .expense-container span:last-child{
+            display: inline-block;
+        }
+    }
+}
