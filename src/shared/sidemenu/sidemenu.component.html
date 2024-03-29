@@ -1,18 +1,21 @@
 <div class="parent">
-    <div>
+    <div class="container">
+        <div class="logo">
+            <span>Spendify</span>
+        </div>
         <div class="userDiv">
             <img src="{{pathUserImage}}" alt="defUserImg">
             <h3>&#64;{{userName}}</h3>
         </div>
         <div class="sidemenu-buttons-div">
             <button class="buttons">
-                Dashboard
+                <a href="/" class="button-link">Your Expenses</a>
             </button>
             <button class="buttons">
-                Your Expenses
+                <a href="/dashboard" class="button-link">Dashboard</a>
             </button>
             <button class="buttons">
-                Statistic
+                <a href="/statistic" class="button-link">Statistic</a>
             </button>
         </div>
     </div>

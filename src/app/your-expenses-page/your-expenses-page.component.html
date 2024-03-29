@@ -1,0 +1,168 @@
+<div class="parent">
+  <app-sidemenu></app-sidemenu>
+  <div class="maincontent">
+    <div class="page-name">Your expenses</div>
+    <div class="content">
+      <div class="card">
+        <p-toast></p-toast>
+        <p-table
+          #dt
+          [value]="expenses"
+          [rows]="5"
+          [paginator]="true"
+          [globalFilterFields]="['price', 'date', 'category.name']"
+          [tableStyle]="{ 'min-width': '75rem' }"
+          [(selection)]="selectedExpenses"
+          dataKey="id"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="caption">
+            <div class="table-buttons">
+                <div class="search-input">
+                 <span class="p-input-icon-left">
+                   <i class="pi pi-search"></i>
+                   <input pInputText type="text" (input)="applyFilter($event, 'contains')" placeholder="Search..." />
+                 </span>
+                </div>
+                <div class="crud-buttons">
+                  <p-button icon="pi pi-plus" label="Add expense" [outlined]="true" (click)="openNew()"></p-button>
+                  <p-button icon="pi pi-trash" label="Delete expense" [outlined]="true" severity="secondary" (click)="deleteSelectedExpenses()" [disabled]="!selectedExpenses || !selectedExpenses.length"></p-button>
+                  <p-fileUpload mode="basic"  accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"></p-fileUpload>
+                  <p-button label="Export" icon="pi pi-upload"></p-button>
+                </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 4rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="price">
+                Price <p-sortIcon field="price"></p-sortIcon>
+              </th>
+              <th pSortableColumn="date">
+                Date <p-sortIcon field="date"></p-sortIcon>
+              </th>
+              <th pSortableColumn="category.name">
+                Category <p-sortIcon field="category.name"></p-sortIcon>
+              </th>
+              <th>Location</th>
+              <th></th>
+              <th>Items</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-expense>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="expense"></p-tableCheckbox>
+              </td>
+              <td>{{ expense.price | currency : "USD" }}</td>
+              <td>{{ expense.date | date : "dd/MM/yyyy" }}</td>
+              <td>{{ expense.category?.name }}</td>
+              <td>{{ expense.location?.name }}</td>
+              <td>
+                <p-button icon="pi pi-external-link" label="On google maps" [outlined]="true" (click)="showExpenseLocation(expense)"></p-button>
+              </td>
+              <td>
+                <p-button icon="pi pi-ellipsis-h" [outlined]="true" (click)="showExpenseDetails(expense)"></p-button>
+            </td>
+              <td>
+               <p-button icon="pi pi-pencil" [outlined]="true" (click)="openNew()"></p-button>
+               <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <p-dialog [(visible)]="expenseDialog" [style]="{ width: '450px' }" header="Expense Details" [modal]="true"
+        styleClass="p-fluid"
+      >
+        <ng-template pTemplate="content">
+          <div class="formgrid grid">
+            <div class="field col">
+              <label for="price">Price</label>
+              <p-inputNumber
+                id="price"
+                [(ngModel)]="expense.price"
+                mode="currency"
+                currency="USD"
+                locale="en-US"
+              ></p-inputNumber>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+          <button
+            pButton
+            pRipple
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="hideDialog()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="saveExpense()"
+          ></button>
+        </ng-template>
+      </p-dialog>
+
+      <p-dialog [(visible)]="expenseDetailsDialog" [style]="{ width: '1000px' }" header="Expense Details" [modal]="true" styleClass="p-fluid">
+        <p-table [value]="items!" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Review</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>{{'$' + item.price }}</td>
+              <td>{{ item.quantity }}</td>
+              <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="hideExpenseDetailsDialog()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="expenseLocationDialog" [style]="{ width: '600px' }" header="Expense Location" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+          <div>
+              <google-map
+              height="400px"
+              width="100%"
+              [center]="center"
+              [zoom]="zoom"
+              >
+                <map-marker
+                *ngFor="let markerPosition of markerPositions"
+                [position]="markerPosition"
+                ></map-marker>
+
+              </google-map>
+              <div>Latitude: {{expense.location?.latitude}}</div>
+              <div>Longitude: {{expense.location?.longitude}}</div>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="footer">
+          <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="hideExpenseLocationDialog()"></button>
+      </ng-template>
+  </p-dialog>
+
+      <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+    </div>
+  </div>
+</div>
