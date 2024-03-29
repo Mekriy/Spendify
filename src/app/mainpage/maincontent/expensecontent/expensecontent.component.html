@@ -1,0 +1,17 @@
+<div class="parent">
+    <p style="margin-left: 20px; font-size: large;">Today expenses</p>
+    <div class="expenses">
+        <ul>
+            <li *ngFor="let index of expenses.expensePrice; let i = index" class="expenseEntity">
+                <div class="expense">
+                  <span class="expenseSpan">{{ expenses.expensePrice[i] }}</span>
+                  <span class="expenseSpan">{{ expenses.expenseDate[i] }}</span>
+                  <span class="expenseSpan">{{ expenses.expenseCategory[i] }}</span>
+                </div>
+              </li>
+        </ul>
+    </div>
+    <div class="showAll">
+        Show all
+    </div>
+</div>
