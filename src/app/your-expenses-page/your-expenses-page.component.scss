@@ -1,0 +1,35 @@
+.parent{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100% ;
+    .maincontent{
+        padding: 20px;
+        .page-name{
+            font-size: 30px;
+        }
+        .content{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            width: 1200px;
+            height: 90%;
+        }
+      .table-buttons{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .crud-buttons{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 50%;
+        }
+      }
+    }
+}
+.items{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

@@ -1,0 +1,30 @@
+.parent{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100% ;
+    .maincontent{
+        padding: 20px;
+        .container{
+            font-size: 30px;
+        }
+        .container p{
+            margin: 0px;
+        }
+        .content{
+            display: flex;
+            flex-direction: row;
+            column-gap: 30px;
+            justify-content: space-evenly;
+            width: 1200px;
+            height: 100%;
+            flex-grow: 1;
+            padding: 10px 0px 10px 0px;
+            .dashboard-name{
+                margin: 0 0 0 20px;
+                font-size: 30px;
+            }
+        }
+    }
+    
+}
