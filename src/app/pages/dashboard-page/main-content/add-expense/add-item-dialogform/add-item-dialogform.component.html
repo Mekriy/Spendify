@@ -16,7 +16,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th style="width:4em"></th>
+                    <th>Review</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-item>
@@ -25,16 +25,15 @@
                         <p-tableCheckbox [value]="item"></p-tableCheckbox>
                     </td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.price }}</td>
+                    <td>{{'$' + item.price }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>
-                        <p-button type="button" [text]="true" [rounded]="true" icon="pi pi-plus" (click)="selectItem(item)"></p-button>
-                    </td>
+                    <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
     <div class="buttons">
-        <p-button type="button" label="Cancel" [outlined]="true" icon="pi pi-times" (click)="closeDialog({ buttonType: 'Cancel', summary: 'No Product Selected' })"></p-button>
-    </div> 
+      <p-button type="button" label="Add items" [outlined]="true" icon="pi pi-check" (click)="addSelectedItems()"></p-button>
+      <p-button type="button" label="Cancel" [outlined]="true" icon="pi pi-times" (click)="closeDialog()"></p-button>
+    </div>
 </div>

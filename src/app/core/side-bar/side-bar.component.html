@@ -1,0 +1,37 @@
+<div class="parent">
+    <div class="container">
+        <div class="logo">
+            <span>Spendify</span>
+        </div>
+        <div class="userDiv">
+            <img src="{{pathUserImage}}" alt="defUserImg">
+            <h3>&#64;{{userName}}</h3>
+        </div>
+        <div class="side-bar-buttons">
+            <div class="buttons">
+                <a [routerLink]="['/']" class="button-link">Your Expenses</a>
+            </div>
+            <div class="buttons">
+                <a [routerLink]="['/dashboard']" class="button-link">Dashboard</a>
+            </div>
+            <div class="buttons">
+                <a [routerLink]="['/statistic']" class="button-link">Statistic</a>
+            </div>
+        </div>
+    </div>
+    <div class="side-bar-buttons">
+        <div class="buttons">
+          <a [routerLink]="['/settings']" class="button-link">Settings</a>
+        </div>
+        <div class="buttons">
+          <div *ngIf="condition; else elseBlock">
+            <a [routerLink]="['/login']" class="button-link">Login</a>
+            <span> / </span>
+            <a [routerLink]="['/register']" class="button-link">Register</a>
+          </div>
+          <ng-template #elseBlock>
+            <a [routerLink]="['/logout']" class="button-link">Logout</a>
+          </ng-template>
+        </div>
+    </div>
+</div>

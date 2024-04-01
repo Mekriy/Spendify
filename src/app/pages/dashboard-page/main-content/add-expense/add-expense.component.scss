@@ -1,4 +1,4 @@
-@import '../../../../styles/variables.scss';
+@import '../../../../../styles/variables';
 
 .parent{
     display: flex;
@@ -45,7 +45,7 @@
             .item{
                 display: flex;
                 justify-content: space-between;
-                
+
             }
         }
     }
@@ -60,4 +60,12 @@
     width: 14rem;
     height: 2rem;
     border-radius: 5px;
+}
+.location-input{
+  width: 14rem;
+  height: 2rem;
+}
+.price-input{
+  width: 14rem;
+  height: 2rem;
 }
