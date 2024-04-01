@@ -1,30 +1,9 @@
 import {Component, OnInit, ViewChild, viewChild} from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {Table} from "primeng/table";
+import {Expense} from "../../shared/models/IExpense";
+import {Item} from "../../shared/models/IItem";
 
-interface ExpenseWithItems {
-  id?: string;
-  price?: number;
-  date?: Date;
-  category?: Category;
-  location?: Location;
-  items?: Item[];
-}
-interface Item {
-  name?: string;
-  price?: number;
-  quantity?: number;
-  review?: number;
-}
-interface Category{
-  name?: string
-}
-interface Location{
-  name?: string;
-  latitude?: number;
-  longitude?: number;
-  address?: string;
-}
 
 @Component({
   selector: 'app-your-expenses-page',
@@ -35,10 +14,10 @@ interface Location{
 export class YourExpensesPageComponent implements OnInit{
 
   expenseDialog: boolean = false;
-  expenses!: ExpenseWithItems[];
-  expense!: ExpenseWithItems;
+  expenses!: Expense[];
+  expense!: Expense;
 
-  selectedExpenses!: ExpenseWithItems[] | null;
+  selectedExpenses!: Expense[] | null;
   submitted: boolean = false;
 
   items!: Item[] | null;
@@ -232,12 +211,12 @@ export class YourExpensesPageComponent implements OnInit{
     })
   }
 
-  editExpense(expense: ExpenseWithItems){
+  editExpense(expense: Expense){
       this.expense = { ...expense};
       this.expenseDialog = true;
   }
 
-  deleteExpense(expense: ExpenseWithItems){
+  deleteExpense(expense: Expense){
       this.confirmationService.confirm({
         message: 'Are you sure you want to delete this expense?',
         header: 'Confirm',
@@ -285,7 +264,7 @@ export class YourExpensesPageComponent implements OnInit{
     return index;
   }
 
-  showExpenseDetails(expense: ExpenseWithItems) {
+  showExpenseDetails(expense: Expense) {
     this.items = expense.items!;
     this.expenseDetailsDialog = true;
   }
@@ -294,7 +273,7 @@ export class YourExpensesPageComponent implements OnInit{
     this.items = null;
     this.expenseDetailsDialog = false;
   }
-  showExpenseLocation(expense: ExpenseWithItems){
+  showExpenseLocation(expense: Expense){
     this.expenseLocationDialog = true;
 
     this.center = {

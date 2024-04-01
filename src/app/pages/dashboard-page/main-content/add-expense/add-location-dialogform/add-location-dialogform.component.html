@@ -1,0 +1,42 @@
+  <form [formGroup]="locationForm" (ngSubmit)="onSubmit($event)">
+    <div class="content">
+      <div class="inputs-container">
+      <span class="p-float-label">
+        <input pInputText formControlName="location.name" />
+        <label>Name</label>
+      </span>
+        <span class="p-float-label">
+        <input pInputText formControlName="location.latitude | number: `1.0-15`" />
+        <label>Latitude</label>
+      </span>
+        <span class="p-float-label">
+        <input pInputText formControlName="location.longitude | number: `1.0-15`" />
+        <label>Longitude</label>
+      </span>
+        <span class="p-float-label">
+        <input pInputText formControlName="location.address" />
+        <label>Address</label>
+      </span>
+        <div>
+          <label>Save location for you?</label> <br>
+          <p-checkbox formControlName="location.save" value='true' inputId="saveId"></p-checkbox>
+        </div>
+        <div class="buttons">
+          <p-button label="Show on map" [outlined]="true" type="submit" (onClick)="showLocation(location)"></p-button>
+          <p-button label="Submit" [outlined]="true" type="submit" (onClick)="onSubmit($event)"></p-button>
+        </div>
+      </div>
+      <div>
+        <google-map
+          height="300px"
+          width="600px"
+          [center]="center"
+          [zoom]="zoom">
+          <map-marker
+            *ngFor="let markerPosition of markerPositions"
+            [position]="markerPosition">
+          </map-marker>
+        </google-map>
+      </div>
+    </div>
+  </form>

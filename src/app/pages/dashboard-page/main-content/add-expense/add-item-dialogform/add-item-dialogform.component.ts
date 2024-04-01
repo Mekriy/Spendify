@@ -60,14 +60,10 @@ export class AddItemDialogformComponent {
 
   constructor(public ref: DynamicDialogRef) {}
 
-  closeDialog(data: any) {
-    this.ref.close(data);
+  closeDialog() {
+    this.ref.close();
   }
-  selectProduct(product: Item) {
-    this.ref.close(product);
-  }
-
-  selectItem(item: any) {
-
+  addSelectedItems(){
+    this.ref.close(this.selectedItems);
   }
 }
