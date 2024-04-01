@@ -1,0 +1,51 @@
+@import '../../../styles/variables.scss';
+
+.parent{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100% ;
+  .maincontent {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .login{
+      display:flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      row-gap: 10px;
+      border-radius: 15px;
+
+      width: 600px;
+      height: 400px;
+      padding: 10px;
+      background-color: $sectionsColor;
+      .title{
+        font-size: 30px;
+      }
+      .inputs{
+        display:flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width:60%;
+        row-gap: 10px;
+        input{
+          width:100%;
+        }
+      }
+      .button-link{
+        color: inherit;
+      }
+      .button{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width:50%;
+        column-gap: 20px;
+      }
+    }
+  }
+}

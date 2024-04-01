@@ -13,10 +13,12 @@ import { DialogModule } from 'primeng/dialog';
 import { DataViewModule } from 'primeng/dataview';
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
+import {ReactiveFormsModule} from "@angular/forms";
+
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
-
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,10 @@ import {TagModule} from "primeng/tag";
     DialogModule,
     DataViewModule,
     RatingModule,
-    TagModule
+    TagModule,
+    ReactiveFormsModule,
+    CheckboxModule,
+
   ],
   exports: [
     BrowserModule,
@@ -48,7 +53,10 @@ import {TagModule} from "primeng/tag";
     DialogModule,
     DataViewModule,
     RatingModule,
-    TagModule
+    TagModule,
+    ReactiveFormsModule,
+    CheckboxModule,
+
   ],
   providers: [],
   bootstrap: []

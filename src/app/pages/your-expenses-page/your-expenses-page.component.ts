@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild, viewChild} from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {Table} from "primeng/table";
-import {Expense} from "../../shared/models/IExpense";
-import {Item} from "../../shared/models/IItem";
+import {Expense} from "../../../shared/models/IExpense";
+import {Item} from "../../../shared/models/IItem";
 
 
 @Component({

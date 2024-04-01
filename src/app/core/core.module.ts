@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidemenuComponent } from '../../shared/sidemenu/sidemenu.component';
+import { SideBarComponent } from './side-bar/side-bar.component';
+import {RouterLink} from "@angular/router";
 
 
 
 @NgModule({
   declarations: [
-    SidemenuComponent
+    SideBarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   exports: [
-    SidemenuComponent
+    SideBarComponent
   ]
 })
 export class CoreModule { }

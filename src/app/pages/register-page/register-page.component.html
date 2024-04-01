@@ -1,0 +1,40 @@
+<div class="parent">
+  <app-side-bar></app-side-bar>
+  <div class="maincontent">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="register">
+        <div class="title">
+          Register
+        </div>
+        <div class="inputs">
+          <div class="first-last-names">
+            <span class="p-float-label">
+              <input pInputText id="firstName" type="text" formControlName="firstName"/>
+              <label for="firstName">First Name</label>
+            </span>
+            <span class="p-float-label">
+              <input pInputText id="lastName" type="text" formControlName="lastName"/>
+              <label for="lastName">Last Name</label>
+            </span>
+          </div>
+          <span class="p-float-label">
+            <input pInputText id="email" type="email" formControlName="email"/>
+            <label for="email">Email</label>
+          </span>
+          <span class="p-float-label">
+            <input pInputText id="password" type="password" formControlName="password"/>
+            <label for="password">Password</label>
+          </span>
+          <span class="p-float-label">
+            <input pInputText id="confirmPassword" type="password" formControlName="confirmPassword"/>
+            <label for="confirmPassword">Confirm Password</label>
+          </span>
+        </div>
+          <div class="button">
+            <a [routerLink]="['../login']" class="button-link">Already have account?</a>
+            <button pButton type="submit" [disabled]="!registerForm.valid">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

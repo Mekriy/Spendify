@@ -4,7 +4,7 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { TodayExpensesComponent } from './today-expenses/today-expenses.component';
 import { MonthlyOverviewComponent } from './monthly-overview/monthly-overview.component';
 import { CategoryChartComponent } from './category-chart/category-chart.component';
-import { MaincontentComponent } from './maincontent.component';
+import { MainContentComponent } from './main-content.component';
 import { SharedPrimeNgModules } from '../../../../shared/modules/SharedPrimeNgModules';
 import { AddItemDialogformComponent } from './add-expense/add-item-dialogform/add-item-dialogform.component';
 import {FormsModule} from "@angular/forms";
@@ -15,7 +15,7 @@ import {GoogleMap, MapMarker} from "@angular/google-maps";
 
 @NgModule({
   declarations: [
-    MaincontentComponent,
+    MainContentComponent,
     AddExpenseComponent,
     TodayExpensesComponent,
     MonthlyOverviewComponent,
@@ -31,7 +31,7 @@ import {GoogleMap, MapMarker} from "@angular/google-maps";
     MapMarker
   ],
   exports: [
-    MaincontentComponent,
+    MainContentComponent,
     AddExpenseComponent,
     TodayExpensesComponent,
     MonthlyOverviewComponent,

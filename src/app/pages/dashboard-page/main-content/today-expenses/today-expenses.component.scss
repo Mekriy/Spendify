@@ -1,4 +1,4 @@
-@import '../../../../styles/variables.scss';
+@import '../../../../../styles/variables';
 
 .parent {
     display: flex;
@@ -28,7 +28,7 @@
             color: $textColor;
             padding: 5px;
             margin-bottom: 5px;
-            
+
             .expense{
                 display: flex;
                 flex-direction: row;
