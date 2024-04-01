@@ -26,8 +26,6 @@
         <div class="buttons">
           <div *ngIf="condition; else elseBlock">
             <a [routerLink]="['/login']" class="button-link">Login</a>
-            <span> / </span>
-            <a [routerLink]="['/register']" class="button-link">Register</a>
           </div>
           <ng-template #elseBlock>
             <a [routerLink]="['/logout']" class="button-link">Logout</a>

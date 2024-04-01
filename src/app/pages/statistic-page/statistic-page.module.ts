@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StatisticComponent } from './statistic.component';
-import { SharedPrimeNgModules } from '../../shared/modules/SharedPrimeNgModules';
-import { CoreModule } from '../core/core.module';
+import { StatisticPageComponent } from './statistic-page.component';
+import { SharedPrimeNgModules } from '../../../shared/modules/SharedPrimeNgModules';
+import { CoreModule } from '../../core/core.module';
 
 
 
 @NgModule({
   declarations: [
-    StatisticComponent
+    StatisticPageComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +16,7 @@ import { CoreModule } from '../core/core.module';
     SharedPrimeNgModules
   ],
   exports: [
-    StatisticComponent
+    StatisticPageComponent
   ]
 })
-export class StatisticModule { }
+export class StatisticPageModule { }

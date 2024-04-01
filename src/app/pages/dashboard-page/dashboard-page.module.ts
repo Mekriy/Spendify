@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainContentModule } from './maincontent/maincontent.module';
-import { CoreModule } from '../core/core.module';
+import { MainContentModule } from './main-content/main-content.module';
+import { CoreModule } from '../../core/core.module';
 
 @NgModule({
   declarations: [],
@@ -14,4 +14,4 @@ import { CoreModule } from '../core/core.module';
     MainContentModule
   ]
 })
-export class MainpageModule { }
+export class DashboardPageModule { }

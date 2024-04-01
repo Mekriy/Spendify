@@ -33,3 +33,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+:hover ::ng-deep p-datatable p-component{
+  border-radius: 15px;
+}
