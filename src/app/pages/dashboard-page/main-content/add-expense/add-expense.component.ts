@@ -3,14 +3,14 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddItemDialogformComponent } from './add-item-dialogform/add-item-dialogform.component';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Expense} from '../../../../../shared/models/IExpense';
-import {Category} from '../../../../../shared/models/ICategory';
-import {Item} from '../../../../../shared/models/IItem';
+import {Expense} from '../../../../shared/interfaces/expense';
+import {Category} from '../../../../shared/interfaces/category';
+import {Item} from '../../../../shared/interfaces/item';
 import {AddLocationDialogformComponent} from "./add-location-dialogform/add-location-dialogform.component";
 import {
   castAsAny
 } from "@angular/compiler-cli/src/transformers/jit_transforms/initializer_api_transforms/transform_api";
-import {Location} from "../../../../../shared/models/ILocation";
+import {Location} from "../../../../shared/interfaces/location";
 
 @Component({
   selector: 'app-add-expense',

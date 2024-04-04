@@ -11,7 +11,9 @@ import { StatisticPageModule } from './pages/statistic-page/statistic-page.modul
 import { FormsModule } from '@angular/forms';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
-import {SharedPrimeNgModules} from "../shared/modules/SharedPrimeNgModules";
+import {SharedPrimeNgModules} from "./shared/modules/SharedPrimeNgModules";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {JWTauthInterceptor} from "./core/interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,13 @@ import {SharedPrimeNgModules} from "../shared/modules/SharedPrimeNgModules";
     FormsModule,
     SharedPrimeNgModules
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JWTauthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

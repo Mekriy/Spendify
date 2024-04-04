@@ -5,7 +5,7 @@ import { TodayExpensesComponent } from './today-expenses/today-expenses.componen
 import { MonthlyOverviewComponent } from './monthly-overview/monthly-overview.component';
 import { CategoryChartComponent } from './category-chart/category-chart.component';
 import { MainContentComponent } from './main-content.component';
-import { SharedPrimeNgModules } from '../../../../shared/modules/SharedPrimeNgModules';
+import { SharedPrimeNgModules } from '../../../shared/modules/SharedPrimeNgModules';
 import { AddItemDialogformComponent } from './add-expense/add-item-dialogform/add-item-dialogform.component';
 import {FormsModule} from "@angular/forms";
 import { AddLocationDialogformComponent } from './add-expense/add-location-dialogform/add-location-dialogform.component';

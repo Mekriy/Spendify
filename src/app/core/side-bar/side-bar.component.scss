@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@import '../../shared/styles/variables';
 
 .parent {
     background-color: $sectionsColor;
@@ -45,8 +45,14 @@
             height: 40px;
             text-align: left;
             .button-link{
-                text-decoration: none;
-                color: inherit;
+              text-decoration: none;
+              color: inherit;
+              background: none;
+              border: none;
+              padding: 0;
+              margin: 0;
+              font: inherit;
+              cursor: pointer
             }
         }
     }

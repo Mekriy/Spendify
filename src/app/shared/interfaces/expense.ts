@@ -1,6 +1,6 @@
-import {Item} from "./IItem";
-import {Category} from "./ICategory";
-import {Location} from "./ILocation";
+import {Item} from "./item";
+import {Category} from "./category";
+import {Location} from "./location";
 
 export interface Expense{
   id?: string;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatisticPageComponent } from './statistic-page.component';
-import { SharedPrimeNgModules } from '../../../shared/modules/SharedPrimeNgModules';
+import { SharedPrimeNgModules } from '../../shared/modules/SharedPrimeNgModules';
 import { CoreModule } from '../../core/core.module';
 
 

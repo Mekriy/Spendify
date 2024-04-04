@@ -1,23 +1,35 @@
-import {Component, OnInit, ViewChild, viewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, viewChild} from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import {Table} from "primeng/table";
-import {Expense} from "../../../shared/models/IExpense";
-import {Item} from "../../../shared/models/IItem";
+import {Table, TableLazyLoadEvent} from "primeng/table";
+import {Expense} from "../../shared/interfaces/expense";
+import {Item} from "../../shared/interfaces/item";
+import {ExpenseService} from "../../shared/services/expense.service";
+import {PaginationExpense} from "../../shared/interfaces/pagination-expense";
+import {PaginationFilter} from "../../shared/interfaces/pagination-filter";
+import {Subject, takeUntil} from "rxjs";
 
 
 @Component({
   selector: 'app-your-expenses-page',
   templateUrl: './your-expenses-page.component.html',
   styleUrl: './your-expenses-page.component.scss',
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService, ExpenseService]
 })
-export class YourExpensesPageComponent implements OnInit{
-
+export class YourExpensesPageComponent implements OnDestroy{
   expenseDialog: boolean = false;
-  expenses!: Expense[];
-  expense!: Expense;
+  paginationExpenses!: PaginationExpense[];
+  paginationExpense!: PaginationExpense;
+  totalRecords: number = 1;
+  paginationFilter: PaginationFilter = {
+    pageNumber: 0,
+    pageSize: 5,
+    sortColumn: "Date",
+    sortDirection: 1
+  }
 
-  selectedExpenses!: Expense[] | null;
+  unsubscribe$: Subject<void> = new Subject<void>();
+
+  selectedExpenses!: PaginationExpense[] | null;
   submitted: boolean = false;
 
   items!: Item[] | null;
@@ -31,169 +43,28 @@ export class YourExpensesPageComponent implements OnInit{
   @ViewChild('dt') dt: Table | undefined;
   layout: 'list' | 'grid' = 'list';
 
-  constructor(private messageService: MessageService, private confirmationService: ConfirmationService){}
+  constructor(private messageService: MessageService,
+              private confirmationService: ConfirmationService,
+              private expenseService: ExpenseService){}
 
-  ngOnInit(): void {
-    this.expenses = [
-      {
-        id: "1",
-        price: 50.00,
-        date: new Date("2024-03-28"),
-        category: { name: "Groceries" },
-        location: {
-          name: 'ATB market',
-          latitude: 49.930665522850425,
-          longitude: 23.570525944141867,
-          address: '12 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81054'
-        },
-        items: [
-          { name: 'Milk', price: 10.00, quantity: 2, review: 4 },
-          { name: 'Travel to Work', price: 20.00, quantity: 1, review: 3 },
-          { name: 'Pay Electricity Bill', price: 20.00, quantity: 1, review: 5 }
-        ]
-      },
-      {
-        id: "2",
-        price: 120.00,
-        date: new Date("2024-03-27"),
-        category: { name: "Electronics" },
-        location: {
-          name: 'WOG gas station',
-          latitude: 49.92592065881233,
-          longitude: 23.5735749452971,
-          address: '2 Lvivska Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Dine at Restaurant', price: 100.00, quantity: 1, review: 4 },
-          { name: 'Games', price: 20.00, quantity: 1, review: 5 }
-        ]
-      },
-      {
-        id: "3",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "4",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "5",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "6",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "7",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "8",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "9",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      },
-      {
-        id: "10",
-        price: 30.00,
-        date: new Date("2024-03-26"),
-        category: { name: "Books" },
-        location: {
-          name: 'Privat Bank',
-          latitude: 49.932198697820404,
-          longitude: 23.56916338206351,
-          address: '1 Stepana Bandery Street, Novoiavorivsk, Lviv Oblast, 81053'
-        },
-        items: [
-          { name: 'Milk', price: 15.00, quantity: 2, review: 3 }
-        ]
-      }
-    ];
 
+  loadExpenses($event: TableLazyLoadEvent): void {
+    this.paginationFilter.pageNumber = $event.first || 0;
+    this.paginationFilter.pageSize = $event.rows || 5;
+    this.paginationFilter.sortColumn = $event.sortField?.toString() || 'Date';
+    this.paginationFilter.sortDirection = $event.sortOrder || 1;
+
+    this.expenseService.getAllUsers(this.paginationFilter).pipe(
+      takeUntil(this.unsubscribe$)
+    )
+      .subscribe(
+        response => {
+          this.paginationExpenses = response.data;
+          this.totalRecords = response.totalRecords!;
+        })
   }
-
   openNew() {
-    this.expense = {};
+    this.paginationExpense = {};
     this.submitted = false;
     this.expenseDialog = true;
 }
@@ -204,26 +75,26 @@ export class YourExpensesPageComponent implements OnInit{
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.expenses = this.expenses.filter((val) => !this.selectedExpenses?.includes(val));
+        this.paginationExpenses = this.paginationExpenses.filter((val) => !this.selectedExpenses?.includes(val));
         this.selectedExpenses = null;
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Expense Deleted', life: 3000 });
     }
     })
   }
 
-  editExpense(expense: Expense){
-      this.expense = { ...expense};
+  editExpense(expense: PaginationExpense){
+      this.paginationExpense = { ...expense};
       this.expenseDialog = true;
   }
 
-  deleteExpense(expense: Expense){
+  deleteExpense(expense: PaginationExpense){
       this.confirmationService.confirm({
         message: 'Are you sure you want to delete this expense?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this.expenses = this.expenses.filter((val) => val.id !== expense.id);
-            this.expense = {};
+            this.paginationExpenses = this.paginationExpenses.filter((val) => val.id !== expense.id);
+            this.paginationExpense = {};
             this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Expense Deleted', life: 3000 });
         }
     });
@@ -237,26 +108,26 @@ export class YourExpensesPageComponent implements OnInit{
   saveExpense(){
     this.submitted = true;
 
-    if(this.expense.id?.trim()){
-      if(this.expense.id) {
-        this.expenses[this.findIndexById(this.expense.id)] = this.expense;
+    if(this.paginationExpense.id?.trim()){
+      if(this.paginationExpense.id) {
+        this.paginationExpenses[this.findIndexById(this.paginationExpense.id)] = this.paginationExpense;
 
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Expense updated', life: 3000});
       } else {
-        this.expenses.push(this.expense)  ;
+        this.paginationExpenses.push(this.paginationExpense)  ;
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Expense Created', life: 3000 });
       }
 
-      this.expenses = [...this.expenses];
+      this.paginationExpenses = [...this.paginationExpenses];
       this.expenseDialog = false;
-      this.expense = {};
+      this.paginationExpense = {};
     }
   }
 
   findIndexById(id: string): number{
     let index = -1;
-    for(let i = 0; i < this.expenses.length; i++){
-      if(this.expenses[i].id === id){
+    for(let i = 0; i < this.paginationExpenses.length; i++){
+      if(this.paginationExpenses[i].id === id){
         index = i;
         break;
       }
@@ -295,5 +166,11 @@ export class YourExpensesPageComponent implements OnInit{
 
   applyFilter($event: Event, contains: string) {
     this.dt!.filterGlobal(($event.target as HTMLInputElement).value, contains);
+  }
+
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

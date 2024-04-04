@@ -20,6 +20,7 @@
         </div>
     </div>
     <div class="side-bar-buttons">
+      <p-toast></p-toast>
         <div class="buttons">
           <a [routerLink]="['/settings']" class="button-link">Settings</a>
         </div>
@@ -28,7 +29,8 @@
             <a [routerLink]="['/login']" class="button-link">Login</a>
           </div>
           <ng-template #elseBlock>
-            <a [routerLink]="['/logout']" class="button-link">Logout</a>
+            <p-confirmDialog></p-confirmDialog>
+            <button class="button-link" type="button" (click)="logout()">Logout</button>
           </ng-template>
         </div>
     </div>

@@ -14,7 +14,7 @@ import { DataViewModule } from 'primeng/dataview';
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {ReactiveFormsModule} from "@angular/forms";
-
+import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
@@ -37,7 +37,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     TagModule,
     ReactiveFormsModule,
     CheckboxModule,
-
+    PaginatorModule,
   ],
   exports: [
     BrowserModule,
@@ -56,7 +56,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     TagModule,
     ReactiveFormsModule,
     CheckboxModule,
-
+    PaginatorModule,
   ],
   providers: [],
   bootstrap: []

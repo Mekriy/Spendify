@@ -7,10 +7,14 @@
         <p-toast></p-toast>
         <p-table
           #dt
-          [value]="expenses"
-          [rows]="5"
+          [value]="paginationExpenses"
+          [rows]="paginationFilter.pageSize"
+          [first]="paginationFilter.pageNumber"
           [paginator]="true"
-          [globalFilterFields]="['price', 'date', 'category.name']"
+          [lazy]="true"
+          (onLazyLoad)="loadExpenses($event)"
+          [totalRecords]="totalRecords"
+          [globalFilterFields]="['Price', 'Date']"
           [tableStyle]="{ 'min-width': '75rem' }"
           [(selection)]="selectedExpenses"
           dataKey="id"
@@ -38,14 +42,14 @@
               <th style="width: 4rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
               </th>
-              <th pSortableColumn="price">
-                Price <p-sortIcon field="price"></p-sortIcon>
+              <th pSortableColumn="Price">
+                Price <p-sortIcon field="Price"></p-sortIcon>
               </th>
-              <th pSortableColumn="date">
-                Date <p-sortIcon field="date"></p-sortIcon>
+              <th pSortableColumn="Date">
+                Date <p-sortIcon field="Date"></p-sortIcon>
               </th>
-              <th pSortableColumn="category.name">
-                Category <p-sortIcon field="category.name"></p-sortIcon>
+              <th>
+                Category
               </th>
               <th>Location</th>
               <th></th>
@@ -53,23 +57,23 @@
               <th></th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-expense>
+          <ng-template pTemplate="body" let-paginationExpense>
             <tr>
               <td>
-                <p-tableCheckbox [value]="expense"></p-tableCheckbox>
+                <p-tableCheckbox [value]="paginationExpense"></p-tableCheckbox>
               </td>
-              <td>{{ expense.price | currency : "USD" }}</td>
-              <td>{{ expense.date | date : "dd/MM/yyyy" }}</td>
-              <td>{{ expense.category?.name }}</td>
-              <td>{{ expense.location?.name }}</td>
+              <td>{{ paginationExpense.price | currency : "USD" }}</td>
+              <td>{{ paginationExpense.date | date : "dd/MM/yyyy" }}</td>
+              <td>{{ paginationExpense.categoryName }}</td>
+              <td>{{ paginationExpense.location?.name }}</td>
               <td>
-                <p-button icon="pi pi-external-link" label="On google maps" [outlined]="true" (click)="showExpenseLocation(expense)"></p-button>
+                <p-button icon="pi pi-external-link" label="On google maps" [outlined]="true" (click)="showExpenseLocation(paginationExpense)"></p-button>
               </td>
               <td>
-                <p-button icon="pi pi-ellipsis-h" [outlined]="true" (click)="showExpenseDetails(expense)"></p-button>
+                <p-button icon="pi pi-ellipsis-h" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
             </td>
               <td>
-               <p-button icon="pi pi-pencil" [outlined]="true" (click)="openNew()"></p-button>
+               <p-button icon="pi pi-pencil" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
                <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
               </td>
             </tr>
@@ -85,7 +89,7 @@
               <label for="price">Price</label>
               <p-inputNumber
                 id="price"
-                [(ngModel)]="expense.price"
+                [(ngModel)]="paginationExpense.price"
                 mode="currency"
                 currency="USD"
                 locale="en-US"
