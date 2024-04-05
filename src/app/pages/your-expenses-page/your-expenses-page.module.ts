@@ -6,6 +6,7 @@ import { YourExpensesPageComponent } from './your-expenses-page.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {FormsModule} from "@angular/forms";
 import {FileUploadModule} from "primeng/fileupload";
+import {AddExpenseModule} from "../../shared/components/add-expense/add-expense.module";
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {FileUploadModule} from "primeng/fileupload";
     CommonModule,
     CoreModule,
     SharedPrimeNgModules,
+    AddExpenseModule,
     GoogleMapsModule,
     FormsModule,
     FileUploadModule

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Location} from '../../../../../shared/interfaces/location'
+import {Location} from '../../../interfaces/location'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 

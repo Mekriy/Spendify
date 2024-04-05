@@ -38,6 +38,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     ReactiveFormsModule,
     CheckboxModule,
     PaginatorModule,
+
   ],
   exports: [
     BrowserModule,

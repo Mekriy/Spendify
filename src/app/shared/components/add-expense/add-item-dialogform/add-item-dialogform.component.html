@@ -7,15 +7,31 @@
         <p-button icon="pi pi-refresh" [outlined]="true"></p-button>
     </div>
     <div class="table-container">
-        <p-table [value]="items" [(selection)]="selectedItems"  [scrollable]="true" scrollHeight="400px" [tableStyle]="{ 'min-width': '40rem' }">
+        <p-table
+          #dt
+          [value]="paginationItems"
+          [rows]="paginationFilter.pageSize"
+          [first]="paginationFilter.pageNumber"
+          [totalRecords]="totalRecords"
+          [paginator]="true"
+          [lazy]="true"
+          (onLazyLoad)="loadItems($event)"
+          [globalFilterFields]="['Price', 'Name']"
+          [(selection)]="selectedItems"
+          [scrollable]="true"
+          scrollHeight="400px"
+          [tableStyle]="{ 'min-width': '40rem' }">
             <ng-template pTemplate="header" class="header-table">
                 <tr>
                     <th style="width: 4rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
+                    <th pSortableColumn="Name">
+                      Name <p-sortIcon field="Name"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="Price">
+                      Price <p-sortIcon field="Price"></p-sortIcon>
+                    </th>
                     <th>Review</th>
                 </tr>
             </ng-template>
@@ -26,8 +42,7 @@
                     </td>
                     <td>{{ item.name }}</td>
                     <td>{{'$' + item.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
+                    <td><p-rating [ngModel]="item.value" [readonly]="true" [cancel]="false"></p-rating></td>
                 </tr>
             </ng-template>
         </p-table>
