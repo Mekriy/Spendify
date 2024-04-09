@@ -61,8 +61,9 @@ export class YourExpensesPageComponent implements OnDestroy{
     this.paginationFilter.sortColumn = $event.sortField?.toString() || 'Date';
     this.paginationFilter.sortDirection = $event.sortOrder || 1;
 
-    this.expenseService.getAllUsers(this.paginationFilter).pipe(
-      takeUntil(this.unsubscribe$)
+    this.expenseService.getAllUsers(this.paginationFilter)
+      .pipe(
+        takeUntil(this.unsubscribe$)
     )
       .subscribe(
         response => {

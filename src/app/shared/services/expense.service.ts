@@ -5,6 +5,7 @@ import {PaginationExpense} from "../interfaces/pagination-expense";
 import {PaginationFilter} from "../interfaces/pagination-filter";
 import {PaginationResponse} from "../interfaces/pagination-response";
 import {environment} from "../../environment";
+import {LastFiveExpenses} from "../interfaces/last-five-expenses";
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,8 @@ export class ExpenseService {
       .set('sortDirection', (filter.sortDirection === 1) ? 'asc' : 'desc');
 
     return this.httpClient.get<PaginationResponse<PaginationExpense[]>>(this.apiUrl+'/users', { params });
+  }
+  public getLastTodayFiveExpenses(){
+    return this.httpClient.get<LastFiveExpenses[]>(this.apiUrl+'/last-five')
   }
 }

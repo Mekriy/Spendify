@@ -1,12 +1,16 @@
 <div class="parent">
     <p style="margin-left: 20px; font-size: large;">Today expenses</p>
     <div class="expenses">
+      <div *ngIf="noData" class="no-data-container">
+        <h3>No expenses for today yet</h3>
+        <h3>Let's start tracking!</h3>
+      </div>
         <ul>
-            <li *ngFor="let index of expenses.expensePrice; let i = index" class="expenseEntity">
+            <li *ngFor="let expense of lastFiveData" class="expenseEntity">
                 <div class="expense">
-                  <span class="expenseSpan">{{ expenses.expensePrice[i] }}</span>
-                  <span class="expenseSpan">{{ expenses.expenseDate[i] }}</span>
-                  <span class="expenseSpan">{{ expenses.expenseCategory[i] }}</span>
+                  <span class="expenseSpan">{{ expense.price | currency: "USD"}}</span>
+                  <span class="expenseSpan">{{ expense.date | date: "dd/MM/yyyy" }}</span>
+                  <span class="expenseSpan">{{ expense.category }}</span>
                 </div>
               </li>
         </ul>

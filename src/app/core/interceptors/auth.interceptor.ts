@@ -24,7 +24,7 @@ export class JWTauthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(authRequest).pipe(catchError((error : HttpErrorResponse) => {
-      if (authRequest.url.includes('Login') && error.status === 401) {
+      if (error.status === 401) {
         return this.handle401Error(authRequest, next);
       }
 
