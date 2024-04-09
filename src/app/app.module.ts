@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
-import { MainContentModule } from './pages/dashboard-page/main-content/main-content.module';
 import { CoreModule } from './core/core.module';
 import { YourExpensesPageModule } from './pages/your-expenses-page/your-expenses-page.module';
 import { StatisticPageModule } from './pages/statistic-page/statistic-page.module';
@@ -14,6 +13,11 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import {SharedPrimeNgModules} from "./shared/modules/SharedPrimeNgModules";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {JWTauthInterceptor} from "./core/interceptors/auth.interceptor";
+import {AddExpenseModule} from "./shared/components/add-expense/add-expense.module";
+import {DashboardPageModule} from "./pages/dashboard-page/dashboard-page.module";
+import { NotFoundComponent } from './static-pages/not-found/not-found.component';
+import { EmailVerificationSuccessComponent } from './static-pages/email-verification-success/email-verification-success.component';
+import { EmailVerificationFailureComponent } from './static-pages/email-verification-failure/email-verification-failure.component';
 
 @NgModule({
   declarations: [
@@ -21,16 +25,20 @@ import {JWTauthInterceptor} from "./core/interceptors/auth.interceptor";
     DashboardPageComponent,
     LoginPageComponent,
     RegisterPageComponent,
+    NotFoundComponent,
+    EmailVerificationSuccessComponent,
+    EmailVerificationFailureComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MainContentModule,
     CoreModule,
     YourExpensesPageModule,
     StatisticPageModule,
     FormsModule,
-    SharedPrimeNgModules
+    SharedPrimeNgModules,
+    AddExpenseModule,
+    DashboardPageModule
   ],
   providers: [
     {

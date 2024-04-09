@@ -33,8 +33,11 @@
           <p-confirmDialog></p-confirmDialog>
           <div class="button">
             <a [routerLink]="['../login']" class="button-link">Already have account?</a>
-            <button pButton type="submit" [disabled]="!registerForm.valid">Register</button>
+            <button pButton type="submit" [disabled]="(!registerForm.valid) || registerButtonLock">Register</button>
         </div>
+      </div>
+      <div *ngIf="showSpinner" class="register overlay">
+        <p-progressSpinner [style]="{width: '100px', height: '100px'}" strokeWidth="5" ariaLabel="loading"></p-progressSpinner>
       </div>
     </form>
   </div>

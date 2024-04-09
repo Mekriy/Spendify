@@ -1,26 +1,30 @@
 <div class="parent">
   <app-side-bar></app-side-bar>
   <div class="maincontent">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="login">
-        <div class="title">
-          Login
-        </div>
-        <div class="inputs">
+    <p-toast></p-toast>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="login">
+          <div class="title">
+            Login
+          </div>
+          <div class="inputs">
           <span class="p-float-label">
             <input pInputText id="email" type="email" formControlName="email"/>
             <label for="email">Email</label>
           </span>
-          <span class="p-float-label">
+            <span class="p-float-label">
             <input pInputText id="password" type="password" formControlName="password"/>
             <label for="password">Password</label>
           </span>
+          </div>
+          <div class="button">
+            <a [routerLink]="['../register']" class="button-link">Create an account</a>
+            <button pButton type="submit" [disabled]="(!loginForm.valid) || loginButtonLock"> Login </button>
+          </div>
         </div>
-        <div class="button">
-          <a [routerLink]="['../register']" class="button-link">Create an account</a>
-          <button pButton type="submit" [disabled]="!loginForm.valid"> Login </button>
+        <div *ngIf="showSpinner" class="login overlay">
+          <p-progressSpinner [style]="{width: '100px', height: '100px'}" strokeWidth="5" ariaLabel="loading"></p-progressSpinner>
         </div>
-      </div>
-    </form>
+      </form>
   </div>
 </div>

@@ -7,13 +7,18 @@ import {ExpenseService} from "../../shared/services/expense.service";
 import {PaginationExpense} from "../../shared/interfaces/pagination-expense";
 import {PaginationFilter} from "../../shared/interfaces/pagination-filter";
 import {Subject, takeUntil} from "rxjs";
+import {
+  AddItemDialogformComponent
+} from "../../shared/components/add-expense/add-item-dialogform/add-item-dialogform.component";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {AddExpenseComponent} from "../../shared/components/add-expense/add-expense.component";
 
 
 @Component({
   selector: 'app-your-expenses-page',
   templateUrl: './your-expenses-page.component.html',
   styleUrl: './your-expenses-page.component.scss',
-  providers: [MessageService, ConfirmationService, ExpenseService]
+  providers: [MessageService, ConfirmationService, ExpenseService, DialogService, DynamicDialogRef]
 })
 export class YourExpensesPageComponent implements OnDestroy{
   expenseDialog: boolean = false;
@@ -45,7 +50,9 @@ export class YourExpensesPageComponent implements OnDestroy{
 
   constructor(private messageService: MessageService,
               private confirmationService: ConfirmationService,
-              private expenseService: ExpenseService){}
+              private expenseService: ExpenseService,
+              private dialogService: DialogService,
+              private ref: DynamicDialogRef){}
 
 
   loadExpenses($event: TableLazyLoadEvent): void {
@@ -63,11 +70,20 @@ export class YourExpensesPageComponent implements OnDestroy{
           this.totalRecords = response.totalRecords!;
         })
   }
-  openNew() {
-    this.paginationExpense = {};
-    this.submitted = false;
-    this.expenseDialog = true;
-}
+  AddNewExpense() {
+    this.ref = this.dialogService.open(AddExpenseComponent, {
+      height: "425px",
+      width: "650px"
+    });
+
+    this.ref.onClose.subscribe((data: PaginationExpense[] | any ) => {
+      if (data && data.length > 0) {
+        //TODO: service to post expense on db if ok add to array if not show error
+        this.paginationExpenses.push(...data);
+        // this.messageService.add({ severity: 'info', summary:'Expense added successfully', life: 3000})
+      }
+    });
+  }
 
   deleteSelectedExpenses(){
     this.confirmationService.confirm({

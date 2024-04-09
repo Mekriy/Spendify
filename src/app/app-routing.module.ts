@@ -7,6 +7,13 @@ import { StatisticPageComponent } from './pages/statistic-page/statistic-page.co
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {LogOutput} from "concurrently";
 import {RegisterPageComponent} from "./pages/register-page/register-page.component";
+import {NotFoundComponent} from "./static-pages/not-found/not-found.component";
+import {
+  EmailVerificationSuccessComponent
+} from "./static-pages/email-verification-success/email-verification-success.component";
+import {
+  EmailVerificationFailureComponent
+} from "./static-pages/email-verification-failure/email-verification-failure.component";
 
 const routes: Routes = [
   {
@@ -29,6 +36,22 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterPageComponent
+  },
+  {
+    path: 'verification-success',
+    component: EmailVerificationSuccessComponent
+  },
+  {
+    path: 'verification-failure',
+    component: EmailVerificationFailureComponent
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '404'
   }
 ];
 

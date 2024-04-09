@@ -30,7 +30,7 @@
                  </span>
                 </div>
                 <div class="crud-buttons">
-                  <p-button icon="pi pi-plus" label="Add expense" [outlined]="true" (click)="openNew()"></p-button>
+                  <p-button icon="pi pi-plus" label="Add expense" [outlined]="true" (click)="AddNewExpense()"></p-button>
                   <p-button icon="pi pi-trash" label="Delete expense" [outlined]="true" severity="secondary" (click)="deleteSelectedExpenses()" [disabled]="!selectedExpenses || !selectedExpenses.length"></p-button>
                   <p-fileUpload mode="basic"  accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"></p-fileUpload>
                   <p-button label="Export" icon="pi pi-upload"></p-button>
@@ -73,8 +73,11 @@
                 <p-button icon="pi pi-ellipsis-h" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
             </td>
               <td>
-               <p-button icon="pi pi-pencil" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
-               <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
+                <p-buttonGroup>
+                  <p-button icon="pi pi-pencil" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
+                  <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
+                </p-buttonGroup>
+
               </td>
             </tr>
           </ng-template>

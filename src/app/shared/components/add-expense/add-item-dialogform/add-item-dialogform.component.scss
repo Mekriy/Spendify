@@ -4,6 +4,11 @@
         flex-direction: row;
         justify-content: flex-end;
     }
+    .button-filters{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
     .search-span{
         display: inline-block;
         position: sticky;
@@ -20,5 +25,5 @@
             position: sticky;
         }
     }
-    
+
 }

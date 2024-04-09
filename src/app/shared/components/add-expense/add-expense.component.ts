@@ -3,20 +3,18 @@ import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddItemDialogformComponent } from './add-item-dialogform/add-item-dialogform.component';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Expense} from '../../../../shared/interfaces/expense';
-import {Category} from '../../../../shared/interfaces/category';
-import {Item} from '../../../../shared/interfaces/item';
+import {Expense} from '../../interfaces/expense';
+import {Category} from '../../interfaces/category';
+import {Item} from '../../interfaces/item';
 import {AddLocationDialogformComponent} from "./add-location-dialogform/add-location-dialogform.component";
-import {
-  castAsAny
-} from "@angular/compiler-cli/src/transformers/jit_transforms/initializer_api_transforms/transform_api";
-import {Location} from "../../../../shared/interfaces/location";
+import {Location} from "../../interfaces/location";
+import {PaginationExpense} from "../../interfaces/pagination-expense";
 
 @Component({
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss'],
-  providers: [DialogService, MessageService]
+  providers: [DialogService, MessageService, DynamicDialogRef]
 })
 export class AddExpenseComponent implements OnInit, OnDestroy {
   expense!: Expense;
@@ -26,7 +24,11 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
 
   itemForm!: FormGroup;
   nameOflocation: string | undefined;
-  constructor(public fb: FormBuilder, public dialogService: DialogService, public messageService: MessageService) {}
+  constructor(
+    private fb: FormBuilder,
+    private dialogService: DialogService,
+    private messageService: MessageService,
+    private ref: DynamicDialogRef) {}
 
   ngOnInit(): void {
     this.categories = [
@@ -39,9 +41,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     ];
     this.createItemForm();
   }
-
-  ref: DynamicDialogRef | undefined;
-
 
   showAddItemsToExpenseDialog() {
     this.ref = this.dialogService.open(AddItemDialogformComponent, {
@@ -56,9 +55,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     this.ref.onClose.subscribe((data: Item[] | any ) => {
       if (data && data.length > 0) {
         this.items.push(...data);
-      }
-      else{
-        this.messageService.add({ severity: 'info', summary:'No items', life: 3000 });
       }
     });
   }
@@ -101,8 +97,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     });
   }
 
-  createExpense(): void {
-
+  createExpense(expense: PaginationExpense): void {
+    this.ref.close(expense);
   }
 
   addItem() {
