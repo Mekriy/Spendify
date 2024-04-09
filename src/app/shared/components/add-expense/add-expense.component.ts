@@ -14,7 +14,7 @@ import {PaginationExpense} from "../../interfaces/pagination-expense";
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss'],
-  providers: [DialogService, MessageService]
+  providers: [DialogService, MessageService, DynamicDialogRef]
 })
 export class AddExpenseComponent implements OnInit, OnDestroy {
   expense!: Expense;

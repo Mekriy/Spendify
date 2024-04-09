@@ -1,39 +1,50 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Login} from "../interfaces/login";
 import {Register} from "../interfaces/register";
 import {Router} from "@angular/router";
+import {catchError, Observable, of, Subject} from "rxjs";
+import {CreateUser} from "../interfaces/create-user";
 import {TokenResponse} from "../interfaces/token-response";
-import {catchError, map, Observable, of, Subject} from "rxjs";
+import {Token} from "@angular/compiler";
+import {User} from "../interfaces/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = `${environment.apiSecurityUrl}/User`;
-  result: Subject<boolean> = new Subject<boolean>();
+  private readonly apiUrl = `${environment.apiUrl}/User`;
+  private readonly apiNgrokUrl = `${environment.apiSecurityNgrok}/User`;
+
   constructor(private readonly httpClient: HttpClient, private readonly router: Router) { }
 
-  login(loginObj: Login){
-    this.httpClient.post(this.apiUrl + '/login', loginObj)
-      .subscribe(
-        (res: any)=>{
-          localStorage.setItem('access_token', res.accessToken)
-          this.router.navigateByUrl('');
-    })
+  login(loginObj: Login): Observable<TokenResponse>{
+    return this.httpClient.post<TokenResponse>(this.apiNgrokUrl + '/login', loginObj);
   }
 
-  register(registerObj: Register) {
-    this.httpClient.post(this.apiUrl + '/register', registerObj)
-      .pipe(
-        catchError(error => {
-          this.result.next(false)
-          return of(error);
-        })
-      )
-      .subscribe((res: any) =>{
-          this.result.next(res.message === "Email has been sent!")
-      })
+  register(registerObj: Register):Observable<any> {
+    return this.httpClient.post(this.apiNgrokUrl + '/register', registerObj)
+  }
+
+  isUserCreated(){
+    return this.httpClient.get(this.apiUrl+'/isCreated', {});
+  }
+  createUser(userObj: CreateUser):Observable<User> {
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
+    return this.httpClient.post<User>(this.apiUrl, userObj);
+  }
+
+  refreshToken(tokens: TokenResponse):Observable<TokenResponse>{
+    return this.httpClient.post<TokenResponse>(this.apiNgrokUrl+'/tokens', tokens);
+  }
+
+  isUserExists(email: string) {
+    let options = {
+      headers: new HttpHeaders()
+        .set("ngrok-skip-browser-warning", "69420")
+    }
+    return this.httpClient.get(this.apiNgrokUrl+`/${email}`, options);
   }
 }

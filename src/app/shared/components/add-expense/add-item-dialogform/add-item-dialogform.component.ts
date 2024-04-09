@@ -29,6 +29,10 @@ export class AddItemDialogformComponent implements OnDestroy{
 
   searchItem: Item | undefined;
 
+  filterUserItems: boolean = false;
+  filterPublicItems: boolean = false;
+  filterPrivateItems: boolean = false;
+
   constructor(
     private ref: DynamicDialogRef,
     private itemService: ItemService) {}
@@ -48,18 +52,46 @@ export class AddItemDialogformComponent implements OnDestroy{
     this.paginationFilter.sortColumn = $event.sortField?.toString() || 'Name';
     this.paginationFilter.sortDirection = $event.sortOrder || 1;
 
-    this.itemService.getAll(this.paginationFilter).pipe(
-      takeUntil(this.unsubscribe$)
-    )
+    this.itemService.getAllUser(this.paginationFilter)
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
       .subscribe(
         response => {
           this.paginationItems = response.data;
           this.totalRecords = response.totalRecords!;
-        })
+        }
+      )
+
+    // this.itemService.getAllUser(this.paginationFilter)
+    //   .pipe(
+    //     takeUntil(this.unsubscribe$)
+    //   )
+    //   .subscribe(
+    //     response => {
+    //       this.paginationItems = response.data;
+    //       this.totalRecords = response.totalRecords!;
+    //     }
+    //   )
+    if (this.filterUserItems) {
+      console.log('this.filterUserItems', this.filterUserItems)
+    } else if (this.filterPublicItems) {
+      console.log('this.filterPublicItems', this.filterPublicItems)
+    } else if (this.filterPrivateItems) {
+      console.log('this.filterPrivateItems', this.filterPrivateItems)
+    } else if (this.filterPublicItems && this.filterPrivateItems) {
+      console.log('this.filterPublicItems, this.filterPrivateItems', this.filterPublicItems, this.filterPrivateItems)
+    } else {
+      console.log('this.filterUserItems, this.filterPublicItems, this.filterPrivateItems', this.filterUserItems, this.filterPublicItems, this.filterPrivateItems)
+    }
   }
 
   ngOnDestroy() {
-    this.unsubscribe$.next()
-    this.unsubscribe$.complete()
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  applyFilter($event: MouseEvent) {
+    console.log($event);
   }
 }

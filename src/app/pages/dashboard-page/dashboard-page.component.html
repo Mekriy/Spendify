@@ -1,4 +1,18 @@
 <div class="parent">
     <app-side-bar></app-side-bar>
-    <app-main-content></app-main-content>
+    <div class="maincontent">
+      <div class="container">
+        Dashboard
+      </div>
+    <div class="content">
+      <div class="ChartAndExpenses">
+        <app-category-chart></app-category-chart>
+        <app-add-expense></app-add-expense>
+      </div>
+      <div class="additemAndOverview">
+        <app-today-expenses></app-today-expenses>
+        <app-monthly-overview></app-monthly-overview>
+      </div>
+    </div>
+  </div>
 </div>

@@ -23,4 +23,14 @@ export class ItemService {
 
     return this.httpClient.get<PaginationResponse<Item[]>>(this.apiUrl+'/items', { params });
   }
+
+  public getAllUser(filter: PaginationFilter) {
+    let params = new HttpParams()
+      .set('pageNumber', filter.pageNumber.toString())
+      .set('pageSize', filter.pageSize.toString())
+      .set('sortColumn', filter.sortColumn.toString())
+      .set('sortDirection', (filter.sortDirection === 1) ? 'asc' : 'desc');
+
+    return this.httpClient.get<PaginationResponse<Item[]>>(this.apiUrl+'/user/items', { params });
+  }
 }

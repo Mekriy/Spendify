@@ -73,8 +73,11 @@
                 <p-button icon="pi pi-ellipsis-h" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
             </td>
               <td>
-               <p-button icon="pi pi-pencil" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
-               <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
+                <p-buttonGroup>
+                  <p-button icon="pi pi-pencil" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
+                  <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
+                </p-buttonGroup>
+
               </td>
             </tr>
           </ng-template>

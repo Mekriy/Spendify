@@ -21,6 +21,13 @@
           [scrollable]="true"
           scrollHeight="400px"
           [tableStyle]="{ 'min-width': '40rem' }">
+          <ng-template pTemplate="caption">
+            <div class="button-filters">
+              <p-checkbox [value]="true" [(ngModel)]="filterUserItems" label="User's items" (click)="applyFilter($event)"></p-checkbox>
+              <p-checkbox [value]="true" [(ngModel)]="filterPublicItems" label="Public items" [disabled]="!filterUserItems" (click)="applyFilter($event)"></p-checkbox>
+              <p-checkbox [value]="true" [(ngModel)]="filterPrivateItems" label="Private items" [disabled]="!filterUserItems" (click)="applyFilter($event)"></p-checkbox>
+            </div>
+          </ng-template>
             <ng-template pTemplate="header" class="header-table">
                 <tr>
                     <th style="width: 4rem">
@@ -48,7 +55,9 @@
         </p-table>
     </div>
     <div class="buttons">
-      <p-button type="button" label="Add items" [outlined]="true" icon="pi pi-check" (click)="addSelectedItems()"></p-button>
-      <p-button type="button" label="Cancel" [outlined]="true" icon="pi pi-times" (click)="closeDialog()"></p-button>
-    </div>
+      <p-buttonGroup>
+        <p-button type="button" label="Add items" [outlined]="true" icon="pi pi-check" (click)="addSelectedItems()"></p-button>
+        <p-button type="button" label="Cancel" [outlined]="true" icon="pi pi-times" (click)="closeDialog()"></p-button>
+      </p-buttonGroup>
+      </div>
 </div>

@@ -18,7 +18,7 @@ import {AddExpenseComponent} from "../../shared/components/add-expense/add-expen
   selector: 'app-your-expenses-page',
   templateUrl: './your-expenses-page.component.html',
   styleUrl: './your-expenses-page.component.scss',
-  providers: [MessageService, ConfirmationService, ExpenseService, DialogService]
+  providers: [MessageService, ConfirmationService, ExpenseService, DialogService, DynamicDialogRef]
 })
 export class YourExpensesPageComponent implements OnDestroy{
   expenseDialog: boolean = false;
@@ -51,7 +51,8 @@ export class YourExpensesPageComponent implements OnDestroy{
   constructor(private messageService: MessageService,
               private confirmationService: ConfirmationService,
               private expenseService: ExpenseService,
-              private dialogService: DialogService){}
+              private dialogService: DialogService,
+              private ref: DynamicDialogRef){}
 
 
   loadExpenses($event: TableLazyLoadEvent): void {
@@ -69,9 +70,11 @@ export class YourExpensesPageComponent implements OnDestroy{
           this.totalRecords = response.totalRecords!;
         })
   }
-  ref: DynamicDialogRef | undefined;
   AddNewExpense() {
-    this.ref = this.dialogService.open(AddExpenseComponent, {});
+    this.ref = this.dialogService.open(AddExpenseComponent, {
+      height: "425px",
+      width: "650px"
+    });
 
     this.ref.onClose.subscribe((data: PaginationExpense[] | any ) => {
       if (data && data.length > 0) {
@@ -79,11 +82,8 @@ export class YourExpensesPageComponent implements OnDestroy{
         this.paginationExpenses.push(...data);
         // this.messageService.add({ severity: 'info', summary:'Expense added successfully', life: 3000})
       }
-      else{
-        // this.messageService.add({ severity: 'reject', summary:'No expense added', life: 3000 });
-      }
     });
-}
+  }
 
   deleteSelectedExpenses(){
     this.confirmationService.confirm({

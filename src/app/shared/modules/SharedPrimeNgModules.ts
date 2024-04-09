@@ -16,6 +16,8 @@ import {TagModule} from "primeng/tag";
 import {ReactiveFormsModule} from "@angular/forms";
 import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import {ButtonGroupModule} from "primeng/buttongroup";
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     ReactiveFormsModule,
     CheckboxModule,
     PaginatorModule,
-
+    ProgressSpinnerModule,
+    ButtonGroupModule,
   ],
   exports: [
     BrowserModule,
@@ -58,6 +61,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     ReactiveFormsModule,
     CheckboxModule,
     PaginatorModule,
+    ProgressSpinnerModule,
+    ButtonGroupModule,
   ],
   providers: [],
   bootstrap: []
