@@ -1,19 +1,16 @@
 <div class="parent">
+  <form [formGroup]="expenseForm" (ngSubmit)="onSubmit($event)">
     <div class="labels-container">
         <p class="addexpense-name">Add Expense</p>
         <p-button icon="pi pi-plus" label="Add items to expense"  [text]="true" [plain]="true" (click)="showAddItemsToExpenseDialog()"></p-button>
     </div>
-  <form [formGroup]="itemForm" (ngSubmit)="addItem()">
     <div class="additems">
       <p-toast></p-toast>
         <div class="dropdownAndInput-container">
-            <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" [showClear]="true" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
-            <p-button icon="pi pi-plus" label="Add location"  [text]="true" [plain]="true" (click)="showAddLocationDialog()"></p-button>
-            <input type="text" pInputText [(ngModel)]="nameOflocation" class="location-input">
-            <span class="p-float-label">
-                <p-inputNumber [(ngModel)]="totalPrice" [disabled]="true" inputId="currency-us" mode="currency" currency="USD" locale="en-US" class="price-input"> </p-inputNumber>
-                <label for="number-input">Price</label>
-            </span>
+          <p-dropdown [options]="categories" formControlName="selectedCategory" [showClear]="true" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+          <p-button icon="pi pi-plus" label="Add location"  [text]="true" [plain]="true" (click)="showAddLocationDialog()"></p-button>
+          <input type="text" pInputText [(ngModel)]="nameOfLocation" class="location-input" [disabled]="true" [ngModelOptions]="{standalone: true}">
+          <p-inputNumber id="number-input" [(ngModel)]="totalPrice" [disabled]="true" inputId="currency-us" mode="currency" currency="USD" locale="en-US" class="price-input" placeholder="Price" [ngModelOptions]="{standalone: true}"> </p-inputNumber>
         </div>
         <div class="items">
             <div class="item" *ngFor="let item of items">
@@ -23,8 +20,8 @@
         </div>
     </div>
     <div class="buttons-container">
-        <p-button icon="pi pi-check" [rounded]="true" [outlined]="true"></p-button>
-        <p-button icon="pi pi-times" [rounded]="true" [outlined]="true" severity="danger"></p-button>
+      <button pButton type="submit" [disabled]="(!expenseForm.valid) || addButtonLock">Add</button>
+      <button pButton type="reset">Cancel</button>
     </div>
   </form>
 </div>

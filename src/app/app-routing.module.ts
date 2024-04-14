@@ -14,16 +14,21 @@ import {
 import {
   EmailVerificationFailureComponent
 } from "./static-pages/email-verification-failure/email-verification-failure.component";
+import {HomePageComponent} from "./static-pages/home-page/home-page.component";
 
 const routes: Routes = [
   {
     path: '',
+    component: HomePageComponent
+  },
+  {
+    path: 'your-expenses',
     component: YourExpensesPageComponent,
+    // loadChildren: () => import('./your-expenses-page/your-expenses-page.module').then(m => m.YourExpensesPageModule)
   },
   {
     path: 'dashboard',
-    component: DashboardPageComponent,
-    // loadChildren: () => import('./your-expenses-page/your-expenses-page.module').then(m => m.YourExpensesPageModule)
+    component: DashboardPageComponent
   },
   {
     path: 'statistic',

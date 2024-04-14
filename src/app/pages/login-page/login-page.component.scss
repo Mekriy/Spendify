@@ -8,7 +8,11 @@
   .maincontent {
     width: 100%;
     position: relative;
-
+    .logo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     .login{
       position: absolute;
       top: 50%;

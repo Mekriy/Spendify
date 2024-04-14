@@ -4,34 +4,40 @@
             <span>Spendify</span>
         </div>
         <div class="userDiv">
-            <img src="{{pathUserImage}}" alt="defUserImg">
-            <h3>&#64;{{userName}}</h3>
+            <img src="{{imageData}}" alt="defUserImg">
+            <h3>{{user.firstName}}</h3>
         </div>
         <div class="side-bar-buttons">
             <div class="buttons">
-                <a [routerLink]="['/']" class="button-link">Your Expenses</a>
+              <p-button icon="pi pi-list" label="Your Expenses" [link]="true" [routerLink]="['/your-expenses']" ></p-button>
             </div>
             <div class="buttons">
-                <a [routerLink]="['/dashboard']" class="button-link">Dashboard</a>
+              <p-button icon="pi pi-table" label="Dashboard" [link]="true" [routerLink]="['/dashboard']" ></p-button>
             </div>
             <div class="buttons">
-                <a [routerLink]="['/statistic']" class="button-link">Statistic</a>
+              <p-button icon="pi pi-chart-line" label="Statistic" [link]="true" [routerLink]="['/statistic']" ></p-button>
             </div>
         </div>
     </div>
     <div class="side-bar-buttons">
       <p-toast></p-toast>
         <div class="buttons">
-          <a [routerLink]="['/settings']" class="button-link">Settings</a>
+          <p-button icon="pi pi-sliders-h" label="Settings" [link]="true" [routerLink]="['/settings']" ></p-button>
         </div>
         <div class="buttons">
-          <div *ngIf="condition; else elseBlock">
-            <a [routerLink]="['/login']" class="button-link">Login</a>
-          </div>
-          <ng-template #elseBlock>
+          <div class="buttons">
             <p-confirmDialog></p-confirmDialog>
-            <button class="button-link" type="button" (click)="logout()">Logout</button>
-          </ng-template>
+            <p-button icon="pi pi-sign-out" label="Logout" [link]="true" [routerLink]="['/login']" (click)="logout()"></p-button>
+          </div>
+<!--          <div *ngIf="condition; else elseBlock">-->
+<!--            <p-button label="Login" [link]="true" [routerLink]="['/login']" ></p-button>-->
+<!--          </div>-->
+<!--          <ng-template #elseBlock>-->
+<!--            <div class="buttons">-->
+<!--              <p-confirmDialog></p-confirmDialog>-->
+<!--              <p-button icon="pi pi-sign-out" label="Logout" [link]="true" [routerLink]="['/login']" (click)="logout()"></p-button>-->
+<!--            </div>-->
+<!--          </ng-template>-->
         </div>
     </div>
 </div>

@@ -1,13 +1,17 @@
 .parent{
+
+
     .buttons{
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
     }
-    .button-filters{
+    .selectOptions{
       display: flex;
       flex-direction: row;
-      justify-content: space-evenly;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
     }
     .search-span{
         display: inline-block;
@@ -25,5 +29,7 @@
             position: sticky;
         }
     }
-
+  .input-plus-minus{
+    height: 2rem;
+  }
 }

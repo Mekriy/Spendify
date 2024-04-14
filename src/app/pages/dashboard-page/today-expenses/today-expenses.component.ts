@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ExpenseService} from "../../../shared/services/expense.service";
 import {LastFiveExpenses} from "../../../shared/interfaces/last-five-expenses";
+import {catchError, of} from "rxjs";
 
 @Component({
   selector: 'app-today-expenses',
   templateUrl: './today-expenses.component.html',
-  styleUrl: './today-expenses.component.scss'
+  styleUrls: ['./today-expenses.component.scss']
 })
 export class TodayExpensesComponent implements OnInit{
   lastFiveData!: LastFiveExpenses[] | null;
@@ -15,9 +16,19 @@ export class TodayExpensesComponent implements OnInit{
 
   ngOnInit() {
     this.expenseService.getLastTodayFiveExpenses()
+      .pipe(
+        catchError(error => {
+          console.log("error: ", error)
+          if(error.status === 404){
+            this.noData = true;
+          }
+          return of(error)
+        })
+      )
       .subscribe({
         next: value => this.lastFiveData = value,
         error: err => {
+          console.log("err: ", err)
           this.lastFiveData = null;
           this.noData = true;
         }

@@ -1,81 +1,91 @@
 import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
+import {BehaviorSubject, catchError, filter, finalize, Observable, of, switchMap, take, throwError} from 'rxjs';
 import {AuthService} from "../../shared/services/auth.service";
 import {TokenResponse} from "../../shared/interfaces/token-response";
+import {Route, Router} from "@angular/router";
 
 @Injectable()
 export class JWTauthInterceptor implements HttpInterceptor {
 
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('access_token');
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    let authRequest = req;
-
-    if(token != null){
-      authRequest = this.addTokenHeader(authRequest, token);
+    if (request.url.includes('Login')) {
+      return next.handle(request)
     }
 
-    return next.handle(authRequest).pipe(catchError((error : HttpErrorResponse) => {
-      if (error.status === 401) {
-        return this.handle401Error(authRequest, next);
-      }
+    let authRequest = request
+    let token = localStorage.getItem('access_token');
+    if (token != null) {
+      authRequest = this.addTokenHeader(request, token)
+    }
 
-      return throwError(error);
-    }));
+    return next.handle(authRequest)
+      .pipe(
+        catchError(error => {
+          this.handleError(authRequest, next)
+          return of(error)
+        })
+      )
   }
+  private addTokenHeader(request: any, token: string) {
+      return request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
 
-  private handle401Error(authRequest: HttpRequest<any>, next: HttpHandler) {
+  private handleError(authRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
 
-      const token = localStorage.getItem('access_token');
+      this.tokenSubject.next('');
+      let tokens: TokenResponse = {
+        access: localStorage.getItem('access_token')!,
+        refresh: localStorage.getItem('refresh_token')!
+      }
 
-      if (token) {
-        let tokens: TokenResponse = {
-          accessToken: localStorage.getItem('access_token')!,
-          refreshToken: localStorage.getItem('refresh_token')!,
-        }
-        return this.authService.refreshToken(tokens).pipe(
-          switchMap((token: any) => {
-            this.isRefreshing = false;
-
-            localStorage.setItem('access_token', token.accessToken);
-            this.refreshTokenSubject.next(token.accessToken);
-
-            return next.handle(this.addTokenHeader(authRequest, token));
+      return this.authService.refreshToken(tokens)
+        .pipe(
+          switchMap((res: any) => {
+            if(res){
+              localStorage.setItem('access_token', res.access);
+              localStorage.setItem('refresh_token', res.refresh);
+              this.tokenSubject.next(res.access);
+              return next.handle(this.addTokenHeader(authRequest, res.access))
+            }
+            this.authService.logout()
+            throw new Error('');
           }),
-          catchError((err) => {
+          catchError(error => {
             this.isRefreshing = false;
-
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-            return throwError(err);
+            throw new Error(error);
+          }),
+          finalize(() => {
+            this.isRefreshing = false;
           })
-        );
-      }
+        )
     }
-    return this.refreshTokenSubject.pipe(
-      filter(token => token !== null),
-      take(1),
-      switchMap((token) => next.handle(this.addTokenHeader(authRequest, token)))
-    );
-  }
-
-  private addTokenHeader(request: any, token: string) {
-    return request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    else {
+      return this.tokenSubject
+        .pipe(
+          filter( token => token != null),
+          take(1),
+          switchMap((res: any)=> {
+            return next.handle(this.addTokenHeader(authRequest, res.access))
+          })
+        )
+    }
   }
 }
 export const authInterceptor: HttpInterceptorFn = (req, next) => {

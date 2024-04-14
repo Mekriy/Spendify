@@ -1,7 +1,10 @@
 <div class="parent">
-  <app-side-bar></app-side-bar>
+
   <div class="maincontent">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="logo">
+        <h1>Spendify</h1>
+      </div>
       <div class="register">
         <div class="title">
           Register
@@ -33,7 +36,7 @@
           <p-confirmDialog></p-confirmDialog>
           <div class="button">
             <a [routerLink]="['../login']" class="button-link">Already have account?</a>
-            <button pButton type="submit" [disabled]="(!registerForm.valid) || registerButtonLock">Register</button>
+            <button pButton icon="pi pi-user-plus" label="Register" type="submit" [disabled]="(!registerForm.valid) || registerButtonLock"></button>
         </div>
       </div>
       <div *ngIf="showSpinner" class="register overlay">

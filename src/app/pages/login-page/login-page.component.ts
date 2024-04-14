@@ -61,8 +61,8 @@ export class LoginPageComponent {
     this.authService.login(loginObj)
       .pipe(
         switchMap((res: any) => {
-          localStorage.setItem('access_token', res.accessToken);
-          localStorage.setItem('refresh_token', res.refreshToken);
+          localStorage.setItem('access_token', res.access);
+          localStorage.setItem('refresh_token', res.refresh);
           return this.authService.isUserCreated()
             .pipe(
               catchError( httpErr => {
@@ -81,7 +81,7 @@ export class LoginPageComponent {
       )
       .subscribe({
         next: () =>{
-          this.router.navigateByUrl('')
+          this.router.navigateByUrl('../your-expenses')
         },
         error: err => this.handleError(err)
       })
@@ -99,7 +99,7 @@ export class LoginPageComponent {
         })
       )
       .subscribe({
-        next: () => this.router.navigateByUrl(''),
+        next: () => this.router.navigateByUrl('../your-expenses'),
         error: (err) => this.handleError(err)
       })
   }
