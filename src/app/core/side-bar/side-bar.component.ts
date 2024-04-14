@@ -1,29 +1,62 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfirmationService, MessageService} from "primeng/api";
 import {Route, Router} from "@angular/router";
+import {AuthService} from "../../shared/services/auth.service";
+import {User} from "../../shared/interfaces/user";
+import {switchMap} from "rxjs";
+import {considerSettingUpAutocompletion} from "@angular/cli/src/utilities/completion";
 
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
-  providers: [ConfirmationService, MessageService]
+  providers: [ConfirmationService, MessageService, AuthService]
 })
 export class SideBarComponent implements OnInit{
-  pathUserImage: string = "./assets/images/userImage.jpg";
-  userName: string = "JohnDoe";
   condition: boolean = true;
+  user: User = {
+    email: "",
+    firstName: "user",
+    lastName: "user",
+    fileName: ""
+  }
+  imageData: string | ArrayBuffer | null = "./assets/images/defaultUserImage.png";
 
   constructor(
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
-    private router: Router) {}
+    private router: Router,
+    private readonly authService: AuthService) {}
 
   ngOnInit() {
-    if(localStorage.getItem("access_token")){
-      this.condition = false;
-    }
-    else{
-      this.condition = true;
+    this.condition = !localStorage.getItem("access_token");
+    this.loadSideBarUserData();
+  }
+  loadSideBarUserData(): void {
+    this.authService.getUser()
+      .pipe(
+        switchMap((res:any) => {
+          this.user = res;
+          return this.authService.getUserPhoto(this.user.fileName)
+        })
+      )
+      .subscribe({
+        next: value => {
+          this.createImageFromBlob(value);
+        },
+        error: err => console.log("Error:", err)
+      })
+  }
+
+  createImageFromBlob(image: Blob): void {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.imageData = reader.result;
+    }, false);
+    if (image) {
+      reader.readAsDataURL(image);
+    } else {
+      this.imageData = "assets/images/defaultUserImage.png";
     }
   }
 
@@ -37,9 +70,8 @@ export class SideBarComponent implements OnInit{
       rejectButtonStyleClass: "p-button-text",
       accept: () => {
         this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have been logout' });
-        localStorage.removeItem("access_token")
         this.condition = true;
-        this.router.navigateByUrl('login')
+        this.authService.logout()
       }
     })
   }

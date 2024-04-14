@@ -4,15 +4,15 @@
     </div>
     <div class="expense">
         <div class="expense-container">
-            <span>$123.3</span>
+            <span>{{data.thisMonth | currency: "USD"}}</span>
             <span>This month</span>
         </div>
         <div class="expense-container">
-            <span>$213.2</span>
+            <span>{{data.previousMonth | currency: "USD"}}</span>
             <span>Previous month</span>
         </div>
         <div class="expense-container">
-            <span>$9.33</span>
+            <span>{{data.daily | currency: "USD"}}</span>
             <span>Average daily</span>
         </div>
     </div>

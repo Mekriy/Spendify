@@ -18,6 +18,11 @@ import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {ButtonGroupModule} from "primeng/buttongroup";
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ImageModule } from 'primeng/image';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -42,6 +47,11 @@ import {ButtonGroupModule} from "primeng/buttongroup";
     PaginatorModule,
     ProgressSpinnerModule,
     ButtonGroupModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ImageModule,
+    SelectButtonModule,
+    TabViewModule,
   ],
   exports: [
     BrowserModule,
@@ -63,6 +73,11 @@ import {ButtonGroupModule} from "primeng/buttongroup";
     PaginatorModule,
     ProgressSpinnerModule,
     ButtonGroupModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ImageModule,
+    SelectButtonModule,
+    TabViewModule,
   ],
   providers: [],
   bootstrap: []

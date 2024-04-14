@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, viewChild} from '@angular/core';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import {Table, TableLazyLoadEvent} from "primeng/table";
 import {Expense} from "../../shared/interfaces/expense";
@@ -7,9 +7,6 @@ import {ExpenseService} from "../../shared/services/expense.service";
 import {PaginationExpense} from "../../shared/interfaces/pagination-expense";
 import {PaginationFilter} from "../../shared/interfaces/pagination-filter";
 import {Subject, takeUntil} from "rxjs";
-import {
-  AddItemDialogformComponent
-} from "../../shared/components/add-expense/add-item-dialogform/add-item-dialogform.component";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {AddExpenseComponent} from "../../shared/components/add-expense/add-expense.component";
 
@@ -61,8 +58,9 @@ export class YourExpensesPageComponent implements OnDestroy{
     this.paginationFilter.sortColumn = $event.sortField?.toString() || 'Date';
     this.paginationFilter.sortDirection = $event.sortOrder || 1;
 
-    this.expenseService.getAllUsers(this.paginationFilter).pipe(
-      takeUntil(this.unsubscribe$)
+    this.expenseService.getAllUsers(this.paginationFilter)
+      .pipe(
+        takeUntil(this.unsubscribe$)
     )
       .subscribe(
         response => {

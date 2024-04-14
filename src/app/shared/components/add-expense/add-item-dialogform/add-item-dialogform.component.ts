@@ -4,7 +4,8 @@ import {TableLazyLoadEvent} from "primeng/table";
 import {PaginationFilter} from "../../../interfaces/pagination-filter";
 import {Subject, takeUntil} from "rxjs";
 import {ItemService} from "../../../services/item.service";
-import {Item} from "../../../interfaces/pagination-item";
+import {TableItemPagination} from "../../../interfaces/table-item-pagination";
+import {TabViewChangeEvent} from "primeng/tabview";
 
 @Component({
   selector: 'app-add-item-dialogform',
@@ -13,77 +14,101 @@ import {Item} from "../../../interfaces/pagination-item";
   providers: [ItemService]
 })
 
-
 export class AddItemDialogformComponent implements OnDestroy{
-  paginationItems!: Item[];
-  selectedItems!: Item;
+  constructor(
+    private ref: DynamicDialogRef,
+    private itemService: ItemService,
+  ) {}
+
+  tableAllItems!: TableItemPagination[];
+  tableUserItems!: TableItemPagination[];
+  selectedAllItems!: TableItemPagination[];
+  selectedUserItems!: TableItemPagination[];
+
+  itemAndQuantity: { id: string; name: string; price: number, quantity: number; }[] = [];
+
   totalRecords: number = 1;
-  paginationFilter: PaginationFilter = {
+  paginationAllFilter: PaginationFilter = {
     pageNumber: 0,
     pageSize: 5,
     sortColumn: "Price",
-    sortDirection: 1
+    sortDirection: 1,
+    typeItemsVisibility: 'all'
+  }
+  paginationUserFilter: PaginationFilter = {
+    pageNumber: 0,
+    pageSize: 5,
+    sortColumn: "Price",
+    sortDirection: 1,
+    typeItemsVisibility: 'all'
   }
 
   unsubscribe$: Subject<void> = new Subject<void>();
 
-  searchItem: Item | undefined;
-
-  filterUserItems: boolean = false;
-  filterPublicItems: boolean = false;
-  filterPrivateItems: boolean = false;
-
-  constructor(
-    private ref: DynamicDialogRef,
-    private itemService: ItemService) {}
+  selectedOption: string = 'all';
 
   closeDialog() {
     this.ref.close();
   }
-  addSelectedItems(){
-    this.ref.close(this.selectedItems);
+
+  addSelectedAllItems(){
+    if (this.selectedAllItems) {
+      this.itemAndQuantity = this.selectedAllItems.map(item => ({
+        id: item.id,
+        name: item.name!,
+        price: item.price,
+        quantity: item.quantity
+      }));
+    }
+    this.ref.close(this.itemAndQuantity);
+  }
+  addSelectedUserItems(){
+    if (this.selectedAllItems) {
+      this.itemAndQuantity = this.selectedAllItems.map(item => ({
+        id: item.id,
+        name: item.name!,
+        price: item.price,
+        quantity: item.quantity
+      }));
+    }
+    this.ref.close(this.itemAndQuantity);
   }
 
-  loadItems($event: TableLazyLoadEvent) {
-    console.log($event);
+  loadAllItems($event: TableLazyLoadEvent) {
+    this.paginationAllFilter.pageNumber = $event.first || 0;
+    this.paginationAllFilter.pageSize = $event.rows || 5;
+    this.paginationAllFilter.sortColumn = $event.sortField?.toString() || 'Name';
+    this.paginationAllFilter.sortDirection = $event.sortOrder || 1;
+    this.paginationAllFilter.typeItemsVisibility = this.selectedOption;
 
-    this.paginationFilter.pageNumber = $event.first || 0;
-    this.paginationFilter.pageSize = $event.rows || 5;
-    this.paginationFilter.sortColumn = $event.sortField?.toString() || 'Name';
-    this.paginationFilter.sortDirection = $event.sortOrder || 1;
-
-    this.itemService.getAllUser(this.paginationFilter)
+    this.itemService.getItemsPagination(this.paginationAllFilter)
       .pipe(
         takeUntil(this.unsubscribe$)
       )
       .subscribe(
         response => {
-          this.paginationItems = response.data;
+          this.tableAllItems = response.data;
           this.totalRecords = response.totalRecords!;
         }
       )
+  }
+  loadUserItems($event: TableLazyLoadEvent) {
+    this.paginationUserFilter.pageNumber = $event.first || 0;
+    this.paginationUserFilter.pageSize = $event.rows || 5;
+    this.paginationUserFilter.sortColumn = $event.sortField?.toString() || 'Name';
+    this.paginationUserFilter.sortDirection = $event.sortOrder || 1;
+    this.paginationUserFilter.typeItemsVisibility = this.selectedOption;
 
-    // this.itemService.getAllUser(this.paginationFilter)
-    //   .pipe(
-    //     takeUntil(this.unsubscribe$)
-    //   )
-    //   .subscribe(
-    //     response => {
-    //       this.paginationItems = response.data;
-    //       this.totalRecords = response.totalRecords!;
-    //     }
-    //   )
-    if (this.filterUserItems) {
-      console.log('this.filterUserItems', this.filterUserItems)
-    } else if (this.filterPublicItems) {
-      console.log('this.filterPublicItems', this.filterPublicItems)
-    } else if (this.filterPrivateItems) {
-      console.log('this.filterPrivateItems', this.filterPrivateItems)
-    } else if (this.filterPublicItems && this.filterPrivateItems) {
-      console.log('this.filterPublicItems, this.filterPrivateItems', this.filterPublicItems, this.filterPrivateItems)
-    } else {
-      console.log('this.filterUserItems, this.filterPublicItems, this.filterPrivateItems', this.filterUserItems, this.filterPublicItems, this.filterPrivateItems)
-    }
+    this.itemService.getItemsPagination(this.paginationUserFilter)
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(
+        response => {
+          this.tableUserItems = response.data;
+          this.totalRecords = response.totalRecords!;
+        }
+      )
   }
 
   ngOnDestroy() {
@@ -91,7 +116,12 @@ export class AddItemDialogformComponent implements OnDestroy{
     this.unsubscribe$.complete();
   }
 
-  applyFilter($event: MouseEvent) {
-    console.log($event);
+  changeOption($event: TabViewChangeEvent) {
+    if($event.index === 1){
+      this.selectedOption = 'user';
+    }
+    else{
+      this.selectedOption = 'all'
+    }
   }
 }

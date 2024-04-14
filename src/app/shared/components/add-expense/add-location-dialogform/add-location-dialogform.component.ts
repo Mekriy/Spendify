@@ -12,52 +12,23 @@ export class AddLocationDialogformComponent implements OnInit{
   locationForm!: FormGroup;
   location!: Location;
 
-  center: google.maps.LatLngLiteral | google.maps.LatLng = { lat: 49.123, lng: 23.923 }; // Initialize with default values
-  zoom: number = 10;
+  center: google.maps.LatLngLiteral | google.maps.LatLng = { lat: 49.850562097500784, lng: 23.99180025738618 };
+  zoom: number = 18;
   markerPositions: google.maps.LatLngLiteral[] = [];
 
   constructor(private fb: FormBuilder, public ref: DynamicDialogRef) {
   }
   ngOnInit() {
     this.locationForm = this.fb.group({
-      name: [''],
-      latitude: [''],
-      longitude: [''],
-      address: [''],
-      save: [false]
+      name: ['', Validators.required],
+      latitude: ['', Validators.required],
+      longitude: ['', Validators.required],
+      address: ['', Validators.required],
+      save: false
     });
-    this.showDefaultLocation();
   }
 
   onSubmit(event: Event) {
-    event.preventDefault();
-    const location: Location = this.locationForm.value;
-    this.ref.close(location);
-  }
-  showLocation(location: Location){
-    this.center = {
-      lat: location?.latitude!,
-      lng: location?.longitude!
-    }
-    this.zoom = 14
-    this.markerPositions = [
-      {
-        lat: location?.latitude!,
-        lng: location?.longitude!
-      }
-    ]
-  }
-  showDefaultLocation(){
-    this.center = {
-      lat: 49.123,
-      lng: 23.923
-    }
-    this.zoom = 10
-    this.markerPositions = [
-      {
-        lat: 49.123,
-        lng: 23.923
-      }
-    ]
+    this.ref.close(this.locationForm.value);
   }
 }

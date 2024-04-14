@@ -18,6 +18,7 @@ import {DashboardPageModule} from "./pages/dashboard-page/dashboard-page.module"
 import { NotFoundComponent } from './static-pages/not-found/not-found.component';
 import { EmailVerificationSuccessComponent } from './static-pages/email-verification-success/email-verification-success.component';
 import { EmailVerificationFailureComponent } from './static-pages/email-verification-failure/email-verification-failure.component';
+import { HomePageComponent } from './static-pages/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EmailVerificationFailureComponent } from './static-pages/email-verifica
     NotFoundComponent,
     EmailVerificationSuccessComponent,
     EmailVerificationFailureComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,

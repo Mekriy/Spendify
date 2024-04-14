@@ -2,28 +2,27 @@
     <div class="content">
       <div class="inputs-container">
       <span class="p-float-label">
-        <input pInputText formControlName="location.name" />
+        <input pInputText formControlName="name" />
         <label>Name</label>
       </span>
         <span class="p-float-label">
-        <input pInputText formControlName="location.latitude | number: `1.0-15`" />
+        <input pInputText formControlName="latitude" />
         <label>Latitude</label>
       </span>
         <span class="p-float-label">
-        <input pInputText formControlName="location.longitude | number: `1.0-15`" />
+        <input pInputText formControlName="longitude" />
         <label>Longitude</label>
       </span>
         <span class="p-float-label">
-        <input pInputText formControlName="location.address" />
+        <input pInputText formControlName="address" />
         <label>Address</label>
       </span>
         <div>
           <label>Save location for you?</label> <br>
-          <p-checkbox formControlName="location.save" value='true' inputId="saveId"></p-checkbox>
+          <input type="checkbox" formControlName="save" value="true" class="p-checkbox">
         </div>
         <div class="buttons">
-          <p-button label="Show on map" [outlined]="true" type="submit" (onClick)="showLocation(location)"></p-button>
-          <p-button label="Submit" [outlined]="true" type="submit" (onClick)="onSubmit($event)"></p-button>
+          <p-button label="Submit" [outlined]="true" type="submit" [disabled]="!locationForm.valid"></p-button>
         </div>
       </div>
       <div>

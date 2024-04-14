@@ -8,7 +8,10 @@
   .maincontent {
     width: 100%;
     position: relative;
-
+    .logo{
+      display: flex;
+      justify-content: center;
+    }
     .register{
       position: absolute;
       top: 50%;
@@ -57,8 +60,7 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        width:50%;
-        column-gap: 20px;
+        width:80%;
       }
     }
   }

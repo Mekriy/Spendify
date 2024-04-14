@@ -19,7 +19,7 @@ import {FormsModule} from "@angular/forms";
     CoreModule,
     FormsModule,
     SharedPrimeNgModules,
-    AddExpenseModule
+    AddExpenseModule,
   ],
   exports: [
     TodayExpensesComponent,

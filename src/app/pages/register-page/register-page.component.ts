@@ -55,6 +55,7 @@ export class RegisterPageComponent {
     this.authService.register(registerObj)
       .pipe(
         catchError(error => {
+          this.handleError(error)
           return of(error);
         }),
         finalize(() => {
