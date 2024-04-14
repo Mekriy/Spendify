@@ -9,8 +9,10 @@
     width: 100%;
     position: relative;
     .logo{
+      height: 20%;
       display: flex;
       justify-content: center;
+      align-items: center;
     }
     .register{
       position: absolute;
