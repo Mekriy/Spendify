@@ -13,7 +13,6 @@ import {considerSettingUpAutocompletion} from "@angular/cli/src/utilities/comple
   providers: [ConfirmationService, MessageService, AuthService]
 })
 export class SideBarComponent implements OnInit{
-  condition: boolean = true;
   user: User = {
     email: "",
     firstName: "user",
@@ -29,7 +28,6 @@ export class SideBarComponent implements OnInit{
     private readonly authService: AuthService) {}
 
   ngOnInit() {
-    this.condition = !localStorage.getItem("access_token");
     this.loadSideBarUserData();
   }
   loadSideBarUserData(): void {
@@ -70,7 +68,6 @@ export class SideBarComponent implements OnInit{
       rejectButtonStyleClass: "p-button-text",
       accept: () => {
         this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have been logout' });
-        this.condition = true;
         this.authService.logout()
       }
     })

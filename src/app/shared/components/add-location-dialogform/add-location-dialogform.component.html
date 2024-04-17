@@ -1,0 +1,45 @@
+<p-tabView>
+  <p-tabPanel header="Create Location">
+    <ng-template pTemplate="content">
+      <form [formGroup]="locationForm" (ngSubmit)="onSubmit($event)">
+        <div class="content">
+          <div class="inputs-container">
+            <span class="p-float-label">
+              <input pInputText formControlName="name" />
+              <label>Name</label>
+            </span>
+            <span class="p-float-label">
+              <input pInputText formControlName="latitude" />
+              <label>Latitude</label>
+            </span>
+            <span class="p-float-label">
+              <input pInputText formControlName="longitude" />
+              <label>Longitude</label>
+            </span>
+            <span class="p-float-label">
+              <input pInputText formControlName="address" />
+              <label>Address</label>
+            </span>
+            <div>
+              <label>Save location for you?</label> <br>
+              <input type="checkbox" formControlName="save" value="true" class="p-checkbox">
+            </div>
+            <div class="buttons">
+              <p-button label="Submit" [outlined]="true" type="submit" [disabled]="!locationForm.valid"></p-button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </p-tabPanel>
+  <p-tabPanel header="Choose saved location">
+    <ng-template pTemplate="content">
+      <div class="table">
+        <p-dropdown [options]="userLocations" [(ngModel)]="selectedLocation" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+      </div>
+      <div>
+        <button pButton type="button" label="Choose" (click)="chooseLocation(selectedLocation)"></button>
+      </div>
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>

@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AddItemDialogformComponent } from './add-item-dialogform/add-item-dialogform.component';
+import { AddItemDialogformComponent } from '../add-item-dialogform/add-item-dialogform.component';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Item} from '../../interfaces/item';
-import {AddLocationDialogformComponent} from "./add-location-dialogform/add-location-dialogform.component";
+import {AddLocationDialogformComponent} from "../add-location-dialogform/add-location-dialogform.component";
 import {Location} from "../../interfaces/location";
 import {ExpenseService} from "../../services/expense.service";
 import {of, Subject, switchMap, takeUntil} from "rxjs";
@@ -16,6 +16,8 @@ import {LocationService} from "../../services/location.service";
 import {CreatedLocation} from "../../interfaces/created-location";
 import {AddItemsToExpense} from "../../interfaces/add-items-to-expense";
 import {AddLocationToExpense} from "../../interfaces/add-location-to-expense";
+import {AddCategoryDialogFormComponent} from "../add-category-dialog-form/add-category-dialog-form.component";
+import {Category} from "../../interfaces/category";
 
 @Component({
   selector: 'app-add-expense',
@@ -39,6 +41,8 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   addButtonLock: boolean = false;
 
   unsubscribe$: Subject<void> = new Subject<void>();
+  category!: Category | null;
+  categoryOutput!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -50,16 +54,12 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
     private readonly locationService: LocationService) {}
 
   ngOnInit(): void {
-    this.expenseForm = this.fb.group({
-      selectedCategory: ['', Validators.required],
-    });
-    this.loadComponent();
   }
 
   onSubmit(event: Event) {
     let expense: AddExpense = {
       price: this.totalPrice!,
-      categoryId: this.expenseForm.value.selectedCategory.id,
+      categoryName: this.category?.name!,
     }
     this.locationService.addLocation(this.location!)
       .pipe(
@@ -99,18 +99,11 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe({
-        next: () => this.messageService.add({ severity:'success', summary:'Success!', detail:'Expense was created successfully', life: 3000}),
-        error: err => console.log(err)
-      })
-  }
-  private loadComponent() {
-    this.expenseService.getCategories()
-      .pipe(
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe({
-        next: value => this.categories = value,
-        error: err => console.log(err)
+        next: () => {
+          this.messageService.add({ severity:'success', summary:'Success!', detail:'Expense was created successfully', life: 3000});
+          this.ref.close(true);
+        },
+        error: err => this.ref.close(false),
       })
   }
   showAddItemsToExpenseDialog() {
@@ -141,8 +134,9 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   }
   showAddLocationDialog() {
     this.ref = this.dialogService.open(AddLocationDialogformComponent, {
-      header: 'Add location',
-      width: '60vw',
+      header: 'Add Location',
+      width: '30vw',
+      height: '36rem',
       breakpoints: {
         '960px': '75vw',
         '640px': '90vw'
@@ -161,7 +155,29 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  showAddCategoryDialog() {
+    this.ref = this.dialogService.open(AddCategoryDialogFormComponent, {
+      header: 'Add Category',
+      width: '36vw',
+      height: '25rem',
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
+    this.ref.onClose.subscribe((category: Category) => {
+      console.log("Category: ", category)
+      if (category) {
+        this.category = category;
+        this.categoryOutput = category.name!;
+        console.log("nameof: ", this.categoryOutput)
+      }
+      else{
+        this.category = null;
+        this.categoryOutput = "no category";
+      }
+    });
+  }
   ngOnDestroy() {
     if (this.ref) {
       this.ref.close();

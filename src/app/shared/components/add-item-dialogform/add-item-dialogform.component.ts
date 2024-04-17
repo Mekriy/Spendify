@@ -1,10 +1,10 @@
 import {Component, OnDestroy} from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import {TableLazyLoadEvent} from "primeng/table";
-import {PaginationFilter} from "../../../interfaces/pagination-filter";
+import {PaginationFilter} from "../../interfaces/pagination-filter";
 import {Subject, takeUntil} from "rxjs";
-import {ItemService} from "../../../services/item.service";
-import {TableItemPagination} from "../../../interfaces/table-item-pagination";
+import {ItemService} from "../../services/item.service";
+import {TableItemPagination} from "../../interfaces/table-item-pagination";
 import {TabViewChangeEvent} from "primeng/tabview";
 
 @Component({

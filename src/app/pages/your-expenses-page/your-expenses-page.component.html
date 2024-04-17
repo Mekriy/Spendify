@@ -23,18 +23,26 @@
         >
           <ng-template pTemplate="caption">
             <div class="table-buttons">
-                <div class="search-input">
-                 <span class="p-input-icon-left">
-                   <i class="pi pi-search"></i>
-                   <input pInputText type="text" (input)="applyFilter($event, 'contains')" placeholder="Search..." />
-                 </span>
+              <div class="filters">
+                <div class="filter">
+                  <p-radioButton name="filter" label="Last week" value="byWeek"
+                                 [(ngModel)]="byFilter" inputId="byWeek" (ngModelChange)="loadExpenses($event)"></p-radioButton>
                 </div>
-                <div class="crud-buttons">
+                <div class="filter">
+                  <p-radioButton name="filter" label="Last month" value="byMonth"
+                                 [(ngModel)]="byFilter" inputId="byMonth"  (ngModelChange)="loadExpenses($event)"></p-radioButton>
+                </div>
+                <div class="filter">
+                  <p-radioButton name="filter" label="Last 3 months" value="byThreeMonths"
+                                 [(ngModel)]="byFilter" inputId="byThreeMonths" (ngModelChange)="loadExpenses($event)"></p-radioButton>
+                </div>
+              </div>
+              <div class="crud-buttons">
+                <p-buttonGroup>
                   <p-button icon="pi pi-plus" label="Add expense" [outlined]="true" (click)="AddNewExpense()"></p-button>
-                  <p-button icon="pi pi-trash" label="Delete expense" [outlined]="true" severity="secondary" (click)="deleteSelectedExpenses()" [disabled]="!selectedExpenses || !selectedExpenses.length"></p-button>
-                  <p-fileUpload mode="basic"  accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import"></p-fileUpload>
-                  <p-button label="Export" icon="pi pi-upload"></p-button>
-                </div>
+                  <p-button icon="pi pi-trash" label="Delete expense" [outlined]="true" severity="secondary" (click)="deleteSelectedExpenses(selectedExpenses)" [disabled]="!selectedExpenses || !selectedExpenses.length"></p-button>
+                </p-buttonGroup>
+              </div>
             </div>
           </ng-template>
           <ng-template pTemplate="header">
@@ -52,7 +60,7 @@
                 Category
               </th>
               <th>Location</th>
-              <th></th>
+              <th>On map</th>
               <th>Items</th>
               <th></th>
             </tr>
@@ -67,53 +75,91 @@
               <td>{{ paginationExpense.categoryName }}</td>
               <td>{{ paginationExpense.location?.name }}</td>
               <td>
-                <p-button icon="pi pi-external-link" label="On google maps" [outlined]="true" (click)="showExpenseLocation(paginationExpense)"></p-button>
+                <p-button icon="pi pi-external-link" label="Google maps" [outlined]="true" (click)="showExpenseLocation(paginationExpense)"></p-button>
               </td>
               <td>
-                <p-button icon="pi pi-ellipsis-h" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
+                <p-button icon="pi pi-bars" label="Items" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
             </td>
               <td>
                 <p-buttonGroup>
-                  <p-button icon="pi pi-pencil" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
-                  <p-button icon="pi pi-trash" [outlined]="true" (click)="deleteSelectedExpenses()"></p-button>
+                  <p-button icon="pi pi-pencil" label="Edit" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
+                  <p-button icon="pi pi-trash" label="Delete" [outlined]="true" (click)="deleteSelectedExpense(paginationExpense)"></p-button>
                 </p-buttonGroup>
               </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
-      <p-dialog [(visible)]="expenseDialog" [style]="{ width: '450px' }" header="Expense Details" [modal]="true"
+      <p-dialog [(visible)]="expenseDialog" [style]="{ width: '1000px' }" header="Edit expense" [modal]="true"
         styleClass="p-fluid">
         <ng-template pTemplate="content">
           <div class="formgrid grid">
-            <div class="field col">
-              <label for="price">Price</label>
-              <p-inputNumber id="price" [(ngModel)]="paginationExpense.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
-            </div>
+              <div class="outputs">
+                <div class="output-container">
+                  <div class="field-label">
+                    <label>Price</label>
+                    <p-inputNumber id="price" class="output-field" [(ngModel)]="paginationExpense.price" mode="currency" currency="USD" locale="en-US" [disabled]="true"></p-inputNumber>
+                  </div>
+                </div>
+                <div class="output-container">
+                  <div class="field-label">
+                    <label>Category</label>
+                    <input pInputText id="category" class="output-field" [(ngModel)]="paginationExpense.categoryName">
+                  </div>
+                  <div>
+                    <p-button icon="pi pi-plus"  label="Edit Category" [text]="true" [plain]="true" (click)="editCategory()"></p-button>
+                  </div>
+                </div>
+                <div *ngIf="paginationExpense.location" class="output-container">
+                  <div class="field-label">
+                    <label>Location</label>
+                    <input pInputText id="location" class="output-field" [(ngModel)]="paginationExpense.location.name">
+                  </div>
+                  <div>
+                    <p-button icon="pi pi-plus" label="Edit Location" [text]="true" [plain]="true" (click)="editLocation()"></p-button>
+                  </div>
+                </div>
+                <p-divider></p-divider>
+                <div class="output-container">
+                  <label>Items</label>
+                  <p-button icon="pi pi-plus" label="Add Items" [text]="true" [plain]="true" (click)="addItems()"></p-button>
+                </div>
+              </div>
+              <p-table [value]="newItems" [tableStyle]="{ 'min-width': '30rem' }">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Review</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td>
+                      <p-tag *ngIf="item.isNew; else elseBlock" severity="success" value="New"></p-tag>
+                      <ng-template #elseBlock>
+                        <p-tag severity="info" value="Old"></p-tag>
+                      </ng-template>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{item.price | currency: "USD"}}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
+                  </tr>
+                </ng-template>
+              </p-table>
           </div>
         </ng-template>
 
         <ng-template pTemplate="footer">
-          <button
-            pButton
-            pRipple
-            label="Cancel"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-          ></button>
-          <button
-            pButton
-            pRipple
-            label="Save"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveExpense()"
-          ></button>
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveExpense(paginationExpense)"></button>
         </ng-template>
       </p-dialog>
 
-      <p-dialog [(visible)]="expenseDetailsDialog" [style]="{ width: '1000px' }" header="Expense Details" [modal]="true" styleClass="p-fluid">
+      <p-dialog [(visible)]="expenseDetailsDialog" [style]="{ width: '1000px' }" header="Items" [modal]="true" styleClass="p-fluid">
         <p-table [value]="items!" [tableStyle]="{ 'min-width': '50rem' }">
           <ng-template pTemplate="header">
             <tr>

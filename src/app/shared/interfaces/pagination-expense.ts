@@ -7,6 +7,6 @@ export interface PaginationExpense{
   price?: number;
   date?: Date;
   categoryName?: string;
-  location?: Location;
+  location: Location;
   items?: Item[];
 }
