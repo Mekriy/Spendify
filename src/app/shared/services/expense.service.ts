@@ -16,6 +16,9 @@ import {UpdatedLocation} from "../interfaces/updates/updated-location";
 import {UpdatedExpense} from "../interfaces/updates/updated-expense";
 import {UpdatedItems} from "../interfaces/updates/updated-items";
 import {ExpenseIds} from "../interfaces/expense-ids";
+import {AverageMoneySpentInMonthByCategory} from "../interfaces/statistic/average-money-spent-in-month-by-category";
+import {CountItemsInExpensesByCategory} from "../interfaces/statistic/count-items-in-expenses-by-category";
+import {AverageMoneySpentInMonthByYear} from "../interfaces/statistic/average-money-spent-in-month-by-year";
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +66,17 @@ export class ExpenseService {
       body: expenses
     }
     return this.httpClient.delete(this.apiUrl+'/expenses', options)
+  }
+
+  getAverageMoneySpentInMonthByCategory() {
+    return this.httpClient.get<AverageMoneySpentInMonthByCategory[]>(this.apiUrl+'/average-by-category')
+  }
+
+  getCountItemsBoughtInCategory() {
+    return this.httpClient.get<CountItemsInExpensesByCategory[]>(this.apiUrl+'/count-items')
+  }
+
+  getAverageMoneySpentInMonthByYear() {
+    return this.httpClient.get<AverageMoneySpentInMonthByYear[]>(this.apiUrl+'/average-in-year')
   }
 }
