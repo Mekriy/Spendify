@@ -28,6 +28,7 @@ import {AddLocationToExpense} from "../../shared/interfaces/add-location-to-expe
 import {LocationService} from "../../shared/services/location.service";
 import {CreatedExpense} from "../../shared/interfaces/created-expense";
 import {ItemService} from "../../shared/services/item.service";
+import {DropdownCategory} from "../../shared/interfaces/dropdown-category";
 
 
 @Component({
@@ -118,8 +119,6 @@ export class YourExpensesPageComponent implements OnDestroy{
         })
   }
 
-  createdLocation!: Location;
-  createdExpense!: CreatedExpense;
   AddNewExpense() {
     this.ref = this.dialogService.open(AddExpenseComponent, {
       height: "425px",
@@ -185,7 +184,7 @@ export class YourExpensesPageComponent implements OnDestroy{
     })
   }
 
-  newCategory: string | undefined = '';
+  newCategory!: DropdownCategory;
   newLocation!: Location;
   oldLocation!: Location;
   newItems: {
@@ -199,7 +198,7 @@ export class YourExpensesPageComponent implements OnDestroy{
     this.oldExpense = expense;
     this.paginationExpense = { ...expense};
 
-    this.newCategory = this.paginationExpense.categoryName;
+    this.newCategory = this.paginationExpense.category!;
     this.oldLocation = this.paginationExpense.location;
     this.newItems = [];
     this.paginationExpense.items!.forEach((oldItem: { id: string; name?: string; price?: number, quantity?: number; }) => {
@@ -223,12 +222,8 @@ export class YourExpensesPageComponent implements OnDestroy{
       id: expense.id,
       price: expense.price,
       date: expense.date,
-      categoryName: expense.categoryName
-    }
-    let updateLocation: UpdateLocation = {
-      expenseId: expense.id!,
-      oldLocationId: this.oldExpense.location.id,
-      newLocationId: expense.location.id,
+      categoryId: expense.category!.id,
+      locationId: expense.location!.id
     }
     let updateItems: UpdateItems = {
       expenseId: expense.id!,
@@ -238,13 +233,11 @@ export class YourExpensesPageComponent implements OnDestroy{
       .pipe(
         takeUntil(this.unsubscribe$),
         switchMap((res:any)=>{
-          return this.expenseService.updateExpenseLocation(updateLocation)
-            .pipe(
-              takeUntil(this.unsubscribe$),
-              switchMap((res:any) => {
-                return this.expenseService.updateExpenseItems(updateItems);
-              })
-            )
+          if (updateItems.items.length === 0) {
+            return of(res);
+          } else {
+            return this.expenseService.updateExpenseItems(updateItems);
+          }
         })
       )
       .subscribe({
@@ -298,7 +291,6 @@ export class YourExpensesPageComponent implements OnDestroy{
     this.unsubscribe$.complete();
   }
 
-  category!: Category;
   editCategory() {
     this.ref = this.dialogService.open(AddCategoryDialogFormComponent, {
       header: 'Edit Category',
@@ -309,11 +301,10 @@ export class YourExpensesPageComponent implements OnDestroy{
         '640px': '90vw'
       }
     });
-    this.ref.onClose.subscribe((category: Category) => {
+    this.ref.onClose.subscribe((category: DropdownCategory) => {
       console.log("Category: ", category)
       if (category) {
-        this.category = category;
-        this.paginationExpense.categoryName = category.name;
+        this.paginationExpense.category = category;
       }
     });
   }

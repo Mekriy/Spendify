@@ -41,7 +41,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   addButtonLock: boolean = false;
 
   unsubscribe$: Subject<void> = new Subject<void>();
-  category!: Category | null;
+  category!: DropdownCategory | null;
   categoryOutput!: string;
 
   constructor(
@@ -59,41 +59,35 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   onSubmit(event: Event) {
     let expense: AddExpense = {
       price: this.totalPrice!,
-      categoryName: this.category?.name!,
+      categoryId: this.category!.id,
+      locationId: this.location!.id
     }
-    this.locationService.addLocation(this.location!)
+    return this.expenseService.addExpense(expense)
       .pipe(
         takeUntil(this.unsubscribe$),
-        switchMap((res:any)=> {
-          this.createdLocation = res;
-          return this.expenseService.addExpense(expense)
+        switchMap((res: any) => {
+          this.createdExpense = res;
+          let request: AddItemsToExpense = {
+            expenseId: this.createdExpense.id,
+            items: this.items.map(item => ({
+              id: item.id,
+              quantity: item.quantity
+            }))
+          };
+          return this.itemService.addItems(request)
             .pipe(
               takeUntil(this.unsubscribe$),
-              switchMap((res: any) => {
-                this.createdExpense = res;
-                let request: AddItemsToExpense = {
-                  expenseId: this.createdExpense.id,
-                  items: this.items.map(item => ({
-                    id: item.id,
-                    quantity: item.quantity
-                  }))
-                };
-                return this.itemService.addItems(request)
-                  .pipe(
-                    takeUntil(this.unsubscribe$),
-                    switchMap( (res: any) => {
-                      if(res.message === 'Items successfully added to expense!'){
-                        let addLocation: AddLocationToExpense = {
-                          locationId: this.createdLocation.id,
-                          expenseId: this.createdExpense.id
-                        }
-                        return this.locationService.addLocationToExpense(addLocation);
-                      }
-                      else {
-                        throw new Error('Can\'t add items to expense');
-                      }
-                    })
-                  )
+              switchMap( (res: any) => {
+                if(res.message === 'Items successfully added to expense!'){
+                  let addLocation: AddLocationToExpense = {
+                    locationId: this.createdLocation.id,
+                    expenseId: this.createdExpense.id
+                  }
+                  return this.locationService.addLocationToExpense(addLocation);
+                }
+                else {
+                  throw new Error('Can\'t add items to expense');
+                }
               })
             )
         })
@@ -147,7 +141,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       if (location) {
         this.location = location;
         this.nameOfLocation = location.name!;
-        console.log("nameof: ", this.nameOfLocation)
       }
       else{
         this.location = null;
@@ -165,12 +158,11 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
         '640px': '90vw'
       }
     });
-    this.ref.onClose.subscribe((category: Category) => {
+    this.ref.onClose.subscribe((category: DropdownCategory) => {
       console.log("Category: ", category)
       if (category) {
         this.category = category;
         this.categoryOutput = category.name!;
-        console.log("nameof: ", this.categoryOutput)
       }
       else{
         this.category = null;

@@ -1,3 +1,5 @@
+@import '../../shared/styles/variables';
+
 .parent{
     display: flex;
     flex-direction: row;
@@ -13,18 +15,37 @@
             margin: 0px;
         }
         .content{
-            display: flex;
+          display: flex;
+          flex-direction: column;
+          column-gap: 30px;
+          justify-content: space-evenly;
+          width: 1200px;
+          height: 100%;
+          flex-grow: 1;
+          padding: 10px 0 10px 0;
+          .dashboard-name{
+            margin: 0 0 0 20px;
+            font-size: 30px;
+          }
+          .chart{
+            background-color: $sectionsColor;
+            color: $textColor;
+            height: 300px;
+            width: 600px;
+            padding: 10px;
+            border-radius: 15px;
+          }
+          .one-row{
+            display:flex;
             flex-direction: row;
-            column-gap: 30px;
-            justify-content: space-evenly;
-            width: 1200px;
-            height: 100%;
-            flex-grow: 1;
-            padding: 10px 0px 10px 0px;
-            .dashboard-name{
-                margin: 0 0 0 20px;
-                font-size: 30px;
-            }
+            justify-content: space-between;
+            column-gap: 10px;
+          }
+          .second-row{
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+          }
         }
     }
 

@@ -2,7 +2,6 @@ import { Component, OnInit} from '@angular/core';
 import * as echarts from 'echarts';
 import {DashboardService} from "../../../shared/services/dashboard.service";
 import {DashboardPieResponse} from "../../../shared/interfaces/dashboard-pie-response";
-import {map} from "rxjs";
 
 type EChartsOption = echarts.EChartsOption;
 
@@ -130,6 +129,5 @@ export class CategoryChartComponent implements OnInit{
       };
       option && myChart.setOption(option);
     }
-
   }
 }

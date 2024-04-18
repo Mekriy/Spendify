@@ -61,14 +61,12 @@ export class AddCategoryDialogFormComponent implements OnInit, OnDestroy{
     this.categoryService.create(category)
       .pipe(
         takeUntil(this.unsubscribe$),
-        switchMap((res: any) => {
-          this.createdCategory = res;
-          this.chooseCategory(this.createdCategory);
-          return of()
-        })
       )
       .subscribe({
-        next: value => console.log(value),
+        next: value =>{
+          this.createdCategory = value;
+          this.chooseCategory(this.createdCategory);
+        },
         error: err => console.log(err)
       });
   }

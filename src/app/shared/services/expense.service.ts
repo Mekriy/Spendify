@@ -24,15 +24,6 @@ export class ExpenseService {
   private readonly apiUrl = `${environment.apiUrl}/Expense`;
   constructor(private readonly httpClient: HttpClient) { }
 
-  public getAll(filter: PaginationFilter): Observable<PaginationResponse<PaginationExpense[]>> {
-    let params = new HttpParams()
-      .set('pageNumber', filter.pageNumber.toString())
-      .set('pageSize', filter.pageSize.toString())
-      .set('sortColumn', filter.sortColumn.toString())
-      .set('sortDirection', (filter.sortDirection === 1) ? 'asc' : 'desc');
-
-    return this.httpClient.get<PaginationResponse<PaginationExpense[]>>(this.apiUrl, { params });
-  }
   public getAllUsers(filter: PaginationFilter): Observable<PaginationResponse<PaginationExpense[]>> {
     let params = new HttpParams()
       .set('pageNumber', filter.pageNumber.toString())

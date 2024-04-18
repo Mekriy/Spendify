@@ -3,7 +3,8 @@ import {Location} from '../../interfaces/location'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import {LocationService} from "../../services/location.service";
-import {Subject, takeUntil} from "rxjs";
+import {catchError, of, Subject, takeUntil} from "rxjs";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-add-location-dialogform',
@@ -21,7 +22,8 @@ export class AddLocationDialogformComponent implements OnInit, OnDestroy{
   constructor(
     private fb: FormBuilder,
     public ref: DynamicDialogRef,
-    public readonly locationService: LocationService) {
+    public readonly locationService: LocationService,
+    private readonly messageService: MessageService) {
   }
   ngOnInit() {
     this.locationForm = this.fb.group({
@@ -35,7 +37,23 @@ export class AddLocationDialogformComponent implements OnInit, OnDestroy{
   }
 
   onSubmit(event: Event) {
-    this.ref.close(this.locationForm.value);
+    this.locationService.addLocation(this.locationForm.value)
+      .pipe(
+        catchError(error=>{
+          if(error.status === 400){
+            this.messageService.add({severity:'error', summary:'Error!', detail:`Can\t create location...`, life: 3000, icon:'error'})
+          }
+          return of(error)
+        })
+      )
+      .subscribe({
+        next: value => this.ref.close(value),
+        error: err => {
+          if(err.error.status === 400 && err.error.detail === "Can't create already existed location"){
+            this.messageService.add({severity:'error', summary:'Error!', detail:`Can\t create location...`, life: 3000, icon:'error'})
+          }
+        }
+      })
   }
 
   chooseLocation(selectedLocation: Location) {
