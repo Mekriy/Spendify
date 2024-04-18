@@ -19,6 +19,7 @@ import { NotFoundComponent } from './static-pages/not-found/not-found.component'
 import { EmailVerificationSuccessComponent } from './static-pages/email-verification-success/email-verification-success.component';
 import { EmailVerificationFailureComponent } from './static-pages/email-verification-failure/email-verification-failure.component';
 import { HomePageComponent } from './static-pages/home-page/home-page.component';
+import { AddCategoryDialogFormComponent } from './shared/components/add-category-dialog-form/add-category-dialog-form.component';
 
 @NgModule({
   declarations: [

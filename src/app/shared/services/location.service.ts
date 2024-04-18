@@ -18,4 +18,8 @@ export class LocationService {
   addLocationToExpense(location: AddLocationToExpense){
     return this.httpClient.post(this.apiUrl+'/add-location', location);
   }
+
+  getLocations() {
+    return this.httpClient.get<Location[]>(this.apiUrl);
+  }
 }

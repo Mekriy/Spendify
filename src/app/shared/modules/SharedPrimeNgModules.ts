@@ -22,7 +22,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { ImageModule } from 'primeng/image';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { TabViewModule } from 'primeng/tabview';
+import {TabViewModule} from 'primeng/tabview';
+import {AutoCompleteModule} from "primeng/autocomplete";
+import { DividerModule } from 'primeng/divider';
+import { RadioButtonModule} from "primeng/radiobutton";
 
 @NgModule({
   declarations: [
@@ -52,6 +55,9 @@ import { TabViewModule } from 'primeng/tabview';
     ImageModule,
     SelectButtonModule,
     TabViewModule,
+    AutoCompleteModule,
+    DividerModule,
+    RadioButtonModule
   ],
   exports: [
     BrowserModule,
@@ -78,6 +84,9 @@ import { TabViewModule } from 'primeng/tabview';
     ImageModule,
     SelectButtonModule,
     TabViewModule,
+    AutoCompleteModule,
+    DividerModule,
+    RadioButtonModule
   ],
   providers: [],
   bootstrap: []

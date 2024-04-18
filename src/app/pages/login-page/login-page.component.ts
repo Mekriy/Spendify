@@ -81,7 +81,7 @@ export class LoginPageComponent {
       )
       .subscribe({
         next: () =>{
-          this.router.navigateByUrl('../your-expenses')
+          this.router.navigateByUrl('/your-expenses')
         },
         error: err => this.handleError(err)
       })
@@ -99,7 +99,7 @@ export class LoginPageComponent {
         })
       )
       .subscribe({
-        next: () => this.router.navigateByUrl('../your-expenses'),
+        next: () => this.router.navigateByUrl('/your-expenses'),
         error: (err) => this.handleError(err)
       })
   }

@@ -4,4 +4,5 @@ export interface PaginationFilter{
   sortColumn: string | string [];
   sortDirection: number;
   typeItemsVisibility?: string;
+  filter?: string;
 }

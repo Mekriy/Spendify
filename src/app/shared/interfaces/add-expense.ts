@@ -1,4 +1,5 @@
 export interface AddExpense{
-  price: number,
+  price: number;
   categoryId: string;
+  locationId: string;
 }

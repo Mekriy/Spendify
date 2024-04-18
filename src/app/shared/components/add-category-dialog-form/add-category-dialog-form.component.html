@@ -1,0 +1,33 @@
+<div class="parent">
+  <p-tabView>
+    <p-tabPanel header="Public categories">
+      <ng-template pTemplate="content">
+      <div class="table">
+        <p-dropdown [options]="publicCategories" [(ngModel)]="selectedPublicCategory" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+        <button pButton type="button" label="Choose" (click)="chooseCategory(selectedPublicCategory)"></button>
+      </div>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Your categories">
+      <ng-template pTemplate="content">
+      <div class="table">
+        <p-dropdown [options]="userCategories" [(ngModel)]="selectedUserCategory" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+        <button pButton type="button" label="Choose" (click)="chooseCategory(selectedUserCategory)"></button>
+      </div>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Create category">
+      <ng-template pTemplate="content">
+        <div class="create-form">
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmit($event)">
+            <span class="p-float-label">
+              <input pInputText formControlName="name" />
+              <label>Name</label>
+            </span>
+            <button pButton type="submit" label="Submit"></button>
+          </form>
+        </div>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</div>
