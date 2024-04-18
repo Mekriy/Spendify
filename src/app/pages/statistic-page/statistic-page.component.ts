@@ -1,5 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as echarts from "echarts";
+import {ExpenseService} from "../../shared/services/expense.service";
+import {Subject, takeUntil} from "rxjs";
+import {AverageMoneySpentInMonthByYear} from "../../shared/interfaces/statistic/average-money-spent-in-month-by-year";
+import {
+  AverageMoneySpentInMonthByCategory
+} from "../../shared/interfaces/statistic/average-money-spent-in-month-by-category";
+import {CountItemsInExpensesByCategory} from "../../shared/interfaces/statistic/count-items-in-expenses-by-category";
 
 type EChartsOption = echarts.EChartsOption;
 
@@ -8,56 +15,66 @@ type EChartsOption = echarts.EChartsOption;
   templateUrl: './statistic-page.component.html',
   styleUrl: './statistic-page.component.scss'
 })
-export class StatisticPageComponent implements OnInit{
+export class StatisticPageComponent implements OnInit, OnDestroy{
+  unsubscribe$: Subject<void> = new Subject<void>();
 
-  constructor() {}
+  constructor(
+    private readonly expenseService: ExpenseService) {}
 
   ngOnInit(): void {
-    this.loadBars(null);
-    this.loadLine(null);
-    this.loadPie(null);
+    this.expenseService.getAverageMoneySpentInMonthByCategory()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe({
+        next: value => this.loadPie(value),
+        error: err => console.log("getAverageMoneySpentInMonthByCategory", err)
+        })
+    this.expenseService.getCountItemsBoughtInCategory()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe({
+        next: value => this.loadBars(value),
+        error: err => console.log("getCountItemsBoughtInCategory", err)
+      })
+    this.expenseService.getAverageMoneySpentInMonthByYear()
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe({
+        next: value => this.loadLine(value),
+        error: err => console.log("getAverageMoneySpentInMonthByYear", err)
+      })
   }
-
-  private loadLine(data: null){
-    let chartDom = document.getElementById('avgInMonthByYear')!;
+  private loadPie(data: AverageMoneySpentInMonthByCategory[]){
+    let chartDom = document.getElementById('avgInMonthByCategory')!;
     let myChart = echarts.init(chartDom);
     let option: EChartsOption;
     option = {
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line',
-          smooth: true,
+      title: {
+        text: 'Average in month by Category',
+        left: 'center',
+        textStyle: {
+          color: 'white',
+        },
+        subtextStyle: {
+          color: 'white'
         }
-      ]
-    };
-    option && myChart.setOption(option);
-  }
-  private loadPie(data: null){
-    let chartDom = document.getElementById('itemsInExpensesByCategory')!;
-    let myChart = echarts.init(chartDom);
-    let option: EChartsOption;
-    option = {
+      },
       tooltip: {
         trigger: 'item'
       },
       legend: {
-        top: '5%',
-        left: 'center',
+        orient: 'vertical',
+        left: 'right',
         textStyle: {
           color: 'white'
         }
       },
       series: [
         {
-          name: 'Access From',
+          name: 'Category',
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
@@ -72,9 +89,7 @@ export class StatisticPageComponent implements OnInit{
           },
           emphasis: {
             label: {
-              show: true,
-              fontSize: 40,
-              fontWeight: 'bold'
+              show: false,
             },
             itemStyle: {
               shadowBlur: 10,
@@ -85,23 +100,27 @@ export class StatisticPageComponent implements OnInit{
           labelLine: {
             show: false
           },
-          data: [
-            { value: 1048, name: 'Search Engine' },
-            { value: 735, name: 'Direct' },
-            { value: 580, name: 'Email' },
-            { value: 484, name: 'Union Ads' },
-            { value: 300, name: 'Video Ads' }
-          ]
+          data: data.map(item => ({ value: item.average, name: item.categoryName }))
         }
       ]
     };
     option && myChart.setOption(option);
   }
-  private loadBars(data: null){
-    let chartDom = document.getElementById('avgInMonthByCategory')!;
+  private loadBars(data: CountItemsInExpensesByCategory[]){
+    let chartDom = document.getElementById('itemsInExpensesByCategory')!;
     let myChart = echarts.init(chartDom);
     let option: EChartsOption;
     option = {
+      title: {
+        text: 'Items in expenses by categories',
+        left: 'center',
+        textStyle: {
+          color: 'white',
+        },
+        subtextStyle: {
+          color: 'white'
+        }
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -117,7 +136,7 @@ export class StatisticPageComponent implements OnInit{
       xAxis: [
         {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: data.map(item => item.categoryName),
           axisTick: {
             alignWithLabel: true
           }
@@ -133,10 +152,53 @@ export class StatisticPageComponent implements OnInit{
           name: 'Direct',
           type: 'bar',
           barWidth: '60%',
-          data: [10, 52, 200, 334, 390, 330, 220]
+          data: data.map(item => item.count)
         }
       ]
     };
     option && myChart.setOption(option);
+  }
+  private loadLine(data: AverageMoneySpentInMonthByYear[]){
+    let chartDom = document.getElementById('avgInMonthByYear')!;
+    let myChart = echarts.init(chartDom);
+    let option: EChartsOption;
+    option = {
+      title: {
+        text: 'Average by month in year',
+        left: 'center',
+        textStyle: {
+          color: 'white',
+        },
+        subtextStyle: {
+          color: 'white'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        data: data.map(item => this.getMonthName(item.monthNumber))
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          data: data.map(item => item.average),
+          type: 'line',
+          smooth: true,
+        }
+      ]
+    };
+    option && myChart.setOption(option);
+  }
+
+  getMonthName (monthNumber: number) { //1 = January
+    var monthNames = [ 'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December' ];
+    return monthNames[monthNumber - 1];
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

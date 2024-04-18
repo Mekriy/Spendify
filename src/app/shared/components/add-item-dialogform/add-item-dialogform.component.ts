@@ -63,8 +63,8 @@ export class AddItemDialogformComponent implements OnDestroy{
     this.ref.close(this.itemAndQuantity);
   }
   addSelectedUserItems(){
-    if (this.selectedAllItems) {
-      this.itemAndQuantity = this.selectedAllItems.map(item => ({
+    if (this.selectedUserItems) {
+      this.itemAndQuantity = this.selectedUserItems.map(item => ({
         id: item.id,
         name: item.name!,
         price: item.price,

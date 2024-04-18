@@ -81,6 +81,7 @@
                     Price <p-sortIcon field="Price"></p-sortIcon>
                   </th>
                   <th>Review</th>
+                  <th>Quantity</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-item>
@@ -91,6 +92,8 @@
                   <td>{{ item.name }}</td>
                   <td>{{'$' + item.price }}</td>
                   <td><p-rating [ngModel]="item.value" [readonly]="true" [cancel]="false"></p-rating></td>
+                  <td><p-inputNumber [(ngModel)]="item.quantity" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [min]='1' [step]="1"
+                                     incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" class="input-plus-minus"></p-inputNumber></td>
                 </tr>
               </ng-template>
             </p-table>
