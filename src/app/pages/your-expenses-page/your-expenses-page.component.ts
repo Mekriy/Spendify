@@ -42,9 +42,6 @@ export class YourExpensesPageComponent implements OnDestroy{
   paginationExpenses!: PaginationExpense[];
   paginationExpense!: PaginationExpense;
   oldExpense!: PaginationExpense;
-  editNowExpense!: PaginationExpense;
-
-
 
   totalRecords: number = 1;
   paginationFilter: PaginationFilter = {
@@ -57,7 +54,6 @@ export class YourExpensesPageComponent implements OnDestroy{
   unsubscribe$: Subject<void> = new Subject<void>();
 
   selectedExpenses!: PaginationExpense[];
-  submitted: boolean = false;
 
   items!: Item[] | null;
   expenseDetailsDialog: boolean = false;
@@ -76,8 +72,6 @@ export class YourExpensesPageComponent implements OnDestroy{
   constructor(private messageService: MessageService,
               private confirmationService: ConfirmationService,
               private expenseService: ExpenseService,
-              private locationService: LocationService,
-              private itemService: ItemService,
               private dialogService: DialogService,
               private ref: DynamicDialogRef){}
 
@@ -363,6 +357,4 @@ export class YourExpensesPageComponent implements OnDestroy{
       }, 0);
     });
   }
-
-
 }

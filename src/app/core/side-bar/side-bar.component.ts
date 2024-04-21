@@ -3,7 +3,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
 import {Route, Router} from "@angular/router";
 import {AuthService} from "../../shared/services/auth.service";
 import {User} from "../../shared/interfaces/user";
-import {switchMap} from "rxjs";
+import {of, switchMap} from "rxjs";
 import {considerSettingUpAutocompletion} from "@angular/cli/src/utilities/completion";
 
 @Component({
@@ -14,10 +14,12 @@ import {considerSettingUpAutocompletion} from "@angular/cli/src/utilities/comple
 })
 export class SideBarComponent implements OnInit{
   user: User = {
+    id: "",
     email: "",
     firstName: "user",
     lastName: "user",
-    fileName: ""
+    fileName: "",
+    roleName: 'User',
   }
   imageData: string | ArrayBuffer | null = "./assets/images/defaultUserImage.png";
 
@@ -35,7 +37,12 @@ export class SideBarComponent implements OnInit{
       .pipe(
         switchMap((res:any) => {
           this.user = res;
-          return this.authService.getUserPhoto(this.user.fileName)
+          if(this.user.fileName === null || this.user.fileName === ""){
+            return of(res);
+          }
+          else {
+            return this.authService.getUserPhoto(this.user.fileName)
+          }
         })
       )
       .subscribe({

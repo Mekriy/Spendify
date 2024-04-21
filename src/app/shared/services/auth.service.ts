@@ -18,10 +18,12 @@ export class AuthService {
   private readonly apiNgrokUrl = `${environment.apiSecurityNgrok}/User`;
 
   user: User = {
+    id: "",
     email: "",
     firstName: "user",
     lastName: "",
     fileName: "",
+    roleName: "",
   }
   public imageData: string | ArrayBuffer | Blob | null = "./assets/images/defaultUserImage.png";
 
@@ -38,7 +40,7 @@ export class AuthService {
   }
 
   isUserCreated(){
-    return this.httpClient.get(this.apiUrl+'/isCreated', {});
+    return this.httpClient.get<User>(this.apiUrl+'/isCreated', {});
   }
   createUser(userObj: CreateUser):Observable<User> {
     localStorage.removeItem("firstName");
@@ -67,6 +69,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    this.router.navigateByUrl('/')
+    this.router.navigateByUrl('/').then(() => window.location.reload());
   }
 }

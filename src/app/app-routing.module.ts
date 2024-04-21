@@ -15,6 +15,8 @@ import {
   EmailVerificationFailureComponent
 } from "./static-pages/email-verification-failure/email-verification-failure.component";
 import {HomePageComponent} from "./static-pages/home-page/home-page.component";
+import {ControlPanelPageComponent} from "./pages/admin/control-panel-page/control-panel-page.component";
+import {UserInfoPageComponent} from "./pages/admin/user-info-page/user-info-page.component";
 
 const routes: Routes = [
   {
@@ -49,6 +51,14 @@ const routes: Routes = [
   {
     path: 'verification-failure',
     component: EmailVerificationFailureComponent
+  },
+  {
+    path: 'control-panel',
+    component: ControlPanelPageComponent
+  },
+  {
+    path: 'user-info',
+    component: UserInfoPageComponent
   },
   {
     path: '404',
