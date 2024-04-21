@@ -20,6 +20,11 @@ import { EmailVerificationSuccessComponent } from './static-pages/email-verifica
 import { EmailVerificationFailureComponent } from './static-pages/email-verification-failure/email-verification-failure.component';
 import { HomePageComponent } from './static-pages/home-page/home-page.component';
 import { AddCategoryDialogFormComponent } from './shared/components/add-category-dialog-form/add-category-dialog-form.component';
+import { ControlPanelPageComponent } from './pages/admin/control-panel-page/control-panel-page.component';
+import { UserInfoPageComponent } from './pages/admin/user-info-page/user-info-page.component';
+import {ControlPanelPageModule} from "./pages/admin/control-panel-page/control-panel-page.module";
+import {UserInfoPageModule} from "./pages/admin/user-info-page/user-info-page.module";
+import {GoogleMap, MapMarker} from "@angular/google-maps";
 
 @NgModule({
   declarations: [
@@ -31,18 +36,24 @@ import { AddCategoryDialogFormComponent } from './shared/components/add-category
     EmailVerificationSuccessComponent,
     EmailVerificationFailureComponent,
     HomePageComponent,
+    ControlPanelPageComponent,
+    UserInfoPageComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    CoreModule,
-    YourExpensesPageModule,
-    StatisticPageModule,
-    FormsModule,
-    SharedPrimeNgModules,
-    AddExpenseModule,
-    DashboardPageModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        CoreModule,
+        YourExpensesPageModule,
+        StatisticPageModule,
+        FormsModule,
+        SharedPrimeNgModules,
+        AddExpenseModule,
+        DashboardPageModule,
+        ControlPanelPageModule,
+        UserInfoPageModule,
+        GoogleMap,
+        MapMarker
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

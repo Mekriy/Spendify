@@ -1,0 +1,173 @@
+<div class="parent">
+  <app-side-bar></app-side-bar>
+  <div class="main-content">
+    <div class="content">
+      <div class="userInfoAndSearch">
+        <div class="user-info">
+          <div class="image">
+            <img [src]="imageData" width="75px" height="75px" style="border-radius: 50%" alt="">
+          </div>
+          <div class="name">
+            <div>{{ userInfo.firstName }} {{ userInfo.lastName }}</div>
+            <div>{{ userInfo.email }}</div>
+          </div>
+        </div>
+        <div class="search">
+          <p-autoComplete [(ngModel)]="selectedUser" [suggestions]="suggestions" (completeMethod)="search($event)" placeholder="Search user" field="firstName" [delay]="500" (onSelect)="loadUserInfo($event)">
+            <ng-template let-user pTemplate="item">
+              <div class="options">
+                <i class="pi pi-user"></i>
+                <div class="user">
+                  <div>
+                    {{ user.firstName +' '+ user.lastName}}
+                  </div>
+                  <div style="font-size: 10px;">
+                    {{user.email}}
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+        </div>
+      </div>
+      <ng-container *ngIf="selectedUser?.id">
+        <p-table
+          #dt
+          [value]="userExpenses"
+          [rows]="paginationFilter.pageSize"
+          [first]="paginationFilter.pageNumber"
+          [paginator]="true"
+          [lazy]="true"
+          (onLazyLoad)="loadExpenses($event)"
+          [totalRecords]="totalRecords"
+          [globalFilterFields]="['Price', 'Date']"
+          [tableStyle]="{ 'min-width': '75rem' }"
+          dataKey="id"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [showCurrentPageReport]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="Price">
+                Price <p-sortIcon field="Price"></p-sortIcon>
+              </th>
+              <th pSortableColumn="Date">
+                Date <p-sortIcon field="Date"></p-sortIcon>
+              </th>
+              <th>
+                Category
+              </th>
+              <th>Location</th>
+              <th>On map</th>
+              <th>Items</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-paginationExpense>
+            <tr>
+              <td>{{ paginationExpense.price | currency : "USD" }}</td>
+              <td>{{ paginationExpense.date | date : "dd/MM/yyyy" }}</td>
+              <td>{{ paginationExpense.category!.name }}</td>
+              <td>{{ paginationExpense.location!.name }}</td>
+              <td>
+                <p-button icon="pi pi-external-link" label="Google maps" [outlined]="true" (click)="showExpenseLocation(paginationExpense)"></p-button>
+              </td>
+              <td>
+                <p-button icon="pi pi-bars" label="Items" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <p-dialog [(visible)]="expenseDetailsDialog" [style]="{ width: '1000px' }" header="Items" [modal]="true" styleClass="p-fluid">
+          <p-table [value]="items!" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Review</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{'$' + item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <ng-template pTemplate="footer">
+            <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="hideExpenseDetailsDialog()"></button>
+          </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="expenseLocationDialog" [style]="{ width: '600px' }" header="Expense Location" [modal]="true" styleClass="p-fluid">
+          <ng-template pTemplate="content">
+            <div>
+              <google-map
+                height="400px"
+                width="100%"
+                [center]="center"
+                [zoom]="zoom"
+              >
+                <map-marker
+                  *ngFor="let markerPosition of markerPositions"
+                  [position]="markerPosition"
+                ></map-marker>
+              </google-map>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="hideExpenseLocationDialog()"></button>
+          </ng-template>
+        </p-dialog>
+      </ng-container>
+      <ng-container *ngIf="selectedUser?.id">
+        <div class="third-row">
+          <div class="userItems">
+            <h3 class="headers">Created items</h3>
+            <div class="info">
+              <p>Name</p>
+              <p>Price</p>
+            </div>
+            <p-scrollPanel [style]="{width: '100%', height: '50%' }">
+              <div *ngFor="let item of userItems">
+                <div class="contents">
+                  <p>{{item.name}}</p>
+                  <p>{{item.price | currency: "USD"}}</p>
+                </div>
+              </div>
+            </p-scrollPanel>
+          </div>
+          <div class="userCategories">
+            <h3 class="headers">Created categories</h3>
+            <div class="info">
+              <p>Name</p>
+            </div>
+            <p-scrollPanel [style]="{width: '100%', height: '50%' }">
+              <div *ngFor="let category of userCategories">
+                <div class="contents">
+                  <p>{{category.name}}</p>
+                </div>
+              </div>
+            </p-scrollPanel>
+          </div>
+          <div class="userLocations">
+            <h3 class="headers">Created locations</h3>
+            <div class="info">
+              <p>Name</p>
+              <p>Address</p>
+            </div>
+            <p-scrollPanel [style]="{width: '100%', height: '50%' }">
+              <div *ngFor="let location of userLocations">
+                <div class="contents">
+                  <p>{{location.name}}</p>
+                  <p>{{location.address}}</p>
+                </div>
+              </div>
+            </p-scrollPanel>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

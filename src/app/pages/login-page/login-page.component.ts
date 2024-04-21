@@ -65,8 +65,9 @@ export class LoginPageComponent {
           localStorage.setItem('refresh_token', res.refresh);
           return this.authService.isUserCreated()
             .pipe(
-              catchError( httpErr => {
-                return of(httpErr);
+              catchError(err => {
+                this.handleError(err);
+                throw new Error(err);
               }),
               finalize(() => {
                 this.showSpinner = false;
@@ -80,8 +81,8 @@ export class LoginPageComponent {
         })
       )
       .subscribe({
-        next: () =>{
-          this.router.navigateByUrl('/your-expenses')
+        next: value =>{
+          value.roleName === 'User' ? this.router.navigateByUrl('/your-expenses').then(() => window.location.reload()) : this.router.navigateByUrl('/control-panel').then(() => window.location.reload());
         },
         error: err => this.handleError(err)
       })
@@ -104,6 +105,7 @@ export class LoginPageComponent {
       })
   }
   private handleError(httpErr: HttpErrorResponse){
+    console.log("ASDSADASD", httpErr)
       if(httpErr.status === 404){
         this.createUser();
       }

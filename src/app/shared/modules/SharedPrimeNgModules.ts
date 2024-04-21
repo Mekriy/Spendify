@@ -26,6 +26,10 @@ import {TabViewModule} from 'primeng/tabview';
 import {AutoCompleteModule} from "primeng/autocomplete";
 import { DividerModule } from 'primeng/divider';
 import { RadioButtonModule} from "primeng/radiobutton";
+import { FormsModule } from "@angular/forms";
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @NgModule({
   declarations: [
@@ -57,7 +61,11 @@ import { RadioButtonModule} from "primeng/radiobutton";
     TabViewModule,
     AutoCompleteModule,
     DividerModule,
-    RadioButtonModule
+    RadioButtonModule,
+    FormsModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    ScrollPanelModule
   ],
   exports: [
     BrowserModule,
@@ -86,7 +94,11 @@ import { RadioButtonModule} from "primeng/radiobutton";
     TabViewModule,
     AutoCompleteModule,
     DividerModule,
-    RadioButtonModule
+    RadioButtonModule,
+    FormsModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    ScrollPanelModule
   ],
   providers: [],
   bootstrap: []
