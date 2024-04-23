@@ -55,8 +55,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.fullNameForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      firstName: [{value: '', disabled: true}, Validators.required],
+      lastName: [{value: '', disabled: true}, Validators.required]
     });
     this.loadUserInfo();
   }
@@ -80,8 +80,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
           this.userCategories = value.categories;
           this.userLocations = value.locations;
           this.fullNameForm.setValue({firstName: this.userInfo.firstName, lastName: this.userInfo.lastName});
-          this.fullNameForm.get('firstName')?.disable();
-          this.fullNameForm.get('lastName')?.disable();
         },
         error: err => console.log(err)
       })
