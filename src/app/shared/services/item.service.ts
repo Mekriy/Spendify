@@ -7,6 +7,8 @@ import {PaginationResponse} from "../interfaces/pagination-response";
 import {Item} from "../interfaces/item";
 import {TableItemPagination} from "../interfaces/table-item-pagination";
 import {AddItemsToExpense} from "../interfaces/add-items-to-expense";
+import {CreateItem} from "../interfaces/create-item";
+import {UpdateItem} from "../interfaces/updates/update-item";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +30,17 @@ export class ItemService {
 
   public addItems(items: AddItemsToExpense) {
     return this.httpClient.post(environment.apiUrl+`/Expense/add-items`, items)
+  }
+
+  createItem(createItem: CreateItem) {
+    return this.httpClient.post(this.apiUrl, createItem);
+  }
+
+  updateItem(itemToUpdate: UpdateItem, id: string) {
+    return this.httpClient.put(this.apiUrl+`/${id}`, itemToUpdate);
+  }
+
+  delete(id: string) {
+    return this.httpClient.delete(this.apiUrl+`/${id}`);
   }
 }

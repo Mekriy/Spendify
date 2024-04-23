@@ -1,6 +1,4 @@
 .parent{
-
-
     .buttons{
         display: flex;
         flex-direction: row;
@@ -31,5 +29,17 @@
     }
   .input-plus-minus{
     height: 2rem;
+  }
+  .item-inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    row-gap: 10px;
+  }
+  .crud-buttons{
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
   }
 }
