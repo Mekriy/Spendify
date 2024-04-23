@@ -5,6 +5,9 @@
       </div>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="register">
+        <div class="back-home">
+          <p-button [outlined]="true" icon="pi pi-arrow-left" (onClick)="backToHomePage()"></p-button>
+        </div>
         <div class="title">
           Register
         </div>

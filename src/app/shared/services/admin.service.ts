@@ -10,6 +10,7 @@ import {GeneralInfo} from "../interfaces/statistic/general-info";
 import {PaginationExpense} from "../interfaces/pagination-expense";
 import {UserCreatedInfo} from "../interfaces/statistic/user-created-info";
 import {Observable} from "rxjs";
+import {ItemToBePublic} from "../interfaces/item-to-be-public";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class AdminService {
     return this.httpClient.get<GeneralInfo>(this.apiUrl+'/general-info');
   }
 
-  changeItemVisibility(id: TableItemPagination) {
+  changeItemVisibility(id: ItemToBePublic) {
     return this.httpClient.patch(this.apiUrl, id);
   }
 

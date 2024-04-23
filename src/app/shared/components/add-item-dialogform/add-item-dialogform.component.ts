@@ -8,7 +8,7 @@ import {TableItemPagination} from "../../interfaces/table-item-pagination";
 import {TabViewChangeEvent} from "primeng/tabview";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreateItem} from "../../interfaces/create-item";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UpdateItem} from "../../interfaces/updates/update-item";
 
 @Component({
@@ -23,7 +23,7 @@ export class AddItemDialogformComponent implements OnDestroy, OnInit{
     private ref: DynamicDialogRef,
     private itemService: ItemService,
     private fb: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
   ) {}
 
   itemForm!: FormGroup;
@@ -150,7 +150,7 @@ export class AddItemDialogformComponent implements OnDestroy, OnInit{
       .pipe()
       .subscribe({
         next: value => {
-          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => window.location.reload())
+          this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(() => window.location.reload())
         }
       });
   }
@@ -170,7 +170,7 @@ export class AddItemDialogformComponent implements OnDestroy, OnInit{
     this.itemService.delete(item.id)
       .pipe()
       .subscribe({
-        next: () => this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>window.location.reload()),
+        next: () => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=>window.location.reload()),
         error: err => console.log(err),
       })
   }
@@ -183,7 +183,9 @@ export class AddItemDialogformComponent implements OnDestroy, OnInit{
     this.itemService.updateItem(itemToUpdate, this.oldItem.id)
       .pipe()
       .subscribe({
-        next: () => this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => window.location.reload()),
+        next: () => {
+          this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(() => window.location.reload())
+        },
         error: err => console.log(err),
       })
   }

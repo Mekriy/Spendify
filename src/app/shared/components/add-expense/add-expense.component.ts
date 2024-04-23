@@ -103,7 +103,7 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
   showAddItemsToExpenseDialog() {
     this.ref = this.dialogService.open(AddItemDialogformComponent, {
       header: 'Select an item',
-      width: '70vw',
+      width: '80vw',
       height: '80vw',
       breakpoints: {
         '960px': '75vw',

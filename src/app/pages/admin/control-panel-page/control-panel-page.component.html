@@ -79,7 +79,7 @@
               </td>
               <td>{{ item.name }}</td>
               <td>{{'$' + item.price }}</td>
-              <td><p-rating [ngModel]="item.value" [readonly]="true" [cancel]="false"></p-rating></td>
+              <td><p-rating [(ngModel)]="item.value" [cancel]="false"></p-rating></td>
               <td><p-button icon="pi pi-file-edit" label="Make public" (onClick)="changeVisibility(item)"></p-button></td>
             </tr>
           </ng-template>

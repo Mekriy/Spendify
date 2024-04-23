@@ -6,7 +6,7 @@ import {Item} from "../../shared/interfaces/item";
 import {ExpenseService} from "../../shared/services/expense.service";
 import {PaginationExpense} from "../../shared/interfaces/pagination-expense";
 import {PaginationFilter} from "../../shared/interfaces/pagination-filter";
-import {catchError, of, Subject, switchMap, take, takeUntil} from "rxjs";
+import {catchError, debounceTime, of, Subject, switchMap, take, takeUntil} from "rxjs";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {AddExpenseComponent} from "../../shared/components/add-expense/add-expense.component";
 import {
@@ -29,13 +29,14 @@ import {LocationService} from "../../shared/services/location.service";
 import {CreatedExpense} from "../../shared/interfaces/created-expense";
 import {ItemService} from "../../shared/services/item.service";
 import {DropdownCategory} from "../../shared/interfaces/dropdown-category";
+import {Router} from "@angular/router";
 
 
 @Component({
   selector: 'app-your-expenses-page',
   templateUrl: './your-expenses-page.component.html',
   styleUrl: './your-expenses-page.component.scss',
-  providers: [MessageService, ConfirmationService, ExpenseService, DialogService, DynamicDialogRef]
+  providers: [MessageService, ConfirmationService, ExpenseService, DialogService, DynamicDialogRef, Router]
 })
 export class YourExpensesPageComponent implements OnDestroy{
   expenseDialog: boolean = false;
@@ -50,6 +51,7 @@ export class YourExpensesPageComponent implements OnDestroy{
     sortColumn: "Date",
     sortDirection: 1
   }
+  searchCategory: string = '';
 
   unsubscribe$: Subject<void> = new Subject<void>();
 
@@ -73,15 +75,29 @@ export class YourExpensesPageComponent implements OnDestroy{
               private confirmationService: ConfirmationService,
               private expenseService: ExpenseService,
               private dialogService: DialogService,
-              private ref: DynamicDialogRef){}
-
+              private ref: DynamicDialogRef,
+              private router: Router)
+  {
+    this.searchCategoryChanged
+      .pipe(
+        debounceTime(500),
+      )
+      .subscribe({
+        next: value => this.loadExpenses(value),
+        error: err => console.log(err),
+      });
+  }
+  searchCategoryChanged: Subject<any> = new Subject<any>()
+  onSearch($event: any) {
+    this.searchCategoryChanged.next($event)
+  }
 
   loadExpenses($event: TableLazyLoadEvent): void {
-
     this.paginationFilter.pageNumber = $event.first || 0;
     this.paginationFilter.pageSize = $event.rows || 5;
     this.paginationFilter.sortColumn = $event.sortField?.toString() || 'Date';
     this.paginationFilter.sortDirection = $event.sortOrder || 1;
+    this.paginationFilter.searchCategory = this.searchCategory || '';
 
     switch(this.byFilter){
       case "byWeek": {
@@ -122,9 +138,6 @@ export class YourExpensesPageComponent implements OnDestroy{
     this.ref.onClose.subscribe((data: boolean) => {
       if (data) {
         this.messageService.add({ severity: 'success', summary:'Expense added successfully', life: 3000})
-      }
-      else {
-        this.messageService.add({ severity: 'error', summary:'Expense wasn\'t added', life: 3000})
       }
     });
   }
@@ -240,17 +253,6 @@ export class YourExpensesPageComponent implements OnDestroy{
       })
   }
 
-  findIndexById(id: string): number{
-    let index = -1;
-    for(let i = 0; i < this.paginationExpenses.length; i++){
-      if(this.paginationExpenses[i].id === id){
-        index = i;
-        break;
-      }
-    }
-    return index;
-  }
-
   showExpenseDetails(expense: Expense) {
     this.items = expense.items!;
     this.expenseDetailsDialog = true;
@@ -356,5 +358,9 @@ export class YourExpensesPageComponent implements OnDestroy{
         return total + (item.price! * item.quantity!);
       }, 0);
     });
+  }
+
+  clearFilter() {
+    this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(() => window.location.reload())
   }
 }

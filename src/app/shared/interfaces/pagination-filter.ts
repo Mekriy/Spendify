@@ -6,4 +6,5 @@ export interface PaginationFilter{
   typeItemsVisibility?: string;
   filter?: string;
   userId?: string;
+  searchCategory?: string;
 }

@@ -110,4 +110,8 @@ export class RegisterPageComponent {
         console.log("Unhandled error status code: ", httpErr.status)
       }
   }
+
+  backToHomePage() {
+    this.router.navigateByUrl('/').then(() => window.location.reload())
+  }
 }

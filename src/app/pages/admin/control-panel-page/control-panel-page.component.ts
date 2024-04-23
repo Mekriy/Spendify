@@ -12,6 +12,7 @@ import {
   AverageMoneySpentInMonthByCategory
 } from "../../../shared/interfaces/statistic/average-money-spent-in-month-by-category";
 import * as echarts from "echarts";
+import {ItemToBePublic} from "../../../shared/interfaces/item-to-be-public";
 
 type EChartsOption = echarts.EChartsOption;
 
@@ -170,7 +171,11 @@ export class ControlPanelPageComponent implements OnInit, OnDestroy{
   }
 
   changeVisibility(item: TableItemPagination) {
-    this.adminService.changeItemVisibility(item)
+    let makePublic: ItemToBePublic = {
+      id: item.id,
+      review: item.value!
+    }
+    this.adminService.changeItemVisibility(makePublic)
       .pipe()
       .subscribe();
   }

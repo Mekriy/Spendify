@@ -4,12 +4,17 @@
       <h2>Spendify</h2>
     </div>
     <div>
-      <p-buttonGroup>
-        <p-button icon="pi pi-sign-in" label="Login" [outlined]="true" [routerLink]="['./login']"></p-button>
-        <p-button icon="pi pi-user-plus" label="Register" [routerLink]="['./register']"></p-button>
-      </p-buttonGroup>
+      <div *ngIf="isAuthenticated; else elseBlock">
+        <p-button icon="pi pi-user" label="Profile" [outlined]="true" routerLink="./profile"></p-button>
+      </div>
+      <ng-template #elseBlock>
+        <p-buttonGroup>
+          <p-button icon="pi pi-sign-in" label="Login" [outlined]="true" routerLink="./login"></p-button>
+          <p-button icon="pi pi-user-plus" label="Register" routerLink="./register"></p-button>
+        </p-buttonGroup>
+      </ng-template>
     </div>
-    </div>
+  </div>
   <div class="main">
     <div class="main-text">
       <div>

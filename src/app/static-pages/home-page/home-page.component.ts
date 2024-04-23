@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
+  isAuthenticated: boolean = false;
+
+  ngOnInit() {
+    let access = localStorage.getItem('access_token');
+    this.isAuthenticated = access !== null;
+    console.log("auth: ", this.isAuthenticated)
+  }
 }

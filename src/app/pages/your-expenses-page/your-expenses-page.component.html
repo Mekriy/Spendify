@@ -17,6 +17,7 @@
           [globalFilterFields]="['Price', 'Date']"
           [tableStyle]="{ 'min-width': '75rem' }"
           [(selection)]="selectedExpenses"
+          [filterDelay]="500"
           dataKey="id"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
           [showCurrentPageReport]="true"
@@ -36,6 +37,15 @@
                   <p-radioButton name="filter" label="Last 3 months" value="byThreeMonths"
                                  [(ngModel)]="byFilter" inputId="byThreeMonths" (ngModelChange)="loadExpenses($event)"></p-radioButton>
                 </div>
+                <div class="filter">
+                  <p-button label="Clear" icon="pi pi-filter" (onClick)="clearFilter()"></p-button>
+                </div>
+              </div>
+              <div>
+                  <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="searchCategory" (ngModelChange)="onSearch($event)" placeholder="Search category"  />
+                  </span>
               </div>
               <div class="crud-buttons">
                 <p-buttonGroup>

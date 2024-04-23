@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {HttpErrorResponse, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
@@ -71,4 +71,8 @@ export class JWTauthInterceptor implements HttpInterceptor {
       }
     });
   }
+}
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  return next(req);
 }

@@ -131,4 +131,10 @@ export class LoginPageComponent {
         console.log("Unhandled status code error", httpErr.status)
       }
   }
+
+    protected readonly Router = Router;
+
+  backToHomePage() {
+    this.router.navigateByUrl('/').then(() => window.location.reload());
+  }
 }

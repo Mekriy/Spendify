@@ -68,7 +68,7 @@
               [(selection)]="selectedUserItems"
               [scrollable]="true"
               scrollHeight="400px"
-              [tableStyle]="{ 'min-width': '40rem' }">
+              [tableStyle]="{ 'min-width': '45rem' }">
               <ng-template pTemplate="header" class="header-table">
                 <tr>
                   <th style="width: 4rem">
@@ -111,7 +111,7 @@
               </p-buttonGroup>
             </div>
           </ng-template>
-          <p-dialog [(visible)]="editItemDialog" [style]="{ width: '1000px' }" header="Edit expense" >
+          <p-dialog [(visible)]="editItemDialog" [style]="{ width: '300px' }" [modal]="true" [draggable]="false" header="Edit item" >
             <form [formGroup]="itemUpdateForm" (ngSubmit)="onUpdate($event)">
               <div class="item-inputs">
                <span class="p-float-label">

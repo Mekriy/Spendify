@@ -33,7 +33,8 @@ export class ExpenseService {
       .set('pageSize', filter.pageSize.toString())
       .set('sortColumn', filter.sortColumn.toString())
       .set('sortDirection', (filter.sortDirection === 1) ? 'asc' : 'desc')
-      .set('filter', (filter.filter!));
+      .set('filter', (filter.filter!))
+      .set('searchCategory', (filter.searchCategory!) || '');
 
     return this.httpClient.get<PaginationResponse<PaginationExpense[]>>(this.apiUrl+'/users', { params });
   }
