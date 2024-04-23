@@ -26,10 +26,10 @@ export class TodayExpensesComponent implements OnInit{
         })
       )
       .subscribe({
-        next: value => this.lastFiveData = value,
+        next: value => {
+          this.lastFiveData = value;
+        },
         error: err => {
-          console.log("err: ", err)
-          this.lastFiveData = null;
           this.noData = true;
         }
       })
