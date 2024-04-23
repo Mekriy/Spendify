@@ -82,6 +82,7 @@
                   </th>
                   <th>Review</th>
                   <th>Quantity</th>
+                  <th></th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-item>
@@ -94,6 +95,12 @@
                   <td><p-rating [ngModel]="item.value" [readonly]="true" [cancel]="false"></p-rating></td>
                   <td><p-inputNumber [(ngModel)]="item.quantity" [showButtons]="true" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" [min]='1' [step]="1"
                                      incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" class="input-plus-minus"></p-inputNumber></td>
+                  <td>
+                    <div class="crud-buttons">
+                        <p-button icon="pi pi-pencil" label="Edit" [outlined]="true" (click)="editItem(item)"></p-button>
+                        <p-button icon="pi pi-trash" label="Delete" [outlined]="true" (click)="deleteItem(item)"></p-button>
+                    </div>
+                  </td>
                 </tr>
               </ng-template>
             </p-table>
@@ -104,6 +111,37 @@
               </p-buttonGroup>
             </div>
           </ng-template>
+          <p-dialog [(visible)]="editItemDialog" [style]="{ width: '1000px' }" header="Edit expense" >
+            <form [formGroup]="itemUpdateForm" (ngSubmit)="onUpdate($event)">
+              <div class="item-inputs">
+               <span class="p-float-label">
+                <input pInputText formControlName="name" />
+                <label>Name</label>
+              </span>
+                <span class="p-float-label">
+                <input pInputText formControlName="price" />
+                <label>Price</label>
+              </span>
+                <p-button type="submit" label="Update" icon="pi pi-check"></p-button>
+              </div>
+            </form>
+          </p-dialog>
+        </p-tabPanel>
+        <p-tabPanel header="Create item">
+          <form [formGroup]="itemForm" (ngSubmit)="onSubmit($event)">
+            <h3>Create item</h3>
+            <div class="item-inputs">
+               <span class="p-float-label">
+                <input pInputText formControlName="name" />
+                <label>Name</label>
+              </span>
+              <span class="p-float-label">
+                <input pInputText formControlName="price" />
+                <label>Price</label>
+              </span>
+              <p-button type="submit" label="Submit" icon="pi pi-plus"></p-button>
+            </div>
+          </form>
         </p-tabPanel>
       </p-tabView>
     </div>
