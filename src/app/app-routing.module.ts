@@ -17,6 +17,8 @@ import {
 import {HomePageComponent} from "./static-pages/home-page/home-page.component";
 import {ControlPanelPageComponent} from "./pages/admin/control-panel-page/control-panel-page.component";
 import {UserInfoPageComponent} from "./pages/admin/user-info-page/user-info-page.component";
+import {ProfilePageComponent} from "./pages/profile-page/profile-page.component";
+import {VerifiedPasswordResetComponent} from "./static-pages/verified-password-reset/verified-password-reset.component";
 
 const routes: Routes = [
   {
@@ -59,6 +61,14 @@ const routes: Routes = [
   {
     path: 'user-info',
     component: UserInfoPageComponent
+  },
+  {
+    path:'profile',
+    component: ProfilePageComponent
+  },
+  {
+    path: 'verified-password-reset',
+    component: VerifiedPasswordResetComponent
   },
   {
     path: '404',

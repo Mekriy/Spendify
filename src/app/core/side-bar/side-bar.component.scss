@@ -19,16 +19,20 @@
 
     }
     .userDiv{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        margin-top: 20px;
-        img{
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-        }
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 20px;
+      img{
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .username{
+        cursor: pointer;
+      }
     }
     .side-bar-buttons{
         row-gap: 10px;

@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfirmationService, MessageService} from "primeng/api";
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {AuthService} from "../../shared/services/auth.service";
 import {User} from "../../shared/interfaces/user";
-import {of, switchMap} from "rxjs";
-import {considerSettingUpAutocompletion} from "@angular/cli/src/utilities/completion";
+import {of, switchMap, window} from "rxjs";
 
 @Component({
   selector: 'app-side-bar',
@@ -78,6 +77,9 @@ export class SideBarComponent implements OnInit{
         this.authService.logout()
       }
     })
+  }
+  goToProfile() {
+    this.router.navigateByUrl('/profile');
   }
 }
 
