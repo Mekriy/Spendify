@@ -19,12 +19,13 @@ import { NotFoundComponent } from './static-pages/not-found/not-found.component'
 import { EmailVerificationSuccessComponent } from './static-pages/email-verification-success/email-verification-success.component';
 import { EmailVerificationFailureComponent } from './static-pages/email-verification-failure/email-verification-failure.component';
 import { HomePageComponent } from './static-pages/home-page/home-page.component';
-import { AddCategoryDialogFormComponent } from './shared/components/add-category-dialog-form/add-category-dialog-form.component';
 import { ControlPanelPageComponent } from './pages/admin/control-panel-page/control-panel-page.component';
 import { UserInfoPageComponent } from './pages/admin/user-info-page/user-info-page.component';
 import {ControlPanelPageModule} from "./pages/admin/control-panel-page/control-panel-page.module";
 import {UserInfoPageModule} from "./pages/admin/user-info-page/user-info-page.module";
 import {GoogleMap, MapMarker} from "@angular/google-maps";
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { VerifiedPasswordResetComponent } from './static-pages/verified-password-reset/verified-password-reset.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,8 @@ import {GoogleMap, MapMarker} from "@angular/google-maps";
     HomePageComponent,
     ControlPanelPageComponent,
     UserInfoPageComponent,
+    ProfilePageComponent,
+    VerifiedPasswordResetComponent,
   ],
     imports: [
         BrowserModule,
@@ -59,7 +62,7 @@ import {GoogleMap, MapMarker} from "@angular/google-maps";
       provide: HTTP_INTERCEPTORS,
       useClass: JWTauthInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

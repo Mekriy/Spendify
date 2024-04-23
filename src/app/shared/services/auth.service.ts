@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environment";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Login} from "../interfaces/login";
 import {Register} from "../interfaces/register";
 import {Router} from "@angular/router";
-import {catchError, Observable, of, Subject, switchMap, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {CreateUser} from "../interfaces/create-user";
 import {TokenResponse} from "../interfaces/token-response";
-import {Token} from "@angular/compiler";
 import {User} from "../interfaces/user";
+import {UserCreatedInfo} from "../interfaces/statistic/user-created-info";
+import {UpdateUserFullname} from "../interfaces/updates/update-user-fullname";
+import {ResetCode} from "../interfaces/reset-code";
+import {UpdatePassword} from "../interfaces/updates/update-password";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +29,6 @@ export class AuthService {
     roleName: "",
   }
   public imageData: string | ArrayBuffer | Blob | null = "./assets/images/defaultUserImage.png";
-
 
   constructor(private readonly httpClient: HttpClient, private readonly router: Router) {
   }
@@ -70,5 +72,35 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     this.router.navigateByUrl('/').then(() => window.location.reload());
+  }
+
+  updateUser(userInfo: UpdateUserFullname) {
+    return this.httpClient.patch<User>(this.apiUrl, userInfo);
+  }
+
+
+
+  getUserCreatedData() {
+    return this.httpClient.get<UserCreatedInfo>(this.apiUrl+'/created');
+  }
+
+  delete() {
+    return this.httpClient.delete(this.apiUrl)
+  }
+
+  uploadFile(userPhoto: File) {
+    let formData = new FormData();
+    formData.append('file', userPhoto);
+
+    const headers = new HttpHeaders()
+      .append("Content-Disposition", 'multipart/form-data');
+
+    return this.httpClient.post<any>(this.apiUrl+'/upload', formData, {headers})
+  }
+  sendResetCode(sendToUser: ResetCode) {
+    return this.httpClient.post(this.apiNgrokUrl+'/reset', sendToUser)
+  }
+  changePassword(passChange: UpdatePassword) {
+    return this.httpClient.patch(this.apiNgrokUrl+'/verify-reset-code', passChange)
   }
 }

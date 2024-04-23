@@ -30,6 +30,8 @@ import { FormsModule } from "@angular/forms";
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputOtpModule } from 'primeng/inputotp';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     FormsModule,
     InputGroupModule,
     InputGroupAddonModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    FileUploadModule,
+    InputOtpModule,
   ],
   exports: [
     BrowserModule,
@@ -98,7 +102,9 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     FormsModule,
     InputGroupModule,
     InputGroupAddonModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    FileUploadModule,
+    InputOtpModule,
   ],
   providers: [],
   bootstrap: []

@@ -4,10 +4,13 @@
         <span>Spendify</span>
       </div>
       <div class="userDiv">
-        <img src="{{imageData}}" alt="defUserImg">
-        <h3>{{user.firstName}}</h3>
+        <img src="{{imageData}}" alt="defUserImg" (click)="goToProfile()">
+        <h3 class="username" (click)="goToProfile()">{{user.firstName}} </h3>
       </div>
       <div *ngIf="user.roleName == 'User'; else elseBlock" class="side-bar-buttons">
+        <div class="buttons">
+          <p-button icon="pi pi-user" label="Profile" [link]="true" [routerLink]="['/profile']" ></p-button>
+        </div>
         <div class="buttons">
           <p-button icon="pi pi-list" label="Your Expenses" [link]="true" [routerLink]="['/your-expenses']" ></p-button>
         </div>
