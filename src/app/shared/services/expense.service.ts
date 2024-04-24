@@ -10,7 +10,6 @@ import {MonthlyOverview} from "../interfaces/monthly-overview";
 import {AddExpense} from "../interfaces/add-expense";
 import {CreatedExpense} from "../interfaces/created-expense";
 import {UpdateExpense} from "../interfaces/updates/update-expense";
-import {UpdateLocation} from "../interfaces/updates/update-location";
 import {UpdateItems} from "../interfaces/updates/update-items";
 import {UpdatedLocation} from "../interfaces/updates/updated-location";
 import {UpdatedExpense} from "../interfaces/updates/updated-expense";
@@ -51,9 +50,6 @@ export class ExpenseService {
 
   updateExpense(expense: UpdateExpense){
     return this.httpClient.put<UpdatedExpense>(this.apiUrl, expense)
-  }
-  updateExpenseLocation(location: UpdateLocation) {
-   return this.httpClient.put<UpdatedLocation>(environment.apiUrl+'/Location', location)
   }
   updateExpenseItems(items: UpdateItems) {
     return this.httpClient.put(this.apiUrl+'/items', items)

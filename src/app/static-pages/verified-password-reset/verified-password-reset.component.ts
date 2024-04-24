@@ -37,10 +37,10 @@ export class VerifiedPasswordResetComponent implements OnInit{
       this.authService.changePassword(reset)
         .pipe()
         .subscribe({
-          next: () => this.router.navigateByUrl('/profile').then(() => window.location.reload()),
+          next: () => this.router.navigateByUrl('/login').then(() => window.location.reload()),
           error: err => {
             this.messageService.add({summary:'Error!', detail: 'Can\'t verify password reset', icon:'error', life: 3000, severity:'error' })
-            this.router.navigateByUrl('/profile').then(()=> window.location.reload());
+            this.router.navigateByUrl('/login').then(()=> window.location.reload());
           },
         })
     }

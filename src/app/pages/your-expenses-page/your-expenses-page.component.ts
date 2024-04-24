@@ -16,18 +16,10 @@ import {Location} from "../../shared/interfaces/location";
 import {
   AddCategoryDialogFormComponent
 } from "../../shared/components/add-category-dialog-form/add-category-dialog-form.component";
-import {Category} from "../../shared/interfaces/category";
 import {AddItemDialogformComponent} from "../../shared/components/add-item-dialogform/add-item-dialogform.component";
 import {UpdateExpense} from "../../shared/interfaces/updates/update-expense";
-import {UpdateLocation} from "../../shared/interfaces/updates/update-location";
 import {UpdateItems} from "../../shared/interfaces/updates/update-items";
 import {ExpenseIds} from "../../shared/interfaces/expense-ids";
-import {AddExpense} from "../../shared/interfaces/add-expense";
-import {AddItemsToExpense} from "../../shared/interfaces/add-items-to-expense";
-import {AddLocationToExpense} from "../../shared/interfaces/add-location-to-expense";
-import {LocationService} from "../../shared/services/location.service";
-import {CreatedExpense} from "../../shared/interfaces/created-expense";
-import {ItemService} from "../../shared/services/item.service";
 import {DropdownCategory} from "../../shared/interfaces/dropdown-category";
 import {Router} from "@angular/router";
 

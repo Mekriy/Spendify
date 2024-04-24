@@ -6,7 +6,39 @@
     </div>
     <div class="content">
       <div class="first-row">
-        <div class="chart" id="infoUsers">
+        <div class="chart-container">
+          <div class="chart" id="infoUsers">
+          </div>
+        </div>
+        <div class="category">
+          <p-tabView>
+            <p-tabPanel header="Public categories">
+              <div class="table">
+                <div class="choose">
+                  <p-dropdown [options]="publicCategories" [(ngModel)]="selectedPublicCategory" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+                </div>
+                <div class="edit-delete-category">
+                  <p-button label="Edit" icon="pi pi-pencil" (onClick)="changeNameInput(selectedPublicCategory)"></p-button>
+                  <p-button label="Delete" icon="pi pi-trash" (onClick)="deleteCategory(selectedPublicCategory)"></p-button>
+                </div>
+                <div *ngIf="showInput" class="update">
+                  <input type="text" pInputText [(ngModel)]="newCategoryName">
+                  <p-button label="Save" icon="pi pi-save" (onClick)="updateCategory()"></p-button>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="Create new">
+              <div class="create-form">
+                <form [formGroup]="categoryForm" (ngSubmit)="onSubmit($event)">
+                  <span class="p-float-label">
+                    <input pInputText formControlName="name" />
+                    <label>Name</label>
+                  </span>
+                  <button pButton type="submit" label="Submit"></button>
+                </form>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
         </div>
         <ng-container>
           <div class="general-information">

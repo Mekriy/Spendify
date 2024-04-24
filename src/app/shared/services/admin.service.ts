@@ -11,6 +11,8 @@ import {PaginationExpense} from "../interfaces/pagination-expense";
 import {UserCreatedInfo} from "../interfaces/statistic/user-created-info";
 import {Observable} from "rxjs";
 import {ItemToBePublic} from "../interfaces/item-to-be-public";
+import {UpdateCategory} from "../interfaces/updates/update-category";
+import {Category} from "../interfaces/category";
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +65,21 @@ export class AdminService {
 
   getUsersCreatedInfo(userId: string): Observable<UserCreatedInfo> {
     return this.httpClient.get<UserCreatedInfo>(this.apiUrl+`/users/${userId}`);
+  }
+
+  updateCategory(update: UpdateCategory) {
+    return this.httpClient.patch(this.apiUrl+'/category', update);
+  }
+
+  delete(s: string) {
+    return this.httpClient.delete(this.apiUrl+`/category/${s}`)
+  }
+
+  getCategories() {
+    return this.httpClient.get<Category[]>(this.apiUrl+'/categories')
+  }
+
+  createCategory(category: Category) {
+    return this.httpClient.post(this.apiUrl+'/category', category)
   }
 }

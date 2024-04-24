@@ -11,8 +11,18 @@
     <p-tabPanel header="Your categories">
       <ng-template pTemplate="content">
       <div class="table">
-        <p-dropdown [options]="userCategories" [(ngModel)]="selectedUserCategory" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
-        <button pButton type="button" label="Choose" (click)="chooseCategory(selectedUserCategory)"></button>
+        <div class="choose">
+          <p-dropdown [options]="userCategories" [(ngModel)]="selectedUserCategory" placeholder="Select a category" [editable]="true" optionLabel="name"></p-dropdown>
+          <button pButton type="button" label="Choose" (click)="chooseCategory(selectedUserCategory)"></button>
+        </div>
+         <div class="edit-delete-category">
+          <p-button label="Edit" icon="pi pi-pencil" (onClick)="changeNameInput(selectedUserCategory)"></p-button>
+          <p-button label="Delete" icon="pi pi-trash" (onClick)="deleteCategory(selectedUserCategory)"></p-button>
+        </div>
+        <div *ngIf="showInput" class="update">
+          <input type="text" pInputText [(ngModel)]="newCategoryName">
+          <p-button label="Save" icon="pi pi-save" (onClick)="updateCategory()"></p-button>
+        </div>
       </div>
       </ng-template>
     </p-tabPanel>

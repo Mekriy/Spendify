@@ -23,7 +23,10 @@
           </span>
           </div>
           <div class="button">
+            <a class="button-link" (click)="sendResetCode()">Forgot password?</a>
             <a [routerLink]="['../register']" class="button-link">Create an account</a>
+          </div>
+          <div>
             <button pButton icon="pi pi-sign-in" type="submit" label="Login" [disabled]="(!loginForm.valid) || loginButtonLock"></button>
           </div>
         </div>
@@ -31,5 +34,17 @@
           <p-progressSpinner [style]="{width: '100px', height: '100px'}" strokeWidth="5" ariaLabel="loading"></p-progressSpinner>
         </div>
       </form>
+      <p-dialog [(visible)]="showForgotDialog" [style]="{ width: '500px' }" [modal]="true" [draggable]="false" header="Forgot password">
+        <p>Please type your email so we can send reset code email to you...</p>
+        <div class="dialog">
+          <form [formGroup]="forgotPasswordForm" (ngSubmit)="onUpdate($event)">
+            <span class="p-float-label">
+                <input pInputText formControlName="email" />
+                <label>Email</label>
+              </span>
+            <p-button type="submit" label="Send" icon="pi pi-send"></p-button>
+          </form>
+        </div>
+      </p-dialog>
   </div>
 </div>

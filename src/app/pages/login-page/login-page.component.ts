@@ -4,11 +4,12 @@ import {AuthService} from "../../shared/services/auth.service";
 import {Login} from "../../shared/interfaces/login";
 import {CreateUser} from "../../shared/interfaces/create-user";
 import {Route, Router} from "@angular/router";
-import {catchError, finalize, of, switchMap, tap} from "rxjs";
+import {catchError, finalize, of, switchMap, takeUntil, tap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorResponse} from "../../shared/interfaces/error-response";
 import {parseJson} from "@angular/cli/src/utilities/json-file";
 import {MessageService} from "primeng/api";
+import {ResetCode} from "../../shared/interfaces/reset-code";
 
 @Component({
   selector: 'app-login-page',
@@ -136,5 +137,28 @@ export class LoginPageComponent {
 
   backToHomePage() {
     this.router.navigateByUrl('/').then(() => window.location.reload());
+  }
+
+  showForgotDialog: boolean = false;
+  forgotPasswordForm: FormGroup = new FormGroup({
+    email: new FormControl('', Validators.required)
+  })
+  sendResetCode() {
+    this.showForgotDialog = true;
+  }
+  onUpdate($event: any) {
+    let sendTo: ResetCode = {
+      to: this.forgotPasswordForm.get('email')?.value,
+      subject: "Forgot password"
+    }
+    this.authService.sendResetCode(sendTo)
+      .pipe(
+      )
+      .subscribe({
+        next: value => {
+          this.messageService.add({ severity:'success', summary:"Email sent!", detail:"Reset code email was sent! Please go to your email", life: 3000})
+        },
+        error: err => this.messageService.add({ severity:'error', summary:"Email was not sent!", detail:`Reset code email was not sent! ${err}`, life: 3000}),
+      })
   }
 }
