@@ -3,11 +3,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth.service";
 import {Login} from "../../shared/interfaces/login";
 import {CreateUser} from "../../shared/interfaces/create-user";
-import {Route, Router} from "@angular/router";
-import {catchError, finalize, of, switchMap, takeUntil, tap} from "rxjs";
+import {Router, RouterModule} from "@angular/router";
+import {catchError, finalize, of, switchMap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ErrorResponse} from "../../shared/interfaces/error-response";
-import {parseJson} from "@angular/cli/src/utilities/json-file";
 import {MessageService} from "primeng/api";
 import {ResetCode} from "../../shared/interfaces/reset-code";
 
@@ -15,7 +13,7 @@ import {ResetCode} from "../../shared/interfaces/reset-code";
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
-  providers: [AuthService, Router, MessageService]
+  providers: [AuthService, Router, RouterModule, MessageService]
 })
 export class LoginPageComponent {
   emailPattern:string = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
@@ -101,44 +99,36 @@ export class LoginPageComponent {
         })
       )
       .subscribe({
-        next: () => this.router.navigateByUrl('/your-expenses'),
+        next: () => this.router.navigateByUrl('/your-expenses').then(()=> window.location.reload()),
         error: (err) => this.handleError(err)
       })
   }
   private handleError(httpErr: HttpErrorResponse){
-    console.log("ASDSADASD", httpErr)
-      if(httpErr.status === 404){
-        this.createUser();
+    if(httpErr.status === 404){
+      this.createUser();
+    }
+    else if(httpErr.status === 401){
+      this.messageService.add({ severity: 'error', summary:'Error!', detail:'User doesn\'t exist! Check your email please', life: 3000})
+    }
+    else if(httpErr.status === 500){
+      this.messageService.add({ severity: 'error', summary:'Error!', detail:`Something went wrong... Please try again later`, life: 3000})
+    }
+    else if(httpErr.status === 400){
+      if(httpErr.error.title === "Email is not confirmed"){
+        this.messageService.add({ severity: 'error', summary:'Error!', detail:`${httpErr.error.detail}`, life: 3000})
       }
-      else if(httpErr.status === 401){
-        this.messageService.add({ severity: 'error', summary:'Error!', detail:'User doesn\'t exist! Check your email please', life: 3000})
+      else if(httpErr.error.title === "Wrong password"){
+        this.messageService.add({ severity: 'error', summary:'Error!', detail:`${httpErr.error.detail}`, life: 3000})
       }
-      else if(httpErr.status === 500){
-        this.messageService.add({ severity: 'error', summary:'Error!', detail:`Something went wrong... Please try again later`, life: 3000})
+      else {
+        this.messageService.add({ severity: 'error', summary:'Error!', detail:`Something went wrong...`, life: 3000})
+        console.log("Unhandled error description: ", httpErr.error.detail)
       }
-      else if(httpErr.status === 400){
-        if(httpErr.error.title === "Email is not confirmed"){
-          this.messageService.add({ severity: 'error', summary:'Error!', detail:`${httpErr.error.detail}`, life: 3000})
-        }
-        else if(httpErr.error.title === "Wrong password"){
-          this.messageService.add({ severity: 'error', summary:'Error!', detail:`${httpErr.error.detail}`, life: 3000})
-        }
-        else {
-          this.messageService.add({ severity: 'error', summary:'Error!', detail:`Something went wrong...`, life: 3000})
-          console.log("Unhandled error description: ", httpErr.error.detail)
-        }
-      }
-      else{
-        console.log("Unhandled status code error", httpErr.status)
-      }
+    }
+    else{
+      console.log("Unhandled status code error", httpErr.status)
+    }
   }
-
-    protected readonly Router = Router;
-
-  backToHomePage() {
-    this.router.navigateByUrl('/').then(() => window.location.reload());
-  }
-
   showForgotDialog: boolean = false;
   forgotPasswordForm: FormGroup = new FormGroup({
     email: new FormControl('', Validators.required)
@@ -160,5 +150,8 @@ export class LoginPageComponent {
         },
         error: err => this.messageService.add({ severity:'error', summary:"Email was not sent!", detail:`Reset code email was not sent! ${err}`, life: 3000}),
       })
+  }
+  backToHomePage() {
+    this.router.navigateByUrl('/').then(() => window.location.reload());
   }
 }

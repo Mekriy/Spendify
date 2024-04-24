@@ -21,7 +21,6 @@ export class MonthlyOverviewComponent implements OnInit{
       .pipe()
       .subscribe({
         next: value => this.data = value,
-        error: err => console.log(err)
       })
   }
 

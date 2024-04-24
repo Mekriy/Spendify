@@ -11,6 +11,5 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
     let access = localStorage.getItem('access_token');
     this.isAuthenticated = access !== null;
-    console.log("auth: ", this.isAuthenticated)
   }
 }

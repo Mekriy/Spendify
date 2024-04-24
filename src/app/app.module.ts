@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
@@ -26,6 +25,7 @@ import {UserInfoPageModule} from "./pages/admin/user-info-page/user-info-page.mo
 import {GoogleMap, MapMarker} from "@angular/google-maps";
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { VerifiedPasswordResetComponent } from './static-pages/verified-password-reset/verified-password-reset.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -55,7 +55,8 @@ import { VerifiedPasswordResetComponent } from './static-pages/verified-password
         ControlPanelPageModule,
         UserInfoPageModule,
         GoogleMap,
-        MapMarker
+        MapMarker,
+      RouterModule
     ],
   providers: [
     {

@@ -81,7 +81,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
           this.userLocations = value.locations;
           this.fullNameForm.setValue({firstName: this.userInfo.firstName, lastName: this.userInfo.lastName});
         },
-        error: err => console.log(err)
       })
   }
 
@@ -150,7 +149,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
           .pipe()
           .subscribe({
             next: value => this.router.navigateByUrl('/').then(()=> window.location.reload()),
-            error: err => console.log(err)
           });
       },
       reject: () => {

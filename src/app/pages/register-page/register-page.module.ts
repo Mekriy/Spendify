@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {SharedModule} from "primeng/api";
 import {SharedPrimeNgModules} from "../../shared/modules/SharedPrimeNgModules";
 import {CoreModule} from "../../core/core.module";
-
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({

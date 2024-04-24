@@ -28,7 +28,6 @@ export class StatisticPageComponent implements OnInit, OnDestroy{
       )
       .subscribe({
         next: value => this.loadPie(value),
-        error: err => console.log("getAverageMoneySpentInMonthByCategory", err)
         })
     this.expenseService.getCountItemsBoughtInCategory()
       .pipe(
@@ -36,7 +35,6 @@ export class StatisticPageComponent implements OnInit, OnDestroy{
       )
       .subscribe({
         next: value => this.loadBars(value),
-        error: err => console.log("getCountItemsBoughtInCategory", err)
       })
     this.expenseService.getAverageMoneySpentInMonthByYear()
       .pipe(
@@ -44,7 +42,6 @@ export class StatisticPageComponent implements OnInit, OnDestroy{
       )
       .subscribe({
         next: value => this.loadLine(value),
-        error: err => console.log("getAverageMoneySpentInMonthByYear", err)
       })
   }
   private loadPie(data: AverageMoneySpentInMonthByCategory[]){

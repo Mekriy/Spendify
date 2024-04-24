@@ -67,7 +67,6 @@ export class AddLocationDialogformComponent implements OnInit, OnDestroy{
       )
       .subscribe({
         next: value => this.userLocations = value,
-        error: err => console.log(err)
       })
   }
   ngOnDestroy() {

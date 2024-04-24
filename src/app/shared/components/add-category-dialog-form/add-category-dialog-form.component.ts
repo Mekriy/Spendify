@@ -47,7 +47,6 @@ export class AddCategoryDialogFormComponent implements OnInit, OnDestroy{
       )
       .subscribe({
         next: value => this.userCategories = value,
-        error: err => console.log(err)
       })
   }
   ngOnDestroy() {
@@ -70,7 +69,6 @@ export class AddCategoryDialogFormComponent implements OnInit, OnDestroy{
           this.createdCategory = value;
           this.chooseCategory(this.createdCategory);
         },
-        error: err => console.log(err)
       });
   }
   chooseCategory(selectedCategory: Category) {
@@ -100,7 +98,6 @@ export class AddCategoryDialogFormComponent implements OnInit, OnDestroy{
       .pipe()
       .subscribe({
         next: value => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=> window.location.reload()),
-        error: err => console.log(err),
       })
   }
 
@@ -109,7 +106,6 @@ export class AddCategoryDialogFormComponent implements OnInit, OnDestroy{
       .pipe()
       .subscribe({
         next: value => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=> window.location.reload()),
-        error: err => console.log(err),
       })
   }
 }

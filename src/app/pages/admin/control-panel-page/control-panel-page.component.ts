@@ -81,7 +81,6 @@ export class ControlPanelPageComponent implements OnInit, OnDestroy{
       .subscribe({
         next: value => {
           this.todayExpenses = value;
-          console.log(this.todayExpenses)
           this.loadPie(this.todayExpenses, 'Today\'s expenses by Categories on site')
         },
         error: err => {
@@ -204,7 +203,6 @@ export class ControlPanelPageComponent implements OnInit, OnDestroy{
       .pipe()
       .subscribe({
         next: value => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=> window.location.reload()),
-        error: err => console.log(err),
       })
   }
 
@@ -213,7 +211,6 @@ export class ControlPanelPageComponent implements OnInit, OnDestroy{
       .pipe()
       .subscribe({
         next: value => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=> window.location.reload()),
-        error: err => console.log(err),
       })
   }
 
@@ -237,7 +234,6 @@ export class ControlPanelPageComponent implements OnInit, OnDestroy{
       )
       .subscribe({
         next: () => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(() => window.location.reload()),
-        error: err => console.log(err)
       });
   }
 }

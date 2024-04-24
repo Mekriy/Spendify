@@ -115,7 +115,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
     });
     this.ref.onClose.subscribe((location: Location) => {
-      console.log("location: ", location)
       if (location) {
         this.location = location;
         this.nameOfLocation = location.name!;
@@ -137,7 +136,6 @@ export class AddExpenseComponent implements OnInit, OnDestroy {
       }
     });
     this.ref.onClose.subscribe((category: DropdownCategory) => {
-      console.log("Category: ", category)
       if (category) {
         this.category = category;
         this.categoryOutput = category.name!;

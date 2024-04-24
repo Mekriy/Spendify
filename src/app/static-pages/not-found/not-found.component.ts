@@ -12,7 +12,7 @@ export class NotFoundComponent {
 
   ngOnInit() {
     setTimeout(() => {
-      this.router.navigate(['../']);
+      this.router.navigateByUrl('/').then(() => window.location.reload());
     }, 5000);
   }
 }

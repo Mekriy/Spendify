@@ -48,7 +48,6 @@ export class SideBarComponent implements OnInit{
         next: value => {
           this.createImageFromBlob(value);
         },
-        error: err => console.log("Error:", err)
       })
   }
 

@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {passwordsMatchValidator} from "../../shared/validators/form-validator";
 import {AuthService} from "../../shared/services/auth.service";
 import {Register} from "../../shared/interfaces/register";
-import {success} from "concurrently/dist/src/defaults";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {Router} from "@angular/router";
 import {catchError, finalize, of} from "rxjs";
@@ -92,7 +91,6 @@ export class RegisterPageComponent {
       rejectButtonStyleClass: "p-button-text",
       accept: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email was not sent. Please try again later', life: 3000});
-        console.log('Error details: ', details)
       }
     })
   }

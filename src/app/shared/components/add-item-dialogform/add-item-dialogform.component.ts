@@ -171,7 +171,6 @@ export class AddItemDialogformComponent implements OnDestroy, OnInit{
       .pipe()
       .subscribe({
         next: () => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=>window.location.reload()),
-        error: err => console.log(err),
       })
   }
 
@@ -186,7 +185,6 @@ export class AddItemDialogformComponent implements OnDestroy, OnInit{
         next: () => {
           this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(() => window.location.reload())
         },
-        error: err => console.log(err),
       })
   }
 }

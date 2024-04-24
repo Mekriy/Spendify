@@ -43,7 +43,6 @@ export class UserInfoPageComponent {
       )
       .subscribe({
         next: value => this.suggestions = value,
-        error: err => console.log("err: ", err)
       })
   }
 

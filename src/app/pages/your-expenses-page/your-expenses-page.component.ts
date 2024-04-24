@@ -76,7 +76,6 @@ export class YourExpensesPageComponent implements OnDestroy{
       )
       .subscribe({
         next: value => this.loadExpenses(value),
-        error: err => console.log(err),
       });
   }
   searchCategoryChanged: Subject<any> = new Subject<any>()
@@ -154,8 +153,7 @@ export class YourExpensesPageComponent implements OnDestroy{
             })
           )
           .subscribe({
-            next: value => console.log(value),
-            error: err => console.log(err)
+            next: value => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=> window.location.reload()),
           })
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Expenses Deleted', life: 3000 });
     }
@@ -175,8 +173,7 @@ export class YourExpensesPageComponent implements OnDestroy{
             })
           )
           .subscribe({
-            next: value => console.log(value),
-            error: err => console.log(err)
+            next: value => this.router.navigateByUrl(`/${this.router.url}`, {skipLocationChange: true}).then(()=> window.location.reload()),
           })
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Expense Deleted', life: 3000 });
       }
@@ -290,7 +287,6 @@ export class YourExpensesPageComponent implements OnDestroy{
       }
     });
     this.ref.onClose.subscribe((category: DropdownCategory) => {
-      console.log("Category: ", category)
       if (category) {
         this.paginationExpense.category = category;
       }
@@ -308,7 +304,6 @@ export class YourExpensesPageComponent implements OnDestroy{
       }
     });
     this.ref.onClose.subscribe((location: Location) => {
-      console.log("location: ", location)
       if (location) {
         this.newLocation = location;
         this.paginationExpense.location = location

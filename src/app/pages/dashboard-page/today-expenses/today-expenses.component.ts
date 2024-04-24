@@ -18,7 +18,6 @@ export class TodayExpensesComponent implements OnInit{
     this.expenseService.getLastTodayFiveExpenses()
       .pipe(
         catchError(error => {
-          console.log("error: ", error)
           if(error.status === 404){
             this.noData = true;
           }

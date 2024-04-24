@@ -23,20 +23,24 @@ import {VerifiedPasswordResetComponent} from "./static-pages/verified-password-r
 const routes: Routes = [
   {
     path: '',
-    component: HomePageComponent
+    loadChildren: () => import('./static-pages/home-page/home-page-routing.module')
+      .then(r => r.HomePageRoutingModule),
   },
   {
     path: 'your-expenses',
     component: YourExpensesPageComponent,
-    // loadChildren: () => import('./your-expenses-page/your-expenses-page.module').then(m => m.YourExpensesPageModule)
+    loadChildren: () => import('./pages/your-expenses-page/your-expenses-page-routing.module')
+      .then(m => m.YourExpensesPageRoutingModule)
   },
   {
     path: 'dashboard',
-    component: DashboardPageComponent
+    loadChildren: () => import('./pages/dashboard-page/dashboard-page-routing.module')
+      .then(m => m.DashboardPageRoutingModule)
   },
   {
     path: 'statistic',
-    component: StatisticPageComponent
+    loadChildren: () => import('./pages/statistic-page/statistic-page-routing.module')
+      .then(m => m.StatisticPageRoutingModule)
   },
   {
     path: 'login',
@@ -44,35 +48,43 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterPageComponent
+    loadChildren: () => import('./pages/register-page/register-page-routing.module')
+      .then(r => r.RegisterPageRoutingModule)
   },
   {
     path: 'verification-success',
-    component: EmailVerificationSuccessComponent
+    loadChildren: () => import('./static-pages/email-verification-success/email-verification-success-routing.module')
+      .then(r => r.EmailVerificationSuccessRoutingModule)
   },
   {
     path: 'verification-failure',
-    component: EmailVerificationFailureComponent
+    loadChildren: () => import('./static-pages/email-verification-failure/email-verification-failure-routing.module')
+      .then(r => r.EmailVerificationFailureRoutingModule)
   },
   {
     path: 'control-panel',
-    component: ControlPanelPageComponent
+    loadChildren: () => import('./pages/admin/control-panel-page/control-panel-page-routing.module')
+      .then(r => r.ControlPanelPageRoutingModule)
   },
   {
     path: 'user-info',
-    component: UserInfoPageComponent
+    loadChildren: () => import('./pages/admin/user-info-page/user-info-page-routing.module')
+      .then(r => r.UserInfoPageRoutingModule)
   },
   {
     path:'profile',
-    component: ProfilePageComponent
+    loadChildren: () => import('./pages/profile-page/profile-page-routing.module')
+      .then(r => r.ProfilePageRoutingModule)
   },
   {
     path: 'verified-password-reset',
-    component: VerifiedPasswordResetComponent
+    loadChildren: () => import('./static-pages/verified-password-reset/verified-password-reset-routing.module')
+      .then(r => r.VerifiedPasswordResetRoutingModule)
   },
   {
     path: '404',
-    component: NotFoundComponent
+    loadChildren: () => import('./static-pages/not-found/not-found-routing.module')
+      .then(r => r.NotFoundRoutingModule)
   },
   {
     path: '**',
