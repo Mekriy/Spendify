@@ -32,12 +32,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
   tempUserInfo!: User;
   notEditing: boolean = true;
 
-  userPasswordChange: { oldPassword: string; newPassword: string; confirmPassword: string;} = {
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  }
-
   unsubscribe$: Subject<void> = new Subject<void>();
   userItems!: Item[];
   userCategories!: Category[];
@@ -46,8 +40,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
 
   constructor(
     private fb: FormBuilder,
-    private dialogService: DialogService,
-    private ref: DynamicDialogRef,
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly confirmService: ConfirmationService,
@@ -55,8 +47,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.fullNameForm = this.fb.group({
-      firstName: [{value: '', disabled: true}, Validators.required],
-      lastName: [{value: '', disabled: true}, Validators.required]
+      firstName: [{value: 'First Name', disabled: true}, Validators.required],
+      lastName: [{value: 'Last Name', disabled: true}, Validators.required]
     });
     this.loadUserInfo();
   }
@@ -65,6 +57,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
       .pipe(
         switchMap((res:any) => {
           this.userInfo = res;
+          this.fullNameForm.setValue({firstName: this.userInfo.firstName, lastName: this.userInfo.lastName});
           return this.authService.getUserPhoto(res.fileName)
             .pipe(
               switchMap((res:any) => {
@@ -79,7 +72,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy{
           this.userItems = value.items;
           this.userCategories = value.categories;
           this.userLocations = value.locations;
-          this.fullNameForm.setValue({firstName: this.userInfo.firstName, lastName: this.userInfo.lastName});
         },
       })
   }

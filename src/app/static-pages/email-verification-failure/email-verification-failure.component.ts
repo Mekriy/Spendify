@@ -12,7 +12,7 @@ export class EmailVerificationFailureComponent implements OnInit{
 
   ngOnInit() {
     setTimeout(() => {
-      this.router.navigate(['../register']);
+      this.router.navigateByUrl('/').then(()=> window.location.reload());
     }, 5000);
   }
 }
