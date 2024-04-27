@@ -1,0 +1,91 @@
+@import '../../shared/styles/variables.scss';
+
+.parent{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100% ;
+    .maincontent{
+        padding: 20px;
+        .page-name{
+            font-size: 30px;
+        }
+        .content{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            width: 1200px;
+            height: 90%;
+        }
+      .table-buttons{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .filters{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 45%;
+          .filter{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+        .crud-buttons{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          width: 30%;
+        }
+      }
+      .inputs{
+        width: 40%;
+      }
+      .output-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        .field-label{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+        }
+        .output-field{
+          width: 14rem;
+          height: 2.5rem;
+        }
+      }
+      .itemEntity{
+        display: flex;
+        flex-direction: column;
+        color: $textColor;
+        .itemList{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          background-color: $backgroundColor;
+          color: $textColor;
+          width: 90%;
+          height: 40px;
+          .itemSpanList{
+
+          }
+        }
+      }
+    }
+}
+.items{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+:hover ::ng-deep p-datatable p-component{
+  border-radius: 15px;
+}

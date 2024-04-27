@@ -1,0 +1,67 @@
+<div class="parent">
+  <div class="header">
+    <div>
+      <h2>Spendify</h2>
+    </div>
+    <div>
+      <div *ngIf="isAuthenticated; else elseBlock">
+        <p-button icon="pi pi-user" label="Profile" [outlined]="true" routerLink="./profile"></p-button>
+      </div>
+      <ng-template #elseBlock>
+        <p-buttonGroup>
+          <p-button icon="pi pi-sign-in" label="Login" [outlined]="true" routerLink="./login"></p-button>
+          <p-button icon="pi pi-user-plus" label="Register" routerLink="./register"></p-button>
+        </p-buttonGroup>
+      </ng-template>
+    </div>
+  </div>
+  <div class="main">
+    <div class="main-text">
+      <div>
+        <h1 style="margin-bottom: 0;">Get spending money</h1>
+        <h1 style="margin-top: 0; margin-bottom: 0;">under your control</h1>
+        <h1 style="margin-top: 0;">and track them on our site!</h1>
+      </div>
+      <div>
+        <p style="font-size: 18px; margin-bottom: 0;">Spendify is the most intuitive,</p>
+        <p style="font-size: 18px; margin-top: 0;" >advance and smart way to track your spending on a daily basis</p>
+      </div>
+      <div>
+        <p-button icon="pi pi-arrow-right" label="Get started" [routerLink]="['./register']"></p-button>
+      </div>
+    </div>
+    <div class="picture">
+      <img src="./assets/images/pngegg.png" alt="Shvainocimbor" title="Shvainocimbor">
+    </div>
+    <div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-left">
+      <h1>Spendify</h1>
+    </div>
+    <div class="footer-middle">
+      <div>
+        <h2 style="margin: 0;"> Our socials </h2>
+      </div>
+      <div class="socials">
+        <div class="social-buttons">
+          <p-button icon="pi pi-linkedin" label="LinkedIn" [link]="true" onclick="window.open('https://www.linkedin.com/in/andrii-pasternak-831128230/')"></p-button>
+          <p-button icon="pi pi-github" label="GitHub" [link]="true" onclick="window.open('https://github.com/Mekriy/Spendify')"></p-button>
+        </div>
+        <div class="social-buttons">
+          <p-button icon="pi pi-discord" label="Discord" [link]="true" onclick="window.open('https://discord.gg/2tXh9xhktQ')"></p-button>
+          <p-button icon="pi pi-twitter" label="Twitter" [link]="true" onclick="window.open('https://twitter.com/Mekriy')"></p-button>
+        </div>
+        <div class="social-buttons">
+          <p-button icon="pi pi-telegram" label="Telegram" [link]="true" onclick="window.open('https://t.me/Mekriy')"></p-button>
+          <p-button icon="pi pi-instagram" label="Instagram" [link]="true" onclick="window.open('https://www.instagram.com/itsmekriy/')"></p-button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-right">
+      <h4>&#169; 2024 by Andrii Pasternak</h4>
+      <h4>Spendify Ltd. corporation</h4>
+    </div>
+  </div>
+</div>

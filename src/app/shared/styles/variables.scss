@@ -1,0 +1,11 @@
+:root {
+    --backgroundColor: #42494D;
+    --sectionsColor: #2F3437;
+    --textColor: #ffffff;
+    --fontFamily: 'Roboto', sans-serif;
+  }
+  
+  $backgroundColor: var(--backgroundColor);
+  $sectionsColor: var(--sectionsColor);
+  $textColor: var(--textColor);
+  $fontFamily: var(--fontFamily);

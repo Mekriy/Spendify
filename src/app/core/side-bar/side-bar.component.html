@@ -1,0 +1,48 @@
+<div class="parent">
+    <div class="container">
+      <div class="logo">
+        <span>Spendify</span>
+      </div>
+      <div class="userDiv">
+        <img src="{{imageData}}" alt="defUserImg" (click)="goToProfile()">
+        <h3 class="username" (click)="goToProfile()">{{user.firstName}} </h3>
+      </div>
+      <div *ngIf="user.roleName == 'User'; else elseBlock" class="side-bar-buttons">
+        <div class="buttons">
+          <p-button icon="pi pi-user" label="Profile" [link]="true" [routerLink]="['/profile']" ></p-button>
+        </div>
+        <div class="buttons">
+          <p-button icon="pi pi-list" label="Your Expenses" [link]="true" [routerLink]="['/your-expenses']" ></p-button>
+        </div>
+        <div class="buttons">
+          <p-button icon="pi pi-table" label="Dashboard" [link]="true" [routerLink]="['/dashboard']" ></p-button>
+        </div>
+        <div class="buttons">
+          <p-button icon="pi pi-chart-bar" label="Statistic" [link]="true" [routerLink]="['/statistic']" ></p-button>
+        </div>
+      </div>
+      <ng-template #elseBlock class="side-bar-buttons">
+        <div class="buttons">
+          <p-button icon="pi pi-user" label="Profile" [link]="true" [routerLink]="['/profile']" ></p-button>
+        </div>
+        <div class="buttons">
+          <p-button icon="pi pi-th-large" label="Control panel" [link]="true" [routerLink]="['/control-panel']" ></p-button>
+        </div>
+        <div class="buttons">
+          <p-button icon="pi pi-users" label="User info" [link]="true" [routerLink]="['/user-info']" ></p-button>
+        </div>
+      </ng-template>
+    </div>
+    <div class="side-bar-buttons">
+      <p-toast></p-toast>
+        <div class="buttons">
+          <p-button icon="pi pi-sliders-h" label="Settings" [link]="true" [routerLink]="['/settings']" ></p-button>
+        </div>
+        <div class="buttons">
+          <div class="buttons">
+            <p-confirmDialog></p-confirmDialog>
+            <p-button icon="pi pi-sign-out" label="Logout" [link]="true" (click)="logout()"></p-button>
+          </div>
+        </div>
+    </div>
+</div>

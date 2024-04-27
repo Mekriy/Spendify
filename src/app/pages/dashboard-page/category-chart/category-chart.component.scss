@@ -1,0 +1,13 @@
+@import '../../../shared/styles/variables';
+
+.parent{
+    background-color: $sectionsColor;
+    color: $textColor;
+    height: 300px;
+    width: 600px;
+    padding: 10px;
+    border-radius: 15px;
+    .apx-style{
+      color:$textColor
+    }
+}

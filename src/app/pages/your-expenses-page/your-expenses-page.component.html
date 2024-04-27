@@ -1,0 +1,220 @@
+<div class="parent">
+  <app-side-bar></app-side-bar>
+  <div class="maincontent">
+    <div class="page-name">Your expenses</div>
+    <div class="content">
+      <div class="card">
+        <p-toast></p-toast>
+        <p-table
+          #dt
+          [value]="paginationExpenses"
+          [rows]="paginationFilter.pageSize"
+          [first]="paginationFilter.pageNumber"
+          [paginator]="true"
+          [lazy]="true"
+          (onLazyLoad)="loadExpenses($event)"
+          [totalRecords]="totalRecords"
+          [globalFilterFields]="['Price', 'Date']"
+          [tableStyle]="{ 'min-width': '75rem' }"
+          [(selection)]="selectedExpenses"
+          [filterDelay]="500"
+          dataKey="id"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="caption">
+            <div class="table-buttons">
+              <div class="filters">
+                <div class="filter">
+                  <p-radioButton name="filter" label="Last week" value="byWeek"
+                                 [(ngModel)]="byFilter" inputId="byWeek" (ngModelChange)="loadExpenses($event)"></p-radioButton>
+                </div>
+                <div class="filter">
+                  <p-radioButton name="filter" label="Last month" value="byMonth"
+                                 [(ngModel)]="byFilter" inputId="byMonth"  (ngModelChange)="loadExpenses($event)"></p-radioButton>
+                </div>
+                <div class="filter">
+                  <p-radioButton name="filter" label="Last 3 months" value="byThreeMonths"
+                                 [(ngModel)]="byFilter" inputId="byThreeMonths" (ngModelChange)="loadExpenses($event)"></p-radioButton>
+                </div>
+                <div class="filter">
+                  <p-button label="Clear" icon="pi pi-filter" (onClick)="clearFilter()"></p-button>
+                </div>
+              </div>
+              <div>
+                  <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="searchCategory" (ngModelChange)="onSearch($event)" placeholder="Search category"  />
+                  </span>
+              </div>
+              <div class="crud-buttons">
+                <p-buttonGroup>
+                  <p-button icon="pi pi-plus" label="Add expense" [outlined]="true" (click)="AddNewExpense()"></p-button>
+                  <p-button icon="pi pi-trash" label="Delete expense" [outlined]="true" severity="secondary" (click)="deleteSelectedExpenses(selectedExpenses)" [disabled]="!selectedExpenses || !selectedExpenses.length"></p-button>
+                </p-buttonGroup>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 4rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="Price">
+                Price <p-sortIcon field="Price"></p-sortIcon>
+              </th>
+              <th pSortableColumn="Date">
+                Date <p-sortIcon field="Date"></p-sortIcon>
+              </th>
+              <th>
+                Category
+              </th>
+              <th>Location</th>
+              <th>On map</th>
+              <th>Items</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-paginationExpense>
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="paginationExpense"></p-tableCheckbox>
+              </td>
+              <td>{{ paginationExpense.price | currency : "USD" }}</td>
+              <td>{{ paginationExpense.date | date : "dd/MM/yyyy" }}</td>
+              <td>{{ paginationExpense.category!.name }}</td>
+              <td>{{ paginationExpense.location!.name }}</td>
+              <td>
+                <p-button icon="pi pi-external-link" label="Google maps" [outlined]="true" (click)="showExpenseLocation(paginationExpense)"></p-button>
+              </td>
+              <td>
+                <p-button icon="pi pi-bars" label="Items" [outlined]="true" (click)="showExpenseDetails(paginationExpense)"></p-button>
+            </td>
+              <td>
+                <p-buttonGroup>
+                  <p-button icon="pi pi-pencil" label="Edit" [outlined]="true" (click)="editExpense(paginationExpense)"></p-button>
+                  <p-button icon="pi pi-trash" label="Delete" [outlined]="true" (click)="deleteSelectedExpense(paginationExpense)"></p-button>
+                </p-buttonGroup>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <p-dialog [(visible)]="expenseDialog" [style]="{ width: '1000px' }" header="Edit expense" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+          <div class="formgrid grid">
+              <div class="outputs">
+                <div class="output-container">
+                  <div class="field-label">
+                    <label>Price</label>
+                    <p-inputNumber id="price" class="output-field" [(ngModel)]="paginationExpense.price" mode="currency" currency="USD" locale="en-US" [disabled]="true"></p-inputNumber>
+                  </div>
+                </div>
+                <div class="output-container">
+                  <div class="field-label">
+                    <label>Category</label>
+                    <input pInputText id="category" class="output-field" [(ngModel)]="paginationExpense.category!.name">
+                  </div>
+                  <div>
+                    <p-button icon="pi pi-plus"  label="Edit Category" [text]="true" [plain]="true" (click)="editCategory()"></p-button>
+                  </div>
+                </div>
+                <div *ngIf="paginationExpense.location" class="output-container">
+                  <div class="field-label">
+                    <label>Location</label>
+                    <input pInputText id="location" class="output-field" [(ngModel)]="paginationExpense.location.name">
+                  </div>
+                  <div>
+                    <p-button icon="pi pi-plus" label="Edit Location" [text]="true" [plain]="true" (click)="editLocation()"></p-button>
+                  </div>
+                </div>
+                <p-divider></p-divider>
+                <div class="output-container">
+                  <label>Items</label>
+                  <p-button icon="pi pi-plus" label="Add Items" [text]="true" [plain]="true" (click)="addItems()"></p-button>
+                </div>
+              </div>
+              <p-table [value]="newItems" [tableStyle]="{ 'min-width': '30rem' }">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Review</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td>
+                      <p-tag *ngIf="item.isNew; else elseBlock" severity="success" value="New"></p-tag>
+                      <ng-template #elseBlock>
+                        <p-tag severity="info" value="Old"></p-tag>
+                      </ng-template>
+                    </td>
+                    <td>{{ item.name }}</td>
+                    <td>{{item.price | currency: "USD"}}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
+                  </tr>
+                </ng-template>
+              </p-table>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveExpense(paginationExpense)"></button>
+        </ng-template>
+      </p-dialog>
+
+      <p-dialog [(visible)]="expenseDetailsDialog" [style]="{ width: '1000px' }" header="Items" [modal]="true" styleClass="p-fluid">
+        <p-table [value]="items!" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Review</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>{{'$' + item.price }}</td>
+              <td>{{ item.quantity }}</td>
+              <td><p-rating [ngModel]="item.review" [readonly]="true" [cancel]="false"></p-rating></td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="hideExpenseDetailsDialog()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="expenseLocationDialog" [style]="{ width: '600px' }" header="Expense Location" [modal]="true" styleClass="p-fluid">
+      <ng-template pTemplate="content">
+          <div>
+              <google-map
+              height="400px"
+              width="100%"
+              [center]="center"
+              [zoom]="zoom"
+              >
+                <map-marker
+                *ngFor="let markerPosition of markerPositions"
+                [position]="markerPosition"
+                ></map-marker>
+              </google-map>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="footer">
+          <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-text" (click)="hideExpenseLocationDialog()"></button>
+      </ng-template>
+  </p-dialog>
+
+      <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+    </div>
+  </div>
+</div>

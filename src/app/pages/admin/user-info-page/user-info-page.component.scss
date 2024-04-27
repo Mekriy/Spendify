@@ -1,0 +1,102 @@
+@import '../../../shared/styles/variables';
+
+.parent {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  .main-content {
+    width: 100%;
+    .container {
+      font-size: 30px;
+      padding: 20px 0 0 20px;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0 60px 10px 60px;
+      .userInfoAndSearch{
+        width:100%;
+        height: 15%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        .user-info{
+          width:100%;
+          height: 20%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          column-gap: 15px;
+          .name{
+            font-size: 24px;
+          }
+        }
+      }
+      .options{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        .user{
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: flex-start;
+        }
+      }
+      .third-row{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        .headers{
+          margin: 0;
+          text-align: center;
+        }
+        .info{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .contents{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-start;
+        }
+        .userItems{
+          height: 200px;
+          width: 33%;
+          background-color: $sectionsColor;
+          border-radius: 15px;
+          padding: 10px;
+        }
+        .userCategories{
+          height: 200px;
+          width: 33%;
+          background-color: $sectionsColor;
+          border-radius: 15px;
+          padding: 10px;
+
+        }
+        .userLocations{
+          height: 200px;
+          width: 33%;
+          background-color: $sectionsColor;
+          border-radius: 15px;
+          padding: 10px;
+
+        }
+      }
+    }
+  }
+}

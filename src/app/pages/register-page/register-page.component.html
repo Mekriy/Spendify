@@ -1,0 +1,48 @@
+<div class="parent">
+  <div class="maincontent">
+      <div class="logo">
+        <h1>Spendify</h1>
+      </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="register">
+        <div class="back-home">
+          <p-button [outlined]="true" icon="pi pi-arrow-left" (onClick)="backToHomePage()"></p-button>
+        </div>
+        <div class="title">
+          Register
+        </div>
+        <div class="inputs">
+          <div class="first-last-names">
+            <span class="p-float-label">
+              <input pInputText id="firstName" type="text" formControlName="firstName"/>
+              <label for="firstName">First Name</label>
+            </span>
+            <span class="p-float-label">
+              <input pInputText id="lastName" type="text" formControlName="lastName"/>
+              <label for="lastName">Last Name</label>
+            </span>
+          </div>
+          <span class="p-float-label">
+            <input pInputText id="email" type="email" formControlName="email"/>
+            <label for="email">Email</label>
+          </span>
+          <span class="p-float-label">
+            <input pInputText id="password" type="password" formControlName="password"/>
+            <label for="password">Password</label>
+          </span>
+          <span class="p-float-label">
+            <input pInputText id="confirmPassword" type="password" formControlName="confirmPassword"/>
+            <label for="confirmPassword">Confirm Password</label>
+          </span>
+        </div>
+          <p-confirmDialog></p-confirmDialog>
+          <div class="button">
+            <button pButton icon="pi pi-user-plus" label="Register" type="submit" [disabled]="(!registerForm.valid) || registerButtonLock"></button>
+        </div>
+      </div>
+      <div *ngIf="showSpinner" class="register overlay">
+        <p-progressSpinner [style]="{width: '100px', height: '100px'}" strokeWidth="5" ariaLabel="loading"></p-progressSpinner>
+      </div>
+    </form>
+  </div>
+</div>

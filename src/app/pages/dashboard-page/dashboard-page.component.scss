@@ -1,0 +1,39 @@
+.parent {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+
+  .maincontent {
+    .container {
+      font-size: 30px;
+      padding: 20px 0 20px 20px;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      width: 100%;
+      height: 100%;
+      flex-grow: 1;
+      padding: 0 0 0 60px;
+
+      .ChartAndExpenses {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 100%;
+      }
+
+      .additemAndOverview {
+        margin-left: 40px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 100%;
+      }
+    }
+  }
+}

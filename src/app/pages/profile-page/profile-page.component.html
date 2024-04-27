@@ -1,0 +1,123 @@
+<div class="parent">
+  <app-side-bar></app-side-bar>
+  <div class="main-content">
+    <div class="first-row">
+      <div class="pfpAndChangeButton">
+        <div>
+          <img src="{{imageData}}" class="pfp" alt="">
+        </div>
+        <div class="change-button">
+          <p-fileUpload mode="basic" chooseLabel="Browse" name="file" url="https://localhost:44395/api/User/upload" accept="image/*" [maxFileSize]="10000000" (onUpload)="UploadAuto($event)"></p-fileUpload>
+        </div>
+      </div>
+      <div class="user-info">
+        <div>
+          <h2 style="margin: 0">Your information</h2>
+        </div>
+        <form [formGroup]="fullNameForm" (ngSubmit)="saveUserInfo($event)">
+          <div class="first-last-names">
+          <span class="p-float-label">
+            <input pInputText id="firstName" formControlName="firstName" [disabled]="notEditing"/>
+            <label for="firstName">First Name</label>
+          </span>
+            <span class="p-float-label">
+            <input pInputText id="lastName" formControlName="lastName" [disabled]="notEditing"/>
+            <label for="lastName">Last Name</label>
+          </span>
+          </div>
+        </form>
+        <div class="email">
+          <span class="p-float-label p-input-icon-left">
+            <i class="pi pi-at"></i>
+            <input pInputText id="email" [(ngModel)]="userInfo.email" [disabled]="true"/>
+            <label for="email">Email</label>
+          </span>
+        </div>
+      </div>
+      <div class="crud-buttons">
+        <div>
+          <h2>Manage account</h2>
+        </div>
+        <form [formGroup]="fullNameForm" (ngSubmit)="saveUserInfo($event)">
+          <div class="edit-and-save">
+            <p-button label="Save name" type="submit" icon="pi pi-save" [disabled]="notEditing"></p-button>
+            <p-button label="Edit name" icon="pi pi-user-edit" *ngIf="notEditing; else elseBlock" (onClick)="enableEdit($event)"></p-button>
+            <ng-template #elseBlock>
+              <p-button label="Cancel" type="reset" icon="pi pi-times" (onClick)="disableEdit($event)"></p-button>
+            </ng-template>
+          </div>
+        </form>
+        <div class="delete-button">
+          <p-toast></p-toast>
+          <p-confirmDialog></p-confirmDialog>
+          <p-button label="Delete account" icon="pi pi-user-minus" (click)="deleteUser($event)"></p-button>
+          <p-button label="Change password" icon="pi pi-edit" (onClick)="sendResetCode()"></p-button>
+          <p-dialog header="Verify reseting password" [(visible)]="emailSent" [style]="{width: '50vw'}">
+            <p>
+              We've sent you email to verify password resetting!
+            </p>
+            <p>
+              Please check your email to change your password.
+            </p>
+          </p-dialog>
+          <p-dialog header="Can't send email" [(visible)]="emailNotSent" [style]="{width: '50vw'}">
+            <p>
+              We are sorry! There is a problem on our server...
+            </p>
+            <p>
+              Please try again or change your password later
+            </p>
+          </p-dialog>
+        </div>
+      </div>
+    </div>
+    <p-divider></p-divider>
+    <ng-container *ngIf="userInfo?.id">
+      <div class="second-row">
+        <div class="userItems">
+          <h3 class="headers">Created items</h3>
+          <div class="info">
+            <p>Name</p>
+            <p>Price</p>
+          </div>
+          <p-scrollPanel [style]="{width: '100%', height: '60%' }">
+            <div *ngFor="let item of userItems">
+              <div class="contents">
+                <p>{{item.name}}</p>
+                <p>{{item.price | currency: "USD"}}</p>
+              </div>
+            </div>
+          </p-scrollPanel>
+        </div>
+        <div class="userCategories">
+          <h3 class="headers">Created categories</h3>
+          <div class="info">
+            <p>Name</p>
+          </div>
+          <p-scrollPanel [style]="{width: '100%', height: '60%' }">
+            <div *ngFor="let category of userCategories">
+              <div class="contents">
+                <p>{{category.name}}</p>
+              </div>
+            </div>
+          </p-scrollPanel>
+        </div>
+        <div class="userLocations">
+          <h3 class="headers">Created locations</h3>
+          <div class="info">
+            <p>Name</p>
+            <p>Address</p>
+          </div>
+          <p-scrollPanel [style]="{width: '100%', height: '60%' }">
+            <div *ngFor="let location of userLocations">
+              <div class="contents">
+                <p>{{location.name}}</p>
+                <p>{{location.address}}</p>
+              </div>
+            </div>
+          </p-scrollPanel>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

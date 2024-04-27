@@ -1,0 +1,19 @@
+<div class="parent">
+    <div class="label-container">
+        <p>Monthly overview</p>
+    </div>
+    <div class="expense">
+        <div class="expense-container">
+            <span>{{data.thisMonth | currency: "USD"}}</span>
+            <span>This month</span>
+        </div>
+        <div class="expense-container">
+            <span>{{data.previousMonth | currency: "USD"}}</span>
+            <span>Previous month</span>
+        </div>
+        <div class="expense-container">
+            <span>{{data.daily | currency: "USD"}}</span>
+            <span>Average daily</span>
+        </div>
+    </div>
+</div>
