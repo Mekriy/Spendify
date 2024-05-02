@@ -1,18 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'Spendify';
-
-  constructor(private primengConfig: PrimeNGConfig)
-  {
-  }
-
-  ngOnInit(): void {
-  }
 }
